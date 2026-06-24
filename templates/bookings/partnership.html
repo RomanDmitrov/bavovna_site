@@ -1,0 +1,71 @@
+{% extends 'base.html' %}
+
+{% block title %}Партнерство{% endblock %}
+
+{% block content %}
+<div class="max-w-3xl mx-auto px-4 sm:px-6 py-10 sm:py-14">
+
+  <h1 class="text-2xl sm:text-4xl font-bold mb-2 tracking-tight">Партнерство</h1>
+  <p class="text-sm mb-8" style="color: var(--text-muted);">Працюємо з локаціями, брендами, артистами та всіма, хто хоче робити івенти разом.</p>
+
+  <!-- ── Partnership blocks ── -->
+  <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-8">
+    <div class="border rounded-2xl p-4 card-border" style="border-color: var(--border);">
+      <div class="w-7 h-7 rounded-full flex items-center justify-center mb-2 text-xs font-bold chip-0">1</div>
+      <p class="font-semibold text-sm">Локаціям</p>
+      <p class="text-xs mt-1" style="color: var(--text-muted);">Партнерства з оренди та спільного проведення івентів.</p>
+    </div>
+    <div class="border rounded-2xl p-4 card-border" style="border-color: var(--border);">
+      <div class="w-7 h-7 rounded-full flex items-center justify-center mb-2 text-xs font-bold chip-1">2</div>
+      <p class="font-semibold text-sm">Брендам і спонсорам</p>
+      <p class="text-xs mt-1" style="color: var(--text-muted);">Промо, інтеграції та спонсорські пакети для наших івентів.</p>
+    </div>
+    <div class="border rounded-2xl p-4 card-border" style="border-color: var(--border);">
+      <div class="w-7 h-7 rounded-full flex items-center justify-center mb-2 text-xs font-bold chip-2">3</div>
+      <p class="font-semibold text-sm">Артистам і MC</p>
+      <p class="text-xs mt-1" style="color: var(--text-muted);">Виступи, dj-сети, лайнапи для майбутніх івентів.</p>
+    </div>
+  </div>
+
+  <!-- ── Partnership form ── -->
+  <form method="post" action="{% url 'partnership' %}" class="space-y-4">
+    {% csrf_token %}
+
+    <div class="grid sm:grid-cols-2 gap-4">
+      <div>
+        <label class="block text-sm mb-1.5" style="color: var(--text-muted);">Ім'я / компанія</label>
+        <input type="text" name="name" required placeholder="Як до вас звертатися"
+               class="w-full px-4 py-3 rounded-xl border text-sm focus:outline-none transition-colors"
+               style="background: var(--surface); border-color: var(--border); color: var(--text);">
+      </div>
+      <div>
+        <label class="block text-sm mb-1.5" style="color: var(--text-muted);">Email / телефон / Telegram</label>
+        <input type="text" name="contact" required placeholder="Контакт для зв'язку"
+               class="w-full px-4 py-3 rounded-xl border text-sm focus:outline-none transition-colors"
+               style="background: var(--surface); border-color: var(--border); color: var(--text);">
+      </div>
+    </div>
+
+    <div>
+      <label class="block text-sm mb-1.5" style="color: var(--text-muted);">Тип співпраці</label>
+      <input type="text" name="type" placeholder="Локація, спонсорство, виступ..."
+             class="w-full px-4 py-3 rounded-xl border text-sm focus:outline-none transition-colors"
+             style="background: var(--surface); border-color: var(--border); color: var(--text);">
+    </div>
+
+    <div>
+      <label class="block text-sm mb-1.5" style="color: var(--text-muted);">Повідомлення</label>
+      <textarea name="message" rows="4" placeholder="Розкажіть детальніше про пропозицію"
+                class="w-full px-4 py-3 rounded-xl border text-sm resize-none focus:outline-none transition-colors"
+                style="background: var(--surface); border-color: var(--border); color: var(--text);"></textarea>
+    </div>
+
+    <button type="submit"
+            class="w-full py-3.5 rounded-full font-semibold text-white transition-all"
+            style="background: var(--accent-bg);">
+      Надіслати
+    </button>
+  </form>
+
+</div>
+{% endblock %}

@@ -1,0 +1,114 @@
+{% extends 'base.html' %}
+
+{% block title %}Замовити івент{% endblock %}
+
+{% block content %}
+<div class="max-w-3xl mx-auto px-4 sm:px-6 py-10 sm:py-14">
+
+  <h1 class="text-2xl sm:text-4xl font-bold mb-2 tracking-tight">Замовити івент</h1>
+  <p class="text-sm mb-8" style="color: var(--text-muted);">Розкажіть нам про свою ідею — ми зв'яжемося та допоможемо все організувати.</p>
+
+  <!-- ── How it works ── -->
+  <div class="mb-8">
+    <h2 class="text-lg sm:text-xl font-bold mb-5">Як це відбувається</h2>
+    <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+      <div>
+        <span class="inline-flex items-center justify-center w-10 h-10 rounded-full text-base font-bold mb-2 chip-0">01</span>
+        <h3 class="font-semibold mt-2 mb-1 text-sm">Заявка</h3>
+        <p class="text-sm" style="color: var(--text-muted);">Заповнюєш форму з деталями твого івенту</p>
+      </div>
+      <div>
+        <span class="inline-flex items-center justify-center w-10 h-10 rounded-full text-base font-bold mb-2 chip-1">02</span>
+        <h3 class="font-semibold mt-2 mb-1 text-sm">Обговорення</h3>
+        <p class="text-sm" style="color: var(--text-muted);">Зв'язуємося в Telegram або email, уточнюємо деталі та бюджет</p>
+      </div>
+      <div>
+        <span class="inline-flex items-center justify-center w-10 h-10 rounded-full text-base font-bold mb-2 chip-2">03</span>
+        <h3 class="font-semibold mt-2 mb-1 text-sm">Організація</h3>
+        <p class="text-sm" style="color: var(--text-muted);">Беремо все на себе — локація, декор, програма</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── Packages hint ── -->
+  <div class="mb-8">
+    <p class="text-xs sm:text-sm font-semibold mb-4 uppercase tracking-wide" style="color: var(--text-muted);">Орієнтовні пакети, щоб прикинути бюджет:</p>
+    <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+      <div class="border rounded-2xl p-4 card-border" style="border-color: var(--border);">
+        <div class="w-7 h-7 rounded-full flex items-center justify-center mb-2 text-xs font-bold chip-0">1</div>
+        <p class="font-semibold text-sm">Затишний</p>
+        <p class="font-bold">€300–600</p>
+        <p class="text-xs" style="color: var(--text-faint);">до 20 гостей</p>
+      </div>
+      <div class="border rounded-2xl p-4 card-border" style="border-color: var(--border);">
+        <div class="w-7 h-7 rounded-full flex items-center justify-center mb-2 text-xs font-bold chip-1">2</div>
+        <p class="font-semibold text-sm">Стандарт</p>
+        <p class="font-bold">€600–1500</p>
+        <p class="text-xs" style="color: var(--text-faint);">до 60 гостей</p>
+      </div>
+      <div class="border rounded-2xl p-4 card-border" style="border-color: var(--border);">
+        <div class="w-7 h-7 rounded-full flex items-center justify-center mb-2 text-xs font-bold chip-2">3</div>
+        <p class="font-semibold text-sm">Преміум</p>
+        <p class="font-bold">від €1500</p>
+        <p class="text-xs" style="color: var(--text-faint);">60+ гостей</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── Booking form ── -->
+  <form method="post" action="" class="space-y-4">
+    {% csrf_token %}
+
+    <div class="grid sm:grid-cols-2 gap-4">
+      <div>
+        <label class="block text-sm mb-1.5" style="color: var(--text-muted);">Ім'я *</label>
+        <input type="text" name="name" required placeholder="Ваше ім'я"
+               class="w-full px-4 py-3 rounded-xl border text-sm focus:outline-none transition-colors"
+               style="background: var(--surface); border-color: var(--border); color: var(--text);">
+      </div>
+      <div>
+        <label class="block text-sm mb-1.5" style="color: var(--text-muted);">Email, телефон або Telegram *</label>
+        <input type="text" name="contact" required placeholder="email@example.com / +353... / @username"
+               class="w-full px-4 py-3 rounded-xl border text-sm focus:outline-none transition-colors"
+               style="background: var(--surface); border-color: var(--border); color: var(--text);">
+      </div>
+    </div>
+
+    <div>
+      <label class="block text-sm mb-1.5" style="color: var(--text-muted);">Тип івенту</label>
+      <input type="text" name="event_type" placeholder="День народження, весілля, корпоратив..."
+             class="w-full px-4 py-3 rounded-xl border text-sm focus:outline-none transition-colors"
+             style="background: var(--surface); border-color: var(--border); color: var(--text);">
+    </div>
+
+    <div class="grid sm:grid-cols-2 gap-4">
+      <div>
+        <label class="block text-sm mb-1.5" style="color: var(--text-muted);">Кількість гостей</label>
+        <input type="number" min="1" name="guests" placeholder="наприклад, 30"
+               class="w-full px-4 py-3 rounded-xl border text-sm focus:outline-none transition-colors"
+               style="background: var(--surface); border-color: var(--border); color: var(--text);">
+      </div>
+      <div>
+        <label class="block text-sm mb-1.5" style="color: var(--text-muted);">Бюджет (необов'язково)</label>
+        <input type="text" name="budget" placeholder="€..."
+               class="w-full px-4 py-3 rounded-xl border text-sm focus:outline-none transition-colors"
+               style="background: var(--surface); border-color: var(--border); color: var(--text);">
+      </div>
+    </div>
+
+    <div>
+      <label class="block text-sm mb-1.5" style="color: var(--text-muted);">Повідомлення</label>
+      <textarea name="message" rows="4" placeholder="Дата, місце, ідеї, побажання..."
+                class="w-full px-4 py-3 rounded-xl border text-sm resize-none focus:outline-none transition-colors"
+                style="background: var(--surface); border-color: var(--border); color: var(--text);"></textarea>
+    </div>
+
+    <button type="submit"
+            class="w-full py-3.5 rounded-full font-semibold text-white transition-all"
+            style="background: var(--accent-bg);">
+      Надіслати заявку
+    </button>
+  </form>
+
+</div>
+{% endblock %}
