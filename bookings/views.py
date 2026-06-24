@@ -6,18 +6,20 @@ def booking_create(request):
     if request.method == 'POST':
         # Берём данные из формы которую отправил пользователь
         name = request.POST.get('name')
-        email = request.POST.get('email')
-        phone = request.POST.get('phone')
-        event_type = request.POST.get('event_type')
+        email = request.POST.get('email') or None
+        phone = request.POST.get('phone', '')
+        telegram = request.POST.get('telegram', '')
+        event_type = request.POST.get('event_type', '')
         guests = request.POST.get('guests')
-        budget = request.POST.get('budget')
-        message = request.POST.get('message')
+        budget = request.POST.get('budget', '')
+        message = request.POST.get('message', '')
 
         # Создаём запись в БД
         BookingRequest.objects.create(
             name=name,
             email=email,
             phone=phone,
+            telegram=telegram,
             event_type=event_type,
             guests=guests if guests else None,
             budget=budget,
@@ -38,8 +40,9 @@ def booking_success(request):
 def partnership(request):
     if request.method == 'POST':
         name = request.POST.get('name')
-        contact = request.POST.get('contact')
-        message = request.POST.get('message')
+        contact = request.POST.get('contact', '')
+        message = request.POST.get('message', '')
+
         BookingRequest.objects.create(
             name=name,
             email=contact,

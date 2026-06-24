@@ -42,7 +42,7 @@ class Migration(migrations.Migration):
             name='GalleryItem',
             fields=[
                 ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('images', models.ImageField(blank=True, null=True, upload_to='events/gallery/', verbose_name='Фото (завантажити)')),
+                ('image', models.ImageField(blank=True, null=True, upload_to='events/gallery/', verbose_name='Фото (завантажити)')),
                 ('external_url', models.URLField(blank=True, verbose_name='Посилання на фото (Google Drive тощо)')),
                 ('caption_ua', models.CharField(blank=True, max_length=300, verbose_name='Підпис (UA)')),
                 ('caption_en', models.CharField(blank=True, max_length=300, verbose_name='Caption (EN)')),

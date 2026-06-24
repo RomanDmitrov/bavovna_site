@@ -12,8 +12,9 @@ class BookingRequest(models.Model):
 
     # Контакт инфо
     name = models.CharField(max_length=200, verbose_name='Імʼя')
-    email = models.EmailField(verbose_name='Email', blank=True)
-    phone = models.CharField(max_length=50, verbose_name='Телефон / Telegram', blank=True)
+    email = models.EmailField(verbose_name='Email', blank=True, null=True)
+    phone = models.CharField(max_length=50, verbose_name='Телефон', blank=True)
+    telegram = models.CharField(max_length=100, verbose_name='Telegram', blank=True)
 
 
     # Детали ивента
