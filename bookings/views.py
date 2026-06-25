@@ -52,3 +52,4 @@ def partnership(request):
         return redirect('booking_success')
 
     return render(request, 'bookings/partnership.html')
+

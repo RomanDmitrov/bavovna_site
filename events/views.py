@@ -24,11 +24,17 @@ def event_detail(request, pk):
     event = get_object_or_404(Event, pk=pk, is_published=True)
     comments = event.comments.filter(is_approved=True)
     faqs = FAQ.objects.filter(is_active=True)
+    is_past = event.date < timezone.now()
+    photo_album_url = event.photo_album_url
+
+
 
     context = {
         'event': event,
         'comments': comments,
         'faqs': faqs,
+        'is_past': is_past,
+        'photo_album_url': photo_album_url,
     }
     return render(request, 'events/event_detail.html', context)
 
@@ -62,3 +68,5 @@ def comment_add(request, pk):
             )
 
     return redirect('event_detail', pk=pk)
+
+

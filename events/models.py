@@ -51,8 +51,10 @@ class Event(models.Model):
         verbose_name = 'Посилання на квитки',
         blank = True
     )
-
-
+    photo_album_url = models.URLField(
+        verbose_name='Посилання на фотоальбом (Google Drive)',
+        blank=True
+    )
     is_published = models.BooleanField(
         default = False,
         verbose_name = 'Опубліковано'
@@ -79,31 +81,11 @@ class GalleryItem(models.Model):
         related_name='gallery',
         verbose_name='Івент'
     )
-
     image = models.ImageField(
         upload_to = 'events/gallery/',
         verbose_name = 'Фото (завантажити)',
         blank = True,
         null = True
-    )
-    external_url = models.URLField(
-        verbose_name='Посилання на фото (Google Drive тощо)',
-        blank=True
-    )
-    caption_ua = models.CharField(
-        max_length = 300,
-        blank = True,
-        verbose_name = 'Підпис (UA)'
-    )
-    caption_en = models.CharField(
-        max_length = 300,
-        blank = True,
-        verbose_name = 'Caption (EN)'
-    )
-
-    order = models.PositiveIntegerField(
-        default = 0,
-        verbose_name = 'Порядок'
     )
 
     created_at = models.DateTimeField(auto_now_add = True)
@@ -112,7 +94,7 @@ class GalleryItem(models.Model):
     class Meta:
         verbose_name = 'Фото галереї'
         verbose_name_plural = 'Фото галереї'
-        ordering = ['order', 'created_at']
+        ordering = ['created_at']
 
 
     def __str__(self):
