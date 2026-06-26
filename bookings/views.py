@@ -30,7 +30,7 @@ def booking_create(request):
         # Перенаправляем на страницу успеха
         return redirect('booking_success')
 
-    packages = PricePackage.objects.all().order_by('price')
+    packages = PricePackage.objects.all().order_by('price_from')
     return render(request, 'bookings/booking.html', {'packages': packages})
 
 
