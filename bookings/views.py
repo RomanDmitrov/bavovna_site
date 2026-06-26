@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect
 from .models import BookingRequest
+from pages.models import PricePackage
 
 # Create your views here.
 def booking_create(request):
@@ -28,6 +29,9 @@ def booking_create(request):
 
         # Перенаправляем на страницу успеха
         return redirect('booking_success')
+
+    packages = PricePackage.objects.all().order_by('price')
+    return render(request, 'bookings/booking.html', {'packages': packages})
 
     # Если GET запрос — просто показываем форму
     return render(request, 'bookings/booking.html')

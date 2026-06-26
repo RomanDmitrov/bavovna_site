@@ -31,28 +31,17 @@
   </div>
 
   <!-- ── Packages hint ── -->
-  <div class="mb-8">
-    <p class="text-xs sm:text-sm font-semibold mb-4 uppercase tracking-wide" style="color: var(--text-muted);">Орієнтовні пакети, щоб прикинути бюджет:</p>
-    <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
-      <div class="border rounded-2xl p-4 card-border" style="border-color: var(--border);">
-        <div class="w-7 h-7 rounded-full flex items-center justify-center mb-2 text-xs font-bold chip-0">1</div>
-        <p class="font-semibold text-sm">Затишний</p>
-        <p class="font-bold">€300–600</p>
-        <p class="text-xs" style="color: var(--text-faint);">до 20 гостей</p>
-      </div>
-      <div class="border rounded-2xl p-4 card-border" style="border-color: var(--border);">
-        <div class="w-7 h-7 rounded-full flex items-center justify-center mb-2 text-xs font-bold chip-1">2</div>
-        <p class="font-semibold text-sm">Стандарт</p>
-        <p class="font-bold">€600–1500</p>
-        <p class="text-xs" style="color: var(--text-faint);">до 60 гостей</p>
-      </div>
-      <div class="border rounded-2xl p-4 card-border" style="border-color: var(--border);">
-        <div class="w-7 h-7 rounded-full flex items-center justify-center mb-2 text-xs font-bold chip-2">3</div>
-        <p class="font-semibold text-sm">Преміум</p>
-        <p class="font-bold">від €1500</p>
-        <p class="text-xs" style="color: var(--text-faint);">60+ гостей</p>
-      </div>
+  <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+    {% for package in packages %}
+    <div class="border rounded-2xl p-4 card-border" style="border-color: var(--border);">
+        <div class="w-7 h-7 rounded-full flex items-center justify-center mb-2 text-xs font-bold chip-{{ forloop.counter0 }}">{{ forloop.counter }}</div>
+        <p class="font-semibold text-sm">{{ package.name }}</p>
+        <p class="font-bold">€{{ package.price }}</p>
+        <p class="text-xs" style="color: var(--text-faint);">{{ package.description }}</p>
     </div>
+    {% empty %}
+    <p style="color: var(--text-muted);">Пакети скоро з'являться</p>
+    {% endfor %}
   </div>
 
   <!-- ── Booking form ── -->
