@@ -33,9 +33,6 @@ def booking_create(request):
     packages = PricePackage.objects.all().order_by('price')
     return render(request, 'bookings/booking.html', {'packages': packages})
 
-    # Если GET запрос — просто показываем форму
-    return render(request, 'bookings/booking.html')
-
 
 def booking_success(request):
     return render(request, 'bookings/booking_success.html')
