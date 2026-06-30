@@ -42,7 +42,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'storages',
+    'cloudinary_storage',
+    'cloudinary',
     'events',
     'bookings',
     'pages',
@@ -141,7 +142,7 @@ if 'DATABASE_URL' in os.environ:
 if not DEBUG:
     STORAGES = {
         "default": {
-            "BACKEND": "storages.backends.cloudinary.CloudinaryStorage",
+            "BACKEND": "cloudinary_storage.storage.MediaCloudinaryStorage",
         },
         "staticfiles": {
             "BACKEND": "django.contrib.staticfiles.storage.StaticFilesStorage",
