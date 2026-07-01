@@ -92,23 +92,23 @@ def get_presigned_upload_url(request):
 
     client = boto3.client(
         's3',
-        endpoint_url=settings.R2_ENDPOINT_URL,
-        aws_access_key_id=settings.R2_ACCESS_KEY_ID,
-        aws_secret_access_key=settings.R2_SECRET_ACCESS_KEY,
+        endpoint_url=settings.AWS_S3_ENDPOINT_URL,
+        aws_access_key_id=settings.AWS_ACCESS_KEY_ID,
+        aws_secret_access_key=settings.AWS_SECRET_ACCESS_KEY,
         region_name='auto',
     )
 
     presigned_url = client.generate_presigned_url(
         'put_object',
         Params={
-            'Bucket': settings.R2_BUCKET_NAME,
+            'Bucket': settings.AWS_STORAGE_BUCKET_NAME,
             'Key': unique_key,
             'ContentType': content_type,
         },
         ExpiresIn=300,
     )
 
-    public_url = f'https://{settings.R2_PUBLIC_URL}/{unique_key}'
+    public_url = f'https://{settings.AWS_S3_CUSTOM_DOMAIN}/{unique_key}'
 
     return JsonResponse({
         'upload_url': presigned_url,
