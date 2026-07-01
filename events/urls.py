@@ -7,5 +7,6 @@ urlpatterns = [
     path('gallery/', views.gallery, name='gallery'),
     path('<int:pk>/', views.event_detail, name='event_detail'),
     path('<int:pk>/comment/', views.comment_add, name='comment_add'),
+    path('presigned-upload-url/', views.get_presigned_upload_url, name='presigned_upload_url'),
 
 ]

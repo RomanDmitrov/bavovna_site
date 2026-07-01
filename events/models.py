@@ -85,6 +85,8 @@ class GalleryItem(models.Model):
 
     def save(self, *args, **kwargs):
         start = time.time()
+        if getattr(self, '_r2_key', None):
+            self.image.name = self._r2_key
         super().save(*args, **kwargs)
         print(f"[TIMING] GalleryItem.save() took: {time.time() - start:.2f}s")
 

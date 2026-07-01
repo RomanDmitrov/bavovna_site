@@ -1,8 +1,15 @@
+# from multiprocessing.managers import public_methods
 from django.shortcuts import render, get_object_or_404, redirect
 from django.utils import timezone
 from .models import Event
 from pages.models import FAQ
 from comments.models import Comment
+import boto3
+import uuid
+from django.conf import settings
+from django.contrib.admin.views.decorators import staff_member_required
+from django.http import JsonResponse
+from django.views.decorators.http import require_GET
 
 # Create your views here.
 def event_list(request):
@@ -70,3 +77,42 @@ def comment_add(request, pk):
     return redirect('event_detail', pk=pk)
 
 
+@staff_member_required
+@require_GET
+def get_presigned_upload_url(request):
+    """
+        Генерирует подписанный URL для прямой загрузки файла в R2.
+        Только для сотрудников (staff) - используется в админке.
+    """
+    original_filename = request.GET.get('filename', 'file.jpg')
+    content_type = request.GET.get('content_type', 'image/jpeg')
+
+    ext = original_filename.split('.')[-1] if '.' in original_filename else 'jpg'
+    unique_key = f'events/gallery/{uuid.uuid4()}.{ext}'
+
+    client = boto3.client(
+        's3',
+        endpoint_url=settings.R2_ENDPOINT_URL,
+        aws_access_key_id=settings.R2_ACCESS_KEY_ID,
+        aws_secret_access_key=settings.R2_SECRET_ACCESS_KEY,
+        region_name='auto',
+    )
+
+    presigned_url = client.generate_presigned_url(
+        'put_object',
+        Params={
+            'Bucket': settings.R2_BUCKET_NAME,
+            'Key': unique_key,
+            'ContentType': content_type,
+        },
+        ExpiresIn=300,
+    )
+
+    public_url = f'https://{settings.R2_PUBLIC_URL}/{unique_key}'
+
+    return JsonResponse({
+        'upload_url': presigned_url,
+        'key': unique_key,
+        'public_url': public_url,
+
+    })
