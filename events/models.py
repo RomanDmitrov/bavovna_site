@@ -1,7 +1,14 @@
 from django.db import models
+import time
 
 # Create your models here.
 class Event(models.Model):
+
+    def save(self, *args, **kwargs):
+        start = time.time()
+        super().save(*args, **kwargs)
+        print(f"[TIMING] Event.save() took: {time.time() - start:.2f}s")
+
     EVENT_TYPE_CHOICES = [
         ('regular', 'Звичайний івент'),
         ('community', 'Community івент'),
@@ -75,6 +82,13 @@ class Event(models.Model):
 
 
 class GalleryItem(models.Model):
+
+    def save(self, *args, **kwargs):
+        start = time.time()
+        super().save(*args, **kwargs)
+        print(f"[TIMING] GalleryItem.save() took: {time.time() - start:.2f}s")
+
+
     event = models.ForeignKey(
         Event,
         on_delete=models.CASCADE,
