@@ -206,7 +206,7 @@
         <img src="{{ partner.logo.url }}" alt="{{ partner.name }}" class="h-8 sm:h-10 object-contain">
         {% endif %}
         <span class="font-semibold text-xs sm:text-sm text-center">{{ partner.name }}</span>
-        <p class="text-[10px] sm:text-xs text-center leading-snug" style="color: var(--text-muted);">{{ partner.description_ua }}</p>
+        <div class="text-[10px] sm:text-xs text-center leading-snug" style="color: var(--text-muted);">{{ partner.description_ua|linebreaks }}</div>
         <div class="flex items-center gap-2 mt-auto">
           {% if partner.instagram %}
           <a href="{{ partner.instagram }}" target="_blank" rel="noreferrer" class="text-xs transition-colors" style="color: var(--accent);">Instagram</a>

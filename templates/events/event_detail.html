@@ -146,7 +146,7 @@
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
                 </svg>
               </summary>
-              <p class="px-4 pb-3 text-sm" style="color: var(--text-muted);">{{ faq.answer_ua }}</p>
+              <div class="px-4 pb-3 text-sm" style="color: var(--text-muted);">{{ faq.answer_ua|linebreaks }}</div>
             </details>
             {% endfor %}
           </div>
@@ -170,7 +170,7 @@
                 <p class="font-semibold text-sm">{{ comment.name }}</p>
                 <span class="text-[10px]" style="color: var(--text-faint);">{{ comment.created_at|date:"d.m.Y H:i" }}</span>
               </div>
-              <p class="text-sm" style="color: var(--text-muted);">{{ comment.text }}</p>
+              <div class="text-sm" style="color: var(--text-muted);">{{ comment.text|linebreaks }}</div>
             </div>
             {% empty %}
             <p class="text-sm" style="color: var(--text-faint);">Поки немає відгуків</p>
