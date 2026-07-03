@@ -1,4 +1,6 @@
 from django.shortcuts import render, redirect
+from django.core.mail import send_mail
+from django.conf import settings
 from .models import BookingRequest, PartnershipRequest
 from pages.models import PricePackage
 
@@ -25,6 +27,25 @@ def booking_create(request):
             guests=guests if guests else None,
             budget=budget,
             message=message,
+        )
+
+
+        # Отправляем уведомление на почту
+        send_mail(
+            subject=f'Нова заявка на бронювання — {name}',
+            message=(
+                f"Ім'я: {name}\n"
+                f"Email: {email or '-'}\n"
+                f"Телефон: {phone or '-'}\n"
+                f"Telegram: {telegram or '-'}\n"
+                f"Тип івенту: {event_type or '-'}\n"
+                f"Кількість гостей: {guests or '-'}\n"
+                f"Бюджет: {budget or '-'}\n"
+                f"Повідомлення: {message or '-'}\n"
+            ),
+            from_email=settings.EMAIL_HOST_USER,
+            recipient_list=[settings.ADMIN_NOTIFICATION_EMAIL],
+            fail_silently=True,
         )
 
         # Перенаправляем на страницу успеха
@@ -54,6 +75,23 @@ def partnership(request):
             telegram=telegram,
             partnership_type=partnership_type,
             message=message,
+        )
+
+
+        # Отправляем уведомление на почту
+        send_mail(
+            subject=f'Нова заявка на партнерство — {name}',
+            message=(
+                f"Ім'я / компанія: {name}\n"
+                f"Email: {email or '-'}\n"
+                f"Телефон: {phone or '-'}\n"
+                f"Telegram: {telegram or '-'}\n"
+                f"Тип співпраці: {partnership_type or '-'}\n"
+                f"Повідомлення: {message or '-'}\n"
+            ),
+            from_email=settings.EMAIL_HOST_USER,
+            recipient_list=[settings.ADMIN_NOTIFICATION_EMAIL],
+            fail_silently=True,
         )
 
         return redirect('booking_success')
