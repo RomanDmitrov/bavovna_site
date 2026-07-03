@@ -35,14 +35,16 @@
     {% for package in packages %}
     <div class="border rounded-2xl p-4 card-border" style="border-color: var(--border);">
         <div class="w-7 h-7 rounded-full flex items-center justify-center mb-2 text-xs font-bold chip-{{ forloop.counter0 }}">{{ forloop.counter }}</div>
-        <p class="font-semibold text-sm">{{ package.name }}</p>
-        <p class="font-bold">€{{ package.price }}</p>
-        <p class="text-xs" style="color: var(--text-faint);">{{ package.description }}</p>
+        <p class="font-semibold text-sm">{{ package.name_ua }}</p>
+        <p class="font-bold">
+            €{{ package.price_from }}{% if package.price_to %}–{{ package.price_to }}{% endif %}
+        </p>
+        <p class="text-xs" style="color: var(--text-faint);">{{ package.guests_ua }}</p>
     </div>
     {% empty %}
     <p style="color: var(--text-muted);">Пакети скоро з'являться</p>
     {% endfor %}
-  </div>
+    </div>
 
   <!-- ── Booking form ── -->
   <form method="post" action="" class="space-y-4">
