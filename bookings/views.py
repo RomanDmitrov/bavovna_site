@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
-from django.core.mail import send_mail
 from django.conf import settings
+import resend
 from .models import BookingRequest, PartnershipRequest
 from pages.models import PricePackage
 
@@ -31,22 +31,25 @@ def booking_create(request):
 
 
         # Отправляем уведомление на почту
-        send_mail(
-            subject=f'Нова заявка на бронювання — {name}',
-            message=(
-                f"Ім'я: {name}\n"
-                f"Email: {email or '-'}\n"
-                f"Телефон: {phone or '-'}\n"
-                f"Telegram: {telegram or '-'}\n"
-                f"Тип івенту: {event_type or '-'}\n"
-                f"Кількість гостей: {guests or '-'}\n"
-                f"Бюджет: {budget or '-'}\n"
-                f"Повідомлення: {message or '-'}\n"
-            ),
-            from_email=settings.EMAIL_HOST_USER,
-            recipient_list=[settings.ADMIN_NOTIFICATION_EMAIL],
-            fail_silently=False,
-        )
+        try:
+            # noinspection PyTypeChecker
+            resend.Emails.send({
+                "from": "onboarding@resend.dev",
+                "to": [settings.ADMIN_NOTIFICATION_EMAIL],
+                "subject": f"Нова заявка на бронювання — {name}",
+                "html": (
+                    f"<p><strong>Ім'я:</strong> {name}</p>"
+                    f"<p><strong>Email:</strong> {email or '-'}</p>"
+                    f"<p><strong>Телефон:</strong> {phone or '-'}</p>"
+                    f"<p><strong>Telegram:</strong> {telegram or '-'}</p>"
+                    f"<p><strong>Тип івенту:</strong> {event_type or '-'}</p>"
+                    f"<p><strong>Кількість гостей:</strong> {guests or '-'}</p>"
+                    f"<p><strong>Бюджет:</strong> {budget or '-'}</p>"
+                    f"<p><strong>Повідомлення:</strong> {message or '-'}</p>"
+                ),
+            })
+        except Exception as e:
+            print(f"[EMAIL ERROR] {e}")
 
         # Перенаправляем на страницу успеха
         return redirect('booking_success')
@@ -79,20 +82,23 @@ def partnership(request):
 
 
         # Отправляем уведомление на почту
-        send_mail(
-            subject=f'Нова заявка на партнерство — {name}',
-            message=(
-                f"Ім'я / компанія: {name}\n"
-                f"Email: {email or '-'}\n"
-                f"Телефон: {phone or '-'}\n"
-                f"Telegram: {telegram or '-'}\n"
-                f"Тип співпраці: {partnership_type or '-'}\n"
-                f"Повідомлення: {message or '-'}\n"
-            ),
-            from_email=settings.EMAIL_HOST_USER,
-            recipient_list=[settings.ADMIN_NOTIFICATION_EMAIL],
-            fail_silently=False,
-        )
+        try:
+            # noinspection PyTypeChecker
+            resend.Emails.send({
+                "from": "onboarding@resend.dev",
+                "to": [settings.ADMIN_NOTIFICATION_EMAIL],
+                "subject": f"Нова заявка на партнерство — {name}",
+                "html": (
+                    f"<p><strong>Ім'я / компанія:</strong> {name}</p>"
+                    f"<p><strong>Email:</strong> {email or '-'}</p>"
+                    f"<p><strong>Телефон:</strong> {phone or '-'}</p>"
+                    f"<p><strong>Telegram:</strong> {telegram or '-'}</p>"
+                    f"<p><strong>Тип співпраці:</strong> {partnership_type or '-'}</p>"
+                    f"<p><strong>Повідомлення:</strong> {message or '-'}</p>"
+                ),
+            })
+        except Exception as e:
+            print(f"[EMAIL ERROR] {e}")
 
         return redirect('booking_success')
 
