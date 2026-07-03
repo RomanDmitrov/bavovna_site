@@ -7,6 +7,7 @@ from .models import FAQ, Partner, PricePackage
 class FAQAdmin(admin.ModelAdmin):
     list_display = ['question_ua', 'order', 'is_active']
     list_editable = ['order', 'is_active']
+    filter_horizontal = ['event']
 
 @admin.register(Partner)
 class PartnerAdmin(admin.ModelAdmin):

@@ -10,6 +10,7 @@ from django.conf import settings
 from django.contrib.admin.views.decorators import staff_member_required
 from django.http import JsonResponse
 from django.views.decorators.http import require_GET
+from django.db.models import Q
 
 # Create your views here.
 def event_list(request):
@@ -35,7 +36,9 @@ def event_detail(request, pk):
     # Берём конкретный ивент по ID или возвращаем 404
     event = get_object_or_404(Event, pk=pk, is_published=True)
     comments = event.comments.filter(is_approved=True)
-    faqs = FAQ.objects.filter(is_active=True)
+    faqs = FAQ.objects.filter(is_active=True).filter(
+    Q(show_on_all_events=True) | Q(events=event)
+    )
     is_past = event.date < timezone.now()
     photo_album_url = event.photo_album_url
 

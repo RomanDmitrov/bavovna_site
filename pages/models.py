@@ -4,6 +4,17 @@ from django.db import models
 class FAQ(models.Model):
     question_ua = models.CharField(max_length=300, verbose_name='Питання (UA)')
     answer_ua = models.TextField(verbose_name='Відповідь (UA)')
+    show_on_all_events = models.BooleanField(
+        default=False,
+        verbose_name='Показувати на всіх івентах'
+    )
+    events = models.ManyToManyField(
+        'events.Event',
+        blank=True,
+        related_name='faqs',
+        verbose_name='Або оберіть конкретні івенти',
+        help_text='Заповнюйте лише якщо не увімкнено "Показувати на всіх івентах"'
+    )
     order = models.PositiveIntegerField(default=0, verbose_name='Порядок')
     is_active = models.BooleanField(default=True, verbose_name='Активно')
 
