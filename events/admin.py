@@ -17,6 +17,7 @@ class EventAdmin(admin.ModelAdmin):
     list_filter = ['event_type', 'is_published']
     search_fields = ['title_ua', 'title_en']
     list_editable = ['is_published']
+    date_hierarchy = 'date'
     inlines = [GalleryItemInline]
 
     def save_formset(self, request, form, formset, change):
@@ -35,3 +36,4 @@ class EventAdmin(admin.ModelAdmin):
 @admin.register(GalleryItem)
 class GalleryItemAdmin(admin.ModelAdmin):
     list_display = ['event', 'created_at']
+    list_filter = ['event']
