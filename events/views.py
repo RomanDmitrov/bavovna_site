@@ -14,14 +14,19 @@ from django.views.decorators.http import require_GET
 # Create your views here.
 def event_list(request):
     # Все опубликованые будущие ивенты
-    upcoming_event = Event.objects.filter(
+    upcoming_events = Event.objects.filter(
         is_published=True,
         event_type='regular',
         date__gte=timezone.now()
-    ).order_by('date').first()
+    ).order_by('date')
+
+    upcoming_event = upcoming_events.first()
+    future_events = upcoming_events[1:] if upcoming_event else []
+
 
     context = {
         'upcoming_event': upcoming_event,
+        'future_events': future_events,
     }
 
     return render(request, 'events/event_list.html', context)
