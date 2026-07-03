@@ -45,7 +45,7 @@ def booking_create(request):
             ),
             from_email=settings.EMAIL_HOST_USER,
             recipient_list=[settings.ADMIN_NOTIFICATION_EMAIL],
-            fail_silently=True,
+            fail_silently=False,
         )
 
         # Перенаправляем на страницу успеха
@@ -91,7 +91,7 @@ def partnership(request):
             ),
             from_email=settings.EMAIL_HOST_USER,
             recipient_list=[settings.ADMIN_NOTIFICATION_EMAIL],
-            fail_silently=True,
+            fail_silently=False,
         )
 
         return redirect('booking_success')
