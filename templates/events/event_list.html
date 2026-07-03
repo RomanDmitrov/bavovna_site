@@ -59,9 +59,9 @@
             {{ upcoming_event.venue_ua }}
           </p>
         </div>
-        <p class="text-sm leading-relaxed" style="color: var(--text-muted);">
-          {{ upcoming_event.description_ua|truncatewords:30 }}
-        </p>
+        <div class="text-sm leading-relaxed" style="color: var(--text-muted);">
+            {{ upcoming_event.description_ua|linebreaks }}
+        </div>
         <div class="mt-auto pt-4 flex items-center justify-between">
           {% if upcoming_event.ticket_price %}
           <span class="font-bold text-lg" style="color: var(--accent);">від €{{ upcoming_event.ticket_price }}</span>
