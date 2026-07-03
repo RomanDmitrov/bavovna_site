@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from .models import BookingRequest
+from .models import BookingRequest, PartnershipRequest
 from pages.models import PricePackage
 
 # Create your views here.
@@ -41,15 +41,21 @@ def booking_success(request):
 def partnership(request):
     if request.method == 'POST':
         name = request.POST.get('name')
-        contact = request.POST.get('contact', '')
+        email = request.POST.get('email') or None
+        phone = request.POST.get('phone', '')
+        telegram = request.POST.get('telegram', '')
+        partnership_type = request.POST.get('partnership_type', '')
         message = request.POST.get('message', '')
 
-        BookingRequest.objects.create(
+        PartnershipRequest.objects.create(
             name=name,
-            email=contact,
+            email=email,
+            phone=phone,
+            telegram=telegram,
+            partnership_type=partnership_type,
             message=message,
-            event_type='partnership'
         )
+
         return redirect('booking_success')
 
     return render(request, 'bookings/partnership.html')
