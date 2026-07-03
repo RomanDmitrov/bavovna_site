@@ -6,7 +6,7 @@ from .models import Comment
 @admin.register(Comment)
 class CommentAdmin(admin.ModelAdmin):
     list_display = ['name', 'event', 'is_approved', 'created_at']
-    list_filter = ['is_approved']
+    list_filter = ['is_approved', 'event']
     search_fields = ['name', 'text']
     list_editable = ['is_approved']
     readonly_fields = ['created_at']
