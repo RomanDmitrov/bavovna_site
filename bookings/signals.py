@@ -6,7 +6,7 @@ from .models import BookingRequest, PartnershipRequest
 
 logger = logging.getLogger(__name__)
 
-NOTIFIER_URL = "http://127.0.0.1:8000/notify"
+NOTIFIER_URL = "https://web-production-8ae9b.up.railway.app/notify"
 
 
 @receiver(post_save, sender=BookingRequest)
