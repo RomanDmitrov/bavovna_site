@@ -1,6 +1,7 @@
 {% extends 'base.html' %}
+{% load language_filters %}
 
-{% block title %}Головна{% endblock %}
+{% block title %}{% if current_language == 'en' %}Home{% else %}Головна{% endif %}{% endblock %}
 
 {% block content %}
 
@@ -11,23 +12,23 @@
 
         <!-- Left: About -->
         <div class="py-8 sm:py-14 lg:py-20 lg:pr-12 flex flex-col" style="border-color: var(--border);">
-          <p class="text-xs font-semibold tracking-[.25em] uppercase mb-4" style="color: var(--accent);">Dublin · Івенти будь-якого формату</p>
+          <p class="text-xs font-semibold tracking-[.25em] uppercase mb-4" style="color: var(--accent);">{% if current_language == 'en' %}Dublin · Events of any format{% else %}Dublin · Івенти будь-якого формату{% endif %}</p>
           <h1 class="text-2xl sm:text-4xl md:text-5xl font-bold leading-tight mb-4 tracking-tight">BAVOVNA EVENT</h1>
           <p class="text-sm leading-relaxed mb-8 max-w-md" style="color: var(--text-muted);">
-            Організовуємо вечірки, концерти, дні народження, весілля та корпоративи для української та міжнародної аудиторії Дубліна. Від камерних зустрічей до великих івентів на сотні гостей.
+            {% if current_language == 'en' %}We organise parties, concerts, birthdays, weddings and corporate events for the Ukrainian and international audience of Dublin. From intimate gatherings to large events for hundreds of guests.{% else %}Організовуємо вечірки, концерти, дні народження, весілля та корпоративи для української та міжнародної аудиторії Дубліна. Від камерних зустрічей до великих івентів на сотні гостей.{% endif %}
           </p>
           <div class="grid grid-cols-3 divide-x divide-[var(--border)] mt-auto">
             <div class="px-2 sm:px-4 pl-0">
-              <p class="font-bold text-sm sm:text-lg">2 роки</p>
-              <p class="text-[10px] sm:text-xs mt-0.5 leading-snug" style="color: var(--text-faint);">на ринку Дубліна</p>
+              <p class="font-bold text-sm sm:text-lg">{% if current_language == 'en' %}2 years{% else %}2 роки{% endif %}</p>
+              <p class="text-[10px] sm:text-xs mt-0.5 leading-snug" style="color: var(--text-faint);">{% if current_language == 'en' %}on the Dublin market{% else %}на ринку Дубліна{% endif %}</p>
             </div>
             <div class="px-2 sm:px-4">
               <p class="font-bold text-sm sm:text-lg">27+</p>
-              <p class="text-[10px] sm:text-xs mt-0.5 leading-snug" style="color: var(--text-faint);">івентів проведено</p>
+              <p class="text-[10px] sm:text-xs mt-0.5 leading-snug" style="color: var(--text-faint);">{% if current_language == 'en' %}events organised{% else %}івентів проведено{% endif %}</p>
             </div>
             <div class="px-2 sm:px-4">
               <p class="font-bold text-sm sm:text-lg">200+</p>
-              <p class="text-[10px] sm:text-xs mt-0.5 leading-snug" style="color: var(--text-faint);">підписників</p>
+              <p class="text-[10px] sm:text-xs mt-0.5 leading-snug" style="color: var(--text-faint);">{% if current_language == 'en' %}followers{% else %}підписників{% endif %}</p>
             </div>
           </div>
         </div>
@@ -37,13 +38,13 @@
           {% if upcoming_event %}
           <div class="flex items-start gap-3">
             <div class="w-14 h-14 sm:w-16 sm:h-16 rounded-lg border bg-white/5 flex flex-col items-center justify-center shrink-0" style="border-color: var(--border);">
-              <span class="text-[9px] font-semibold uppercase leading-none" style="color: var(--accent);">ПТ</span>
+              <span class="text-[9px] font-semibold uppercase leading-none" style="color: var(--accent);">{% if current_language == 'en' %}FRI{% else %}ПТ{% endif %}</span>
               <span class="font-bold leading-none mt-0.5 text-xl sm:text-2xl">{{ upcoming_event.date|date:"d" }}</span>
               <span class="text-[9px] uppercase leading-none mt-0.5" style="color: var(--text-faint);">{{ upcoming_event.date|date:"M" }}</span>
             </div>
             <div>
-              <p class="text-[10px] font-semibold tracking-[.25em] uppercase mb-1" style="color: var(--accent);">Найближчий івент</p>
-              <h2 class="text-2xl sm:text-3xl md:text-4xl font-bold tracking-tight" style="font-family: var(--font-display);">{{ upcoming_event.title_ua }}</h2>
+              <p class="text-[10px] font-semibold tracking-[.25em] uppercase mb-1" style="color: var(--accent);">{% if current_language == 'en' %}Upcoming event{% else %}Найближчий івент{% endif %}</p>
+              <h2 class="text-2xl sm:text-3xl md:text-4xl font-bold tracking-tight" style="font-family: var(--font-display);">{% lang_field upcoming_event 'title' %}</h2>
             </div>
           </div>
           <div class="space-y-1.5 text-sm">
@@ -51,39 +52,39 @@
               <svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" style="color: var(--accent);">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
               </svg>
-              Дата: {{ upcoming_event.date|date:"d E Y" }}
+              {% if current_language == 'en' %}Date:{% else %}Дата:{% endif %} {{ upcoming_event.date|date:"d E Y" }}
             </p>
             <p class="flex items-center gap-2" style="color: var(--text-muted);">
               <svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" style="color: var(--accent);">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/>
               </svg>
-              Місце: {{ upcoming_event.venue_ua }}
+              {% if current_language == 'en' %}Venue:{% else %}Місце:{% endif %} {% lang_field upcoming_event 'venue' %}
             </p>
           </div>
           {% if upcoming_event.ticket_price %}
           <div class="flex items-center justify-between text-sm flex-wrap gap-2">
-            <span style="color: var(--text-muted);">Квиток від <span class="font-bold text-base ml-1">€{{ upcoming_event.ticket_price }}</span></span>
+            <span style="color: var(--text-muted);">{% if current_language == 'en' %}Tickets from{% else %}Квиток від{% endif %} <span class="font-bold text-base ml-1">€{{ upcoming_event.ticket_price }}</span></span>
           </div>
           {% endif %}
           <div class="flex flex-wrap gap-2">
             <a href="{% url 'event_detail' upcoming_event.pk %}"
                class="px-5 py-2.5 rounded-full text-white font-semibold text-sm transition-all flex items-center gap-2"
                style="background: var(--accent-bg);">
-              Детальніше / Квитки
+              {% if current_language == 'en' %}Details / Tickets{% else %}Детальніше / Квитки{% endif %}
               <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
               </svg>
             </a>
           </div>
-          <a href="{% url 'booking_create' %}" class="text-sm transition-colors text-left" style="color: var(--text-muted);">Замовити свій івент →</a>
+          <a href="{% url 'booking_create' %}" class="text-sm transition-colors text-left" style="color: var(--text-muted);">{% if current_language == 'en' %}Book your own event →{% else %}Замовити свій івент →{% endif %}</a>
           {% else %}
           <div class="text-center py-8">
-            <p class="text-sm mb-4" style="color: var(--text-muted);">Незабаром оголосимо наступний івент</p>
+            <p class="text-sm mb-4" style="color: var(--text-muted);">{% if current_language == 'en' %}We'll announce the next event soon{% else %}Незабаром оголосимо наступний івент{% endif %}</p>
             <a href="https://t.me/bavovnaeventireland" target="_blank" rel="noreferrer"
                class="px-5 py-2.5 rounded-full text-white font-semibold text-sm transition-all"
                style="background: var(--accent-bg);">
-              Слідкуй в Telegram
+              {% if current_language == 'en' %}Follow on Telegram{% else %}Слідкуй в Telegram{% endif %}
             </a>
           </div>
           {% endif %}
@@ -96,7 +97,7 @@
       <button onclick="window.scrollBy({top: window.innerHeight * 0.7, behavior: 'smooth'})"
               class="flex flex-col items-center gap-1 transition-colors scroll-cue"
               style="color: var(--text-faint);">
-        <span class="text-[9px] uppercase tracking-[.25em]">Прокрутіть вниз</span>
+        <span class="text-[9px] uppercase tracking-[.25em]">{% if current_language == 'en' %}Scroll down{% else %}Прокрутіть вниз{% endif %}</span>
         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
         </svg>
@@ -106,8 +107,8 @@
 
   <!-- ── Services ── -->
   <section class="max-w-6xl mx-auto px-4 sm:px-6 py-10 sm:py-14 border-t" style="border-color: var(--border);">
-    <h2 class="text-xl sm:text-2xl md:text-3xl font-bold mb-2">Що ми організовуємо</h2>
-    <p class="text-sm mb-6" style="color: var(--text-muted);">Від затишних зустрічей до великих вечірок — будь-який формат</p>
+    <h2 class="text-xl sm:text-2xl md:text-3xl font-bold mb-2">{% if current_language == 'en' %}What we organise{% else %}Що ми організовуємо{% endif %}</h2>
+    <p class="text-sm mb-6" style="color: var(--text-muted);">{% if current_language == 'en' %}From cosy gatherings to big parties — any format{% else %}Від затишних зустрічей до великих вечірок — будь-який формат{% endif %}</p>
     <div class="grid grid-cols-2 sm:grid-cols-3 gap-3">
       <div class="border rounded-2xl p-3 sm:p-5 flex items-center gap-2.5 card-border" style="border-color: var(--border);">
         <div class="w-8 h-8 sm:w-10 sm:h-10 rounded-full flex items-center justify-center shrink-0 chip-0">
@@ -115,7 +116,7 @@
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 3l14 9-14 9V3z"/>
           </svg>
         </div>
-        <span class="font-medium text-xs sm:text-sm leading-tight">Вечірки</span>
+        <span class="font-medium text-xs sm:text-sm leading-tight">{% if current_language == 'en' %}Parties{% else %}Вечірки{% endif %}</span>
       </div>
       <div class="border rounded-2xl p-3 sm:p-5 flex items-center gap-2.5 card-border" style="border-color: var(--border);">
         <div class="w-8 h-8 sm:w-10 sm:h-10 rounded-full flex items-center justify-center shrink-0 chip-1">
@@ -123,7 +124,7 @@
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19V6l12-3v13M9 19c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zm12-3c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zM9 10l12-3"/>
           </svg>
         </div>
-        <span class="font-medium text-xs sm:text-sm leading-tight">Концерти</span>
+        <span class="font-medium text-xs sm:text-sm leading-tight">{% if current_language == 'en' %}Concerts{% else %}Концерти{% endif %}</span>
       </div>
       <div class="border rounded-2xl p-3 sm:p-5 flex items-center gap-2.5 card-border" style="border-color: var(--border);">
         <div class="w-8 h-8 sm:w-10 sm:h-10 rounded-full flex items-center justify-center shrink-0 chip-2">
@@ -131,7 +132,7 @@
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 15.546c-.523 0-1.046.151-1.5.454a2.704 2.704 0 01-3 0 2.704 2.704 0 00-3 0 2.704 2.704 0 01-3 0 2.704 2.704 0 00-3 0 2.704 2.704 0 01-1.5-.454M9 6v2m3-2v2m3-2v2M9 3h.01M12 3h.01M15 3h.01M21 21v-7a2 2 0 00-2-2H5a2 2 0 00-2 2v7h18zm-3-9v-2a2 2 0 00-2-2H8a2 2 0 00-2 2v2h12z"/>
           </svg>
         </div>
-        <span class="font-medium text-xs sm:text-sm leading-tight">Дні народження</span>
+        <span class="font-medium text-xs sm:text-sm leading-tight">{% if current_language == 'en' %}Birthdays{% else %}Дні народження{% endif %}</span>
       </div>
       <div class="border rounded-2xl p-3 sm:p-5 flex items-center gap-2.5 card-border" style="border-color: var(--border);">
         <div class="w-8 h-8 sm:w-10 sm:h-10 rounded-full flex items-center justify-center shrink-0 chip-0">
@@ -139,7 +140,7 @@
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/>
           </svg>
         </div>
-        <span class="font-medium text-xs sm:text-sm leading-tight">Весілля</span>
+        <span class="font-medium text-xs sm:text-sm leading-tight">{% if current_language == 'en' %}Weddings{% else %}Весілля{% endif %}</span>
       </div>
       <div class="border rounded-2xl p-3 sm:p-5 flex items-center gap-2.5 card-border" style="border-color: var(--border);">
         <div class="w-8 h-8 sm:w-10 sm:h-10 rounded-full flex items-center justify-center shrink-0 chip-1">
@@ -147,7 +148,7 @@
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
           </svg>
         </div>
-        <span class="font-medium text-xs sm:text-sm leading-tight">Корпоративи</span>
+        <span class="font-medium text-xs sm:text-sm leading-tight">{% if current_language == 'en' %}Corporate events{% else %}Корпоративи{% endif %}</span>
       </div>
       <div class="border rounded-2xl p-3 sm:p-5 flex items-center gap-2.5 card-border" style="border-color: var(--border);">
         <div class="w-8 h-8 sm:w-10 sm:h-10 rounded-full flex items-center justify-center shrink-0 chip-2">
@@ -155,15 +156,15 @@
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z"/>
           </svg>
         </div>
-        <span class="font-medium text-xs sm:text-sm leading-tight">Приватні івенти</span>
+        <span class="font-medium text-xs sm:text-sm leading-tight">{% if current_language == 'en' %}Private events{% else %}Приватні івенти{% endif %}</span>
       </div>
     </div>
   </section>
 
   <!-- ── Packages ── -->
   <section class="max-w-6xl mx-auto px-4 sm:px-6 py-10 sm:py-14 border-t" style="border-color: var(--border);">
-    <h2 class="text-xl sm:text-2xl md:text-3xl font-bold mb-2">Прайс на замовні івенти</h2>
-    <p class="text-sm mb-6 max-w-lg" style="color: var(--text-muted);">Орієнтовні діапазони — фінальна ціна залежить від формату, локації та побажань.</p>
+    <h2 class="text-xl sm:text-2xl md:text-3xl font-bold mb-2">{% if current_language == 'en' %}Pricing for custom events{% else %}Прайс на замовні івенти{% endif %}</h2>
+    <p class="text-sm mb-6 max-w-lg" style="color: var(--text-muted);">{% if current_language == 'en' %}Approximate ranges — the final price depends on format, venue and your wishes.{% else %}Орієнтовні діапазони — фінальна ціна залежить від формату, локації та побажань.{% endif %}</p>
     {% if packages %}
     <div class="grid sm:grid-cols-3 gap-4">
       {% for package in packages %}
@@ -175,11 +176,12 @@
           </svg>
         </div>
         {% endif %}
-        <h3 class="font-semibold text-base sm:text-lg mb-1">{{ package.name_ua }}</h3>
+        <h3 class="font-semibold text-base sm:text-lg mb-1">{% lang_field package 'name' %}</h3>
         <p class="text-xl sm:text-2xl font-bold mb-1">€{{ package.price_from }}–{{ package.price_to }}</p>
-        <p class="text-xs mb-3" style="color: var(--text-faint);">{{ package.guests_ua }}</p>
+        <p class="text-xs mb-3" style="color: var(--text-faint);">{% lang_field package 'guests' %}</p>
         <ul class="text-xs sm:text-sm space-y-1.5 mt-auto" style="color: var(--text-muted);">
-          {% for feature in package.features_ua.splitlines %}
+          {% lang_field package 'features' as package_features %}
+          {% for feature in package_features.splitlines %}
           <li class="flex items-start gap-1.5">
             <svg class="w-3 h-3 shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" style="color: var(--accent);">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
@@ -192,13 +194,13 @@
       {% endfor %}
     </div>
     {% endif %}
-    <p class="text-xs sm:text-sm mt-5" style="color: var(--text-faint);">Не впевнені, який пакет підходить? Напишіть нам — допоможемо розрахувати.</p>
+    <p class="text-xs sm:text-sm mt-5" style="color: var(--text-faint);">{% if current_language == 'en' %}Not sure which package fits? Message us — we'll help you work it out.{% else %}Не впевнені, який пакет підходить? Напишіть нам — допоможемо розрахувати.{% endif %}</p>
   </section>
 
   <!-- ── Partners ── -->
   <section class="max-w-6xl mx-auto px-4 sm:px-6 py-10 sm:py-14 border-t" style="border-color: var(--border);">
-    <h2 class="text-xl sm:text-2xl md:text-3xl font-bold mb-2">Наші партнери</h2>
-    <p class="text-sm mb-6" style="color: var(--text-muted);">Локації та бренди, з якими ми працюємо</p>
+    <h2 class="text-xl sm:text-2xl md:text-3xl font-bold mb-2">{% if current_language == 'en' %}Our partners{% else %}Наші партнери{% endif %}</h2>
+    <p class="text-sm mb-6" style="color: var(--text-muted);">{% if current_language == 'en' %}Venues and brands we work with{% else %}Локації та бренди, з якими ми працюємо{% endif %}</p>
     <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
       {% for partner in partners %}
       <div class="border rounded-xl p-3 sm:p-4 flex flex-col items-center justify-center gap-2 card-border" style="border-color: var(--border);">
@@ -206,7 +208,7 @@
         <img src="{{ partner.logo.url }}" alt="{{ partner.name }}" class="h-8 sm:h-10 object-contain">
         {% endif %}
         <span class="font-semibold text-xs sm:text-sm text-center">{{ partner.name }}</span>
-        <div class="text-[10px] sm:text-xs text-center leading-snug" style="color: var(--text-muted);">{{ partner.description_ua|linebreaks }}</div>
+        <div class="text-[10px] sm:text-xs text-center leading-snug" style="color: var(--text-muted);">{% filter linebreaks %}{% lang_field partner 'description' %}{% endfilter %}</div>
         <div class="flex items-center gap-2 mt-auto">
           {% if partner.instagram %}
           <a href="{{ partner.instagram }}" target="_blank" rel="noreferrer" class="text-xs transition-colors" style="color: var(--accent);">Instagram</a>
@@ -218,12 +220,12 @@
       </div>
       {% empty %}
       <div class="col-span-2 sm:col-span-4 text-center py-6">
-        <p class="text-sm" style="color: var(--text-faint);">Партнери скоро з'являться</p>
+        <p class="text-sm" style="color: var(--text-faint);">{% if current_language == 'en' %}Partners coming soon{% else %}Партнери скоро з'являться{% endif %}</p>
       </div>
       {% endfor %}
     </div>
     <a href="{% url 'booking_create' %}" class="mt-4 text-sm transition-colors flex items-center gap-1 font-medium" style="color: var(--accent);">
-      Стати партнером
+      {% if current_language == 'en' %}Become a partner{% else %}Стати партнером{% endif %}
       <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
       </svg>
@@ -235,11 +237,11 @@
   <section class="max-w-6xl mx-auto px-4 sm:px-6 py-10 sm:py-14 border-t" style="border-color: var(--border);">
     <div class="flex items-center justify-between mb-5 gap-4">
       <div>
-        <h2 class="text-xl sm:text-2xl md:text-3xl font-bold mb-1">Наші івенти</h2>
-        <p class="text-xs sm:text-sm" style="color: var(--text-faint);">Минулі івенти Bavovna Event</p>
+        <h2 class="text-xl sm:text-2xl md:text-3xl font-bold mb-1">{% if current_language == 'en' %}Our events{% else %}Наші івенти{% endif %}</h2>
+        <p class="text-xs sm:text-sm" style="color: var(--text-faint);">{% if current_language == 'en' %}Past events by Bavovna Event{% else %}Минулі івенти Bavovna Event{% endif %}</p>
       </div>
       <a href="{% url 'event_list' %}" class="text-sm transition-colors flex items-center gap-1 whitespace-nowrap shrink-0" style="color: var(--accent);">
-        Всі івенти
+        {% if current_language == 'en' %}All events{% else %}Всі івенти{% endif %}
         <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
         </svg>
@@ -249,10 +251,10 @@
       {% for event in past_events %}
       <a href="{% url 'event_detail' event.pk %}" class="border rounded-2xl p-4 flex flex-col gap-2 card-border transition-colors" style="border-color: var(--border);">
         <div class="flex items-center justify-between gap-2">
-          <h3 class="font-semibold text-sm truncate">{{ event.title_ua }}</h3>
+          <h3 class="font-semibold text-sm truncate">{% lang_field event 'title' %}</h3>
           <span class="text-xs whitespace-nowrap shrink-0" style="color: var(--text-faint);">{{ event.date|date:"M Y" }}</span>
         </div>
-        <p class="text-xs sm:text-sm leading-relaxed line-clamp-2" style="color: var(--text-muted);">{{ event.description_ua|truncatewords:20 }}</p>
+        <p class="text-xs sm:text-sm leading-relaxed line-clamp-2" style="color: var(--text-muted);">{% filter truncatewords:20 %}{% lang_field event 'description' %}{% endfilter %}</p>
       </a>
       {% endfor %}
     </div>

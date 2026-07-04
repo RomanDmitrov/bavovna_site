@@ -1,6 +1,7 @@
 {% extends 'base.html' %}
+{% load language_filters %}
 
-{% block title %}{{ event.title_ua }}{% endblock %}
+{% block title %}{% lang_field event 'title' %}{% endblock %}
 
 {% block content %}
 <div class="no-h2-before">
@@ -12,15 +13,15 @@
          style="background-image: radial-gradient(circle at 80% 20%, rgba(255,182,72,.18), transparent 50%), radial-gradient(circle at 20% 80%, rgba(226,56,42,.22), transparent 50%);"></div>
 
     {% if event.cover_image %}
-    <img src="{{ event.cover_image.url }}" alt="{{ event.title_ua }}"
+    <img src="{{ event.cover_image.url }}" alt="{% lang_field event 'title' %}"
          class="absolute inset-0 w-full h-full object-cover opacity-30">
     {% endif %}
 
     <div class="relative z-10 py-10 sm:py-16 px-4 sm:px-8 w-full max-w-2xl mx-auto">
-      <p class="text-white/50 text-[10px] sm:text-xs font-semibold tracking-[.3em] uppercase mb-4">Bavovna Event представляє</p>
+      <p class="text-white/50 text-[10px] sm:text-xs font-semibold tracking-[.3em] uppercase mb-4">{% if current_language == 'en' %}Bavovna Event presents{% else %}Bavovna Event представляє{% endif %}</p>
       <h1 class="font-bold text-white tracking-tight leading-[1.1] break-words"
           style="font-size: clamp(1.6rem, 6.5vw, 5rem); font-family: var(--font-display);">
-        {{ event.title_ua }}
+        {% lang_field event 'title' %}
       </h1>
       <div class="flex items-center justify-center gap-3 mt-4 flex-wrap">
         <span class="px-2 py-0.5 rounded-full text-white text-[10px] font-bold uppercase tracking-wider"
@@ -44,7 +45,7 @@
         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 5v2m0 4v2m0 4v2M5 5a2 2 0 00-2 2v3a2 2 0 110 4v3a2 2 0 002 2h14a2 2 0 002-2v-3a2 2 0 110-4V7a2 2 0 00-2-2H5z"/>
         </svg>
-        Купити квиток
+        {% if current_language == 'en' %}Buy a ticket{% else %}Купити квиток{% endif %}
       </a>
     </div>
   </div>
@@ -69,13 +70,13 @@
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/>
             </svg>
-            <span class="truncate">{{ event.venue_ua }}</span>
+            <span class="truncate">{% lang_field event 'venue' %}</span>
           </p>
           <p class="flex items-center gap-1.5 text-sm mt-1" style="color: var(--text-muted);">
             <svg class="w-3.5 h-3.5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" style="color: var(--accent);">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
             </svg>
-            двері відчиняються о {{ event.date|date:"H:i" }}
+            {% if current_language == 'en' %}doors open at{% else %}двері відчиняються о{% endif %} {{ event.date|date:"H:i" }}
           </p>
         </div>
       </div>
@@ -88,14 +89,14 @@
       <div class="sm:col-span-2 space-y-5">
 
         <!-- Description -->
-        <div class="leading-relaxed text-sm sm:text-base" style="...">{{ event.description_ua|linebreaks }}</div>
+        <div class="leading-relaxed text-sm sm:text-base" style="...">{% filter linebreaks %}{% lang_field event 'description' %}{% endfilter %}</div>
 
         {% if is_past %}
         {% if photo_album_url %}
         <a href="{{ photo_album_url }}" target="_blank"
            class="inline-flex items-center gap-2 px-5 py-2.5 rounded-full text-white text-sm font-semibold mb-6"
            style="background: #e2382a">
-          📸 Переглянути всі фото
+          {% if current_language == 'en' %}📸 View all photos{% else %}📸 Переглянути всі фото{% endif %}
         </a>
         {% endif %}
 
@@ -106,7 +107,7 @@
             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" style="color: var(--accent);">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/>
             </svg>
-            Фотогалерея
+            {% if current_language == 'en' %}Photo gallery{% else %}Фотогалерея{% endif %}
           </h2>
           <div class="grid grid-cols-2 sm:grid-cols-3 gap-3">
             {% for item in event.gallery.all %}
@@ -122,31 +123,32 @@
         <!-- ── Upcoming event: map, FAQ ── -->
         <!-- Map -->
         <div>
-          <h2 class="font-semibold mb-3 text-sm sm:text-base">Локація</h2>
+          <h2 class="font-semibold mb-3 text-sm sm:text-base">{% if current_language == 'en' %}Location{% else %}Локація{% endif %}</h2>
+          {% lang_field event 'venue' as event_venue %}
           <iframe
-            src="https://www.google.com/maps?q={{ event.venue_ua|urlencode }}&output=embed"
+            src="https://www.google.com/maps?q={{ event_venue|urlencode }}&output=embed"
             class="w-full h-48 sm:h-64 rounded-2xl border"
             style="border: 0; border-color: var(--border);"
             loading="lazy"
             referrerpolicy="no-referrer-when-downgrade"
-            title="Карта локації">
+            title="{% if current_language == 'en' %}Venue map{% else %}Карта локації{% endif %}">
           </iframe>
         </div>
 
         <!-- FAQ -->
         {% if faqs %}
         <div class="border rounded-2xl" style="border-color: var(--border);">
-          <h2 class="font-semibold px-4 py-3 text-sm sm:text-base">Часті запитання</h2>
+          <h2 class="font-semibold px-4 py-3 text-sm sm:text-base">{% if current_language == 'en' %}Frequently asked questions{% else %}Часті запитання{% endif %}</h2>
           <div class="border-t" style="border-color: var(--border);">
             {% for faq in faqs %}
             <details class="group {% if not forloop.last %}border-b{% endif %}" style="border-color: var(--border);">
               <summary class="flex items-center justify-between px-4 py-3 cursor-pointer text-sm font-medium list-none">
-                {{ faq.question_ua }}
+                {% lang_field faq 'question' %}
                 <svg class="w-4 h-4 shrink-0 transition-transform group-open:rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24" style="color: var(--text-faint);">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
                 </svg>
               </summary>
-              <div class="px-4 pb-3 text-sm" style="color: var(--text-muted);">{{ faq.answer_ua|linebreaks }}</div>
+              <div class="px-4 pb-3 text-sm" style="color: var(--text-muted);">{% filter linebreaks %}{% lang_field faq 'answer' %}{% endfilter %}</div>
             </details>
             {% endfor %}
           </div>
@@ -160,7 +162,7 @@
             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/>
             </svg>
-            Відгуки
+            {% if current_language == 'en' %}Reviews{% else %}Відгуки{% endif %}
           </h2>
 
           <div class="space-y-3 mb-6">
@@ -173,23 +175,23 @@
               <div class="text-sm" style="color: var(--text-muted);">{{ comment.text|linebreaks }}</div>
             </div>
             {% empty %}
-            <p class="text-sm" style="color: var(--text-faint);">Поки немає відгуків</p>
+            <p class="text-sm" style="color: var(--text-faint);">{% if current_language == 'en' %}No reviews yet{% else %}Поки немає відгуків{% endif %}</p>
             {% endfor %}
           </div>
 
           <!-- Comment form -->
           <form method="post" action="{% url 'comment_add' event.pk %}" class="space-y-2.5 max-w-md">
             {% csrf_token %}
-            <input name="name" placeholder="Ваше ім'я" required
+            <input name="name" placeholder="{% if current_language == 'en' %}Your name{% else %}Ваше ім'я{% endif %}" required
                    class="w-full px-4 py-2.5 rounded-xl border text-sm focus:outline-none"
                    style="background: var(--surface); border-color: var(--border); color: var(--text);">
-            <textarea name="text" rows="3" placeholder="Ваш відгук" required
+            <textarea name="text" rows="3" placeholder="{% if current_language == 'en' %}Your review{% else %}Ваш відгук{% endif %}" required
                       class="w-full px-4 py-2.5 rounded-xl border text-sm resize-none focus:outline-none"
                       style="background: var(--surface); border-color: var(--border); color: var(--text);"></textarea>
             <button type="submit"
                     class="px-5 py-2.5 rounded-full text-sm font-semibold text-white transition-all"
                     style="background: var(--accent-bg);">
-              Надіслати
+              {% if current_language == 'en' %}Send{% else %}Надіслати{% endif %}
             </button>
           </form>
         </div>
@@ -200,7 +202,7 @@
       <div>
         <div class="border rounded-2xl p-4 sticky top-20 card-border" style="border-color: var(--border);">
           <div class="flex items-center justify-between mb-2">
-            <h2 class="font-semibold">Вхідний квиток</h2>
+            <h2 class="font-semibold">{% if current_language == 'en' %}Entry ticket{% else %}Вхідний квиток{% endif %}</h2>
             {% if event.ticket_price %}
             <span class="text-xl font-bold">€{{ event.ticket_price }}</span>
             {% endif %}
@@ -210,20 +212,20 @@
               <svg class="w-3.5 h-3.5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" style="color: var(--accent);">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
               </svg>
-              Вхід на івент
+              {% if current_language == 'en' %}Event entry{% else %}Вхід на івент{% endif %}
             </li>
             <li class="flex items-center gap-2">
               <svg class="w-3.5 h-3.5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" style="color: var(--accent);">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
               </svg>
-              Участь у розіграші
+              {% if current_language == 'en' %}Giveaway participation{% else %}Участь у розіграші{% endif %}
             </li>
           </ul>
 
           {% if event.ticket_limit %}
           <div class="mb-4">
             <div class="flex items-center justify-between text-xs mb-1.5" style="color: var(--text-muted);">
-              <span>Залишилось місць</span>
+              <span>{% if current_language == 'en' %}Spots left{% else %}Залишилось місць{% endif %}</span>
               <span class="flex items-center gap-1 font-semibold" style="color: var(--accent);">
                 <span class="w-1.5 h-1.5 rounded-full pulse-slow" style="background: var(--accent2);"></span>
                 {{ event.ticket_limit }}
@@ -242,14 +244,14 @@
             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 5v2m0 4v2m0 4v2M5 5a2 2 0 00-2 2v3a2 2 0 110 4v3a2 2 0 002 2h14a2 2 0 002-2v-3a2 2 0 110-4V7a2 2 0 00-2-2H5z"/>
             </svg>
-            Купити квиток
+            {% if current_language == 'en' %}Buy a ticket{% else %}Купити квиток{% endif %}
           </a>
-          <p class="text-xs text-center" style="color: var(--text-faint);">Покупка через Eventbrite</p>
+          <p class="text-xs text-center" style="color: var(--text-faint);">{% if current_language == 'en' %}Purchase via Eventbrite{% else %}Покупка через Eventbrite{% endif %}</p>
           {% else %}
           <a href="https://t.me/bavovnaeventireland" target="_blank" rel="noreferrer"
              class="w-full inline-flex items-center justify-center gap-2 py-2.5 rounded-full text-white font-semibold text-sm hover:opacity-90 transition-all"
              style="background: var(--accent-bg);">
-            Написати в Telegram
+            {% if current_language == 'en' %}Message us on Telegram{% else %}Написати в Telegram{% endif %}
           </a>
           {% endif %}
         </div>

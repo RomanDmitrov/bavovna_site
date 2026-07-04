@@ -1,17 +1,18 @@
 {% extends 'base.html' %}
+{% load language_filters %}
 
-{% block title %}Афіша{% endblock %}
+{% block title %}{% if current_language == 'en' %}Events{% else %}Афіша{% endif %}{% endblock %}
 
 {% block content %}
 <div class="max-w-6xl mx-auto px-4 sm:px-6 py-10 sm:py-14">
 
-  <h1 class="text-2xl sm:text-4xl font-bold mb-2 tracking-tight">Афіша</h1>
-  <p class="text-sm mb-10" style="color: var(--text-muted);">Один івент. Одна ніч. Твоє місце тут</p>
+  <h1 class="text-2xl sm:text-4xl font-bold mb-2 tracking-tight">{% if current_language == 'en' %}Events{% else %}Афіша{% endif %}</h1>
+  <p class="text-sm mb-10" style="color: var(--text-muted);">{% if current_language == 'en' %}One event. One night. Your place is here{% else %}Один івент. Одна ніч. Твоє місце тут{% endif %}</p>
 
   <!-- ── Upcoming event (hero, full width) ── -->
   {% if upcoming_event %}
   <section class="mb-12">
-    <h2 class="text-xl sm:text-2xl font-bold mb-6">Найближчий івент</h2>
+    <h2 class="text-xl sm:text-2xl font-bold mb-6">{% if current_language == 'en' %}Upcoming event{% else %}Найближчий івент{% endif %}</h2>
     <a href="{% url 'event_detail' upcoming_event.pk %}"
        class="border rounded-2xl overflow-hidden flex flex-col md:flex-row card-border transition-colors"
        style="border-color: var(--border);">
@@ -19,7 +20,7 @@
       <!-- Hero image -->
       {% if upcoming_event.cover_image %}
       <div class="h-64 sm:h-80 md:h-auto md:w-1/2 overflow-hidden">
-        <img src="{{ upcoming_event.cover_image.url }}" alt="{{ upcoming_event.title_ua }}"
+        <img src="{{ upcoming_event.cover_image.url }}" alt="{% lang_field upcoming_event 'title' %}"
              class="w-full h-full object-cover">
       </div>
       {% else %}
@@ -27,10 +28,10 @@
            style="background: linear-gradient(135deg, var(--accent-bg) 0%, #1a0a08 55%, #000 100%);">
         <span class="absolute top-4 left-4 px-3 py-1 rounded-full text-white text-xs font-bold uppercase tracking-wider"
               style="background: linear-gradient(135deg, var(--accent-bg), var(--accent2));">
-          Зараз у продажу
+          {% if current_language == 'en' %}On sale now{% else %}Зараз у продажу{% endif %}
         </span>
         <p class="text-white font-bold text-2xl sm:text-3xl tracking-tight" style="font-family: var(--font-display);">
-          {{ upcoming_event.title_ua }}
+          {% lang_field upcoming_event 'title' %}
         </p>
       </div>
       {% endif %}
@@ -38,10 +39,10 @@
       <!-- Hero body -->
       <div class="p-6 sm:p-8 flex-1 flex flex-col gap-3 md:w-1/2">
         <div class="flex items-start justify-between gap-2">
-          <h3 class="font-bold text-xl sm:text-2xl leading-snug">{{ upcoming_event.title_ua }}</h3>
+          <h3 class="font-bold text-xl sm:text-2xl leading-snug">{% lang_field upcoming_event 'title' %}</h3>
           <span class="px-2.5 py-1 rounded-full text-white text-xs font-bold uppercase tracking-wider shrink-0 whitespace-nowrap"
                 style="background: linear-gradient(135deg, var(--accent-bg), var(--accent2));">
-            Найближчий
+            {% if current_language == 'en' %}Upcoming{% else %}Найближчий{% endif %}
           </span>
         </div>
         <div class="space-y-1.5 text-sm" style="color: var(--text-muted);">
@@ -56,17 +57,17 @@
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/>
             </svg>
-            {{ upcoming_event.venue_ua }}
+            {% lang_field upcoming_event 'venue' %}
           </p>
         </div>
         <div class="text-sm leading-relaxed" style="color: var(--text-muted);">
-            {{ upcoming_event.description_ua|linebreaks }}
+            {% filter linebreaks %}{% lang_field upcoming_event 'description' %}{% endfilter %}
         </div>
         <div class="mt-auto pt-4 flex items-center justify-between">
           {% if upcoming_event.ticket_price %}
-          <span class="font-bold text-lg" style="color: var(--accent);">від €{{ upcoming_event.ticket_price }}</span>
+          <span class="font-bold text-lg" style="color: var(--accent);">{% if current_language == 'en' %}from{% else %}від{% endif %} €{{ upcoming_event.ticket_price }}</span>
           {% endif %}
-          <span class="text-sm font-semibold transition-colors" style="color: var(--accent);">Детальніше →</span>
+          <span class="text-sm font-semibold transition-colors" style="color: var(--accent);">{% if current_language == 'en' %}Details →{% else %}Детальніше →{% endif %}</span>
         </div>
       </div>
     </a>
@@ -76,7 +77,7 @@
   <!-- ── Future events (smaller cards) ── -->
   {% if future_events %}
   <section>
-    <h2 class="text-xl sm:text-2xl font-bold mb-6">Майбутні івенти</h2>
+    <h2 class="text-xl sm:text-2xl font-bold mb-6">{% if current_language == 'en' %}Future events{% else %}Майбутні івенти{% endif %}</h2>
     <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
       {% for event in future_events %}
       <a href="{% url 'event_detail' event.pk %}"
@@ -85,7 +86,7 @@
 
         {% if event.cover_image %}
         <div class="h-36 sm:h-40 overflow-hidden">
-          <img src="{{ event.cover_image.url }}" alt="{{ event.title_ua }}"
+          <img src="{{ event.cover_image.url }}" alt="{% lang_field event 'title' %}"
                class="w-full h-full object-cover">
         </div>
         {% else %}
@@ -95,18 +96,18 @@
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"/>
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"/>
           </svg>
-          <span class="text-[10px]" style="color: var(--text-faint);">Фото скоро</span>
+          <span class="text-[10px]" style="color: var(--text-faint);">{% if current_language == 'en' %}Photos coming soon{% else %}Фото скоро{% endif %}</span>
         </div>
         {% endif %}
 
         <div class="p-3 sm:p-4 flex-1 flex flex-col gap-1.5">
           <div class="flex items-center justify-between gap-2">
-            <h3 class="font-semibold text-sm truncate">{{ event.title_ua }}</h3>
+            <h3 class="font-semibold text-sm truncate">{% lang_field event 'title' %}</h3>
             <span class="text-xs whitespace-nowrap shrink-0" style="color: var(--text-faint);">{{ event.date|date:"d M" }}</span>
           </div>
-          <p class="text-xs sm:text-sm leading-relaxed line-clamp-2" style="color: var(--text-muted);">{{ event.description_ua|truncatewords:18 }}</p>
+          <p class="text-xs sm:text-sm leading-relaxed line-clamp-2" style="color: var(--text-muted);">{% filter truncatewords:18 %}{% lang_field event 'description' %}{% endfilter %}</p>
           {% if event.ticket_price %}
-          <span class="font-bold text-sm mt-auto pt-1" style="color: var(--accent);">від €{{ event.ticket_price }}</span>
+          <span class="font-bold text-sm mt-auto pt-1" style="color: var(--accent);">{% if current_language == 'en' %}from{% else %}від{% endif %} €{{ event.ticket_price }}</span>
           {% endif %}
         </div>
       </a>
@@ -117,8 +118,8 @@
 
   {% if not upcoming_event %}
   <div class="text-center py-24">
-    <p class="text-lg mb-2" style="color: var(--text-muted);">Івентів поки немає</p>
-    <p class="text-sm mb-6" style="color: var(--text-faint);">Слідкуй в соцмережах — ми скоро оголосимо</p>
+    <p class="text-lg mb-2" style="color: var(--text-muted);">{% if current_language == 'en' %}No events yet{% else %}Івентів поки немає{% endif %}</p>
+    <p class="text-sm mb-6" style="color: var(--text-faint);">{% if current_language == 'en' %}Follow us on social media — we'll announce soon{% else %}Слідкуй в соцмережах — ми скоро оголосимо{% endif %}</p>
     <a href="https://t.me/bavovnaeventireland" target="_blank" rel="noreferrer"
        class="px-5 py-2.5 rounded-full text-white font-semibold text-sm transition-all"
        style="background: var(--accent-bg);">

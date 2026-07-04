@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.utils import timezone
 from events.models import Event
 from .models import Partner, FAQ, PricePackage
@@ -26,3 +26,12 @@ def home(request):
     }
 
     return render(request, 'pages/home.html', context)
+
+
+def set_language(request, lang_code):
+    if lang_code in ['ua', 'en']:
+        request.session['language'] = lang_code
+
+    # Возвращаем пользователя туда, откуда он пришёл
+    referer = request.META.get('HTTP_REFERER', '/')
+    return redirect(referer)

@@ -1,29 +1,29 @@
 {% extends 'base.html' %}
 
-{% block title %}Партнерство{% endblock %}
+{% block title %}{% if current_language == 'en' %}Partnership{% else %}Партнерство{% endif %}{% endblock %}
 
 {% block content %}
 <div class="max-w-3xl mx-auto px-4 sm:px-6 py-10 sm:py-14">
 
-  <h1 class="text-2xl sm:text-4xl font-bold mb-2 tracking-tight">Партнерство</h1>
-  <p class="text-sm mb-8" style="color: var(--text-muted);">Працюємо з локаціями, брендами, артистами та всіма, хто хоче робити івенти разом.</p>
+  <h1 class="text-2xl sm:text-4xl font-bold mb-2 tracking-tight">{% if current_language == 'en' %}Partnership{% else %}Партнерство{% endif %}</h1>
+  <p class="text-sm mb-8" style="color: var(--text-muted);">{% if current_language == 'en' %}We work with venues, brands, artists and everyone who wants to make events together.{% else %}Працюємо з локаціями, брендами, артистами та всіма, хто хоче робити івенти разом.{% endif %}</p>
 
   <!-- ── Partnership blocks ── -->
   <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-8">
     <div class="border rounded-2xl p-4 card-border" style="border-color: var(--border);">
       <div class="w-7 h-7 rounded-full flex items-center justify-center mb-2 text-xs font-bold chip-0">1</div>
-      <p class="font-semibold text-sm">Локаціям</p>
-      <p class="text-xs mt-1" style="color: var(--text-muted);">Партнерства з оренди та спільного проведення івентів.</p>
+      <p class="font-semibold text-sm">{% if current_language == 'en' %}For venues{% else %}Локаціям{% endif %}</p>
+      <p class="text-xs mt-1" style="color: var(--text-muted);">{% if current_language == 'en' %}Rental partnerships and co-hosted events.{% else %}Партнерства з оренди та спільного проведення івентів.{% endif %}</p>
     </div>
     <div class="border rounded-2xl p-4 card-border" style="border-color: var(--border);">
       <div class="w-7 h-7 rounded-full flex items-center justify-center mb-2 text-xs font-bold chip-1">2</div>
-      <p class="font-semibold text-sm">Брендам і спонсорам</p>
-      <p class="text-xs mt-1" style="color: var(--text-muted);">Промо, інтеграції та спонсорські пакети для наших івентів.</p>
+      <p class="font-semibold text-sm">{% if current_language == 'en' %}For brands and sponsors{% else %}Брендам і спонсорам{% endif %}</p>
+      <p class="text-xs mt-1" style="color: var(--text-muted);">{% if current_language == 'en' %}Promos, integrations and sponsorship packages for our events.{% else %}Промо, інтеграції та спонсорські пакети для наших івентів.{% endif %}</p>
     </div>
     <div class="border rounded-2xl p-4 card-border" style="border-color: var(--border);">
       <div class="w-7 h-7 rounded-full flex items-center justify-center mb-2 text-xs font-bold chip-2">3</div>
-      <p class="font-semibold text-sm">Артистам і MC</p>
-      <p class="text-xs mt-1" style="color: var(--text-muted);">Виступи, dj-сети, лайнапи для майбутніх івентів.</p>
+      <p class="font-semibold text-sm">{% if current_language == 'en' %}For artists and MCs{% else %}Артистам і MC{% endif %}</p>
+      <p class="text-xs mt-1" style="color: var(--text-muted);">{% if current_language == 'en' %}Performances, DJ sets and line-ups for future events.{% else %}Виступи, dj-сети, лайнапи для майбутніх івентів.{% endif %}</p>
     </div>
   </div>
 
@@ -32,8 +32,8 @@
     {% csrf_token %}
 
     <div>
-      <label class="block text-sm mb-1.5" style="color: var(--text-muted);">Ім'я / компанія *</label>
-      <input type="text" name="name" required placeholder="Як до вас звертатися"
+      <label class="block text-sm mb-1.5" style="color: var(--text-muted);">{% if current_language == 'en' %}Name / company *{% else %}Ім'я / компанія *{% endif %}</label>
+      <input type="text" name="name" required placeholder="{% if current_language == 'en' %}How should we address you{% else %}Як до вас звертатися{% endif %}"
              class="w-full px-4 py-3 rounded-xl border text-sm focus:outline-none transition-colors"
              style="background: var(--surface); border-color: var(--border); color: var(--text);">
     </div>
@@ -46,7 +46,7 @@
                style="background: var(--surface); border-color: var(--border); color: var(--text);">
       </div>
       <div>
-        <label class="block text-sm mb-1.5" style="color: var(--text-muted);">Телефон</label>
+        <label class="block text-sm mb-1.5" style="color: var(--text-muted);">{% if current_language == 'en' %}Phone{% else %}Телефон{% endif %}</label>
         <input type="tel" name="phone" placeholder="+353..."
                class="w-full px-4 py-3 rounded-xl border text-sm focus:outline-none transition-colors"
                style="background: var(--surface); border-color: var(--border); color: var(--text);">
@@ -61,21 +61,21 @@
     </div>
 
     <div>
-      <label class="block text-sm mb-1.5" style="color: var(--text-muted);">Тип співпраці</label>
+      <label class="block text-sm mb-1.5" style="color: var(--text-muted);">{% if current_language == 'en' %}Partnership type{% else %}Тип співпраці{% endif %}</label>
       <select name="partnership_type"
               class="w-full px-4 py-3 rounded-xl border text-sm focus:outline-none transition-colors"
               style="background: var(--surface); border-color: var(--border); color: var(--text);">
-        <option value="">Оберіть тип</option>
-        <option value="location">Локація</option>
-        <option value="sponsor">Бренд / спонсор</option>
-        <option value="artist">Артист / MC</option>
-        <option value="other">Інше</option>
+        <option value="">{% if current_language == 'en' %}Select a type{% else %}Оберіть тип{% endif %}</option>
+        <option value="location">{% if current_language == 'en' %}Venue{% else %}Локація{% endif %}</option>
+        <option value="sponsor">{% if current_language == 'en' %}Brand / sponsor{% else %}Бренд / спонсор{% endif %}</option>
+        <option value="artist">{% if current_language == 'en' %}Artist / MC{% else %}Артист / MC{% endif %}</option>
+        <option value="other">{% if current_language == 'en' %}Other{% else %}Інше{% endif %}</option>
       </select>
     </div>
 
     <div>
-      <label class="block text-sm mb-1.5" style="color: var(--text-muted);">Повідомлення</label>
-      <textarea name="message" rows="4" placeholder="Розкажіть детальніше про пропозицію"
+      <label class="block text-sm mb-1.5" style="color: var(--text-muted);">{% if current_language == 'en' %}Message{% else %}Повідомлення{% endif %}</label>
+      <textarea name="message" rows="4" placeholder="{% if current_language == 'en' %}Tell us more about your proposal{% else %}Розкажіть детальніше про пропозицію{% endif %}"
                 class="w-full px-4 py-3 rounded-xl border text-sm resize-none focus:outline-none transition-colors"
                 style="background: var(--surface); border-color: var(--border); color: var(--text);"></textarea>
     </div>
@@ -83,7 +83,7 @@
     <button type="submit"
             class="w-full py-3.5 rounded-full font-semibold text-white transition-all"
             style="background: var(--accent-bg);">
-      Надіслати
+      {% if current_language == 'en' %}Send{% else %}Надіслати{% endif %}
     </button>
   </form>
 

@@ -1,12 +1,13 @@
 {% extends 'base.html' %}
+{% load language_filters %}
 
-{% block title %}Галерея{% endblock %}
+{% block title %}{% if current_language == 'en' %}Gallery{% else %}Галерея{% endif %}{% endblock %}
 
 {% block content %}
 <div class="max-w-6xl mx-auto px-4 sm:px-6 py-10 sm:py-14">
 
-  <h1 class="text-2xl sm:text-4xl font-bold mb-2 tracking-tight">Галерея</h1>
-  <p class="text-sm mb-10" style="color: var(--text-muted);">Всі івенти Bavovna Event — поточний, минулі та архів. Натисніть на картку для деталей.</p>
+  <h1 class="text-2xl sm:text-4xl font-bold mb-2 tracking-tight">{% if current_language == 'en' %}Gallery{% else %}Галерея{% endif %}</h1>
+  <p class="text-sm mb-10" style="color: var(--text-muted);">{% if current_language == 'en' %}All Bavovna Event events — current, past and archive. Click a card for details.{% else %}Всі івенти Bavovna Event — поточний, минулі та архів. Натисніть на картку для деталей.{% endif %}</p>
 
   {% if events %}
   <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
@@ -18,7 +19,7 @@
       <!-- Card hero -->
       {% if event.cover_image %}
       <div class="h-40 sm:h-48 overflow-hidden">
-        <img src="{{ event.cover_image.url }}" alt="{{ event.title_ua }}"
+        <img src="{{ event.cover_image.url }}" alt="{% lang_field event 'title' %}"
              class="w-full h-full object-cover opacity-80">
       </div>
       {% else %}
@@ -28,14 +29,14 @@
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"/>
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"/>
         </svg>
-        <span class="text-[10px]" style="color: var(--text-faint);">Фото скоро</span>
+        <span class="text-[10px]" style="color: var(--text-faint);">{% if current_language == 'en' %}Photos coming soon{% else %}Фото скоро{% endif %}</span>
       </div>
       {% endif %}
 
       <!-- Card body -->
       <div class="p-4 flex-1 flex flex-col gap-2">
         <div class="flex items-start justify-between gap-2">
-          <h3 class="font-semibold text-sm sm:text-base leading-snug">{{ event.title_ua }}</h3>
+          <h3 class="font-semibold text-sm sm:text-base leading-snug">{% lang_field event 'title' %}</h3>
           {% if event.event_type == 'community' %}
           <span class="px-2 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider shrink-0 whitespace-nowrap chip-2">
             Community
@@ -55,17 +56,17 @@
             <svg class="w-3.5 h-3.5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" style="color: var(--accent);">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z"/>
             </svg>
-            {{ event.guests_count }} гостей
+            {{ event.guests_count }} {% if current_language == 'en' %}guests{% else %}гостей{% endif %}
           </p>
           {% endif %}
         </div>
 
         <p class="text-xs sm:text-sm leading-relaxed line-clamp-2 mt-1" style="color: var(--text-muted);">
-          {{ event.description_ua|truncatewords:18 }}
+          {% filter truncatewords:18 %}{% lang_field event 'description' %}{% endfilter %}
         </p>
 
         <div class="mt-auto pt-2">
-          <span class="text-xs font-semibold transition-colors" style="color: var(--accent);">Детальніше →</span>
+          <span class="text-xs font-semibold transition-colors" style="color: var(--accent);">{% if current_language == 'en' %}Details →{% else %}Детальніше →{% endif %}</span>
         </div>
       </div>
     </a>
@@ -73,8 +74,8 @@
   </div>
   {% else %}
   <div class="text-center py-24">
-    <p class="text-lg mb-2" style="color: var(--text-muted);">Івентів поки немає</p>
-    <p class="text-sm mb-6" style="color: var(--text-faint);">Слідкуй в соцмережах — ми скоро оголосимо</p>
+    <p class="text-lg mb-2" style="color: var(--text-muted);">{% if current_language == 'en' %}No events yet{% else %}Івентів поки немає{% endif %}</p>
+    <p class="text-sm mb-6" style="color: var(--text-faint);">{% if current_language == 'en' %}Follow us on social media — we'll announce soon{% else %}Слідкуй в соцмережах — ми скоро оголосимо{% endif %}</p>
     <a href="https://t.me/bavovnaeventireland" target="_blank" rel="noreferrer"
        class="px-5 py-2.5 rounded-full text-white font-semibold text-sm transition-all"
        style="background: var(--accent-bg);">
