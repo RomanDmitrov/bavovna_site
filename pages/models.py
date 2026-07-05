@@ -3,7 +3,9 @@ from django.db import models
 # Create your models here.
 class FAQ(models.Model):
     question_ua = models.CharField(max_length=300, verbose_name='Питання (UA)')
+    question_en = models.CharField(max_length=300, blank=True, verbose_name='Question (EN)')
     answer_ua = models.TextField(verbose_name='Відповідь (UA)')
+    answer_en = models.TextField(blank=True, verbose_name='Answer (EN)')
     show_on_all_events = models.BooleanField(
         default=False,
         verbose_name='Показувати на всіх івентах'
@@ -30,6 +32,7 @@ class FAQ(models.Model):
 class Partner(models.Model):
     name = models.CharField(max_length=200, verbose_name='Назва')
     description_ua = models.CharField(max_length=300, blank=True, verbose_name='Опис (UA)')
+    description_en = models.CharField(max_length=300, blank=True, verbose_name='Description (EN)')
     logo = models.ImageField(upload_to='partners/', blank=True, null=True, verbose_name='Логотип')
     website = models.URLField(blank=True, verbose_name='Сайт')
     instagram = models.URLField(blank=True, verbose_name='Instagram')
@@ -49,10 +52,13 @@ class Partner(models.Model):
 
 class PricePackage(models.Model):
     name_ua = models.CharField(max_length=100, verbose_name='Назва (UA)')
+    name_en = models.CharField(max_length=100, blank=True, verbose_name='Name (EN)')
     price_from = models.DecimalField(max_digits=8, decimal_places=0, verbose_name='Ціна від (€)')
     price_to = models.DecimalField(max_digits=8, decimal_places=0, blank=True, null=True, verbose_name='Ціна до (€)')
     guests_ua = models.CharField(max_length=100, verbose_name='Гості (UA)')
+    guests_en = models.CharField(max_length=100, blank=True, verbose_name='Guests (EN)')
     features_ua = models.TextField(verbose_name='Що входить (UA)', help_text='Кожен пункт з нового рядка')
+    features_en = models.TextField(blank=True, verbose_name='Features (EN)', help_text='Each item on a new line')
     is_featured = models.BooleanField(default=False, verbose_name='Виділений (зірочка)')
     order = models.PositiveIntegerField(default=0, verbose_name='Порядок')
     is_active = models.BooleanField(default=True, verbose_name='Активно')
