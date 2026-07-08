@@ -20,7 +20,7 @@ def notify_new_booking(sender, instance, created, **kwargs):
         "email": instance.email,
         "phone": instance.phone,
         "telegram": instance.telegram,
-        "event_type": instance.event_type,
+        "event_type": instance.category.name_ua if instance.category else None,
         "guests": instance.guests,
         "budget": instance.budget,
         "message": instance.message,

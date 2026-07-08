@@ -18,9 +18,14 @@ class BookingRequest(models.Model):
 
 
     # Детали ивента
-    event_type = models.CharField(max_length=200, verbose_name='Тип івенту', blank=True)
+    category = models.ForeignKey(
+        'events.Category',
+        on_delete=models.SET_NULL,
+        null=True, blank=True,
+        verbose_name='Категорія'
+    )
     guests = models.PositiveIntegerField(verbose_name='Кількість гостей', blank=True, null=True)
-    budget = models.CharField(max_length=100, verbose_name='Бюджет', blank=True)
+    budget = models.CharField(max_length=100, verbose_name='Бюджет', blank=True, null=True)
     message = models.TextField(verbose_name='Повідомлення', blank=True)
 
 

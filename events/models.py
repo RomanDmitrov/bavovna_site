@@ -9,20 +9,18 @@ class Event(models.Model):
         super().save(*args, **kwargs)
         print(f"[TIMING] Event.save() took: {time.time() - start:.2f}s")
 
-    EVENT_TYPE_CHOICES = [
-        ('regular', 'Звичайний івент'),
-        ('community', 'Community івент'),
-    ]
+
+    category = models.ForeignKey(
+        'Category',
+        on_delete=models.SET_NULL,
+        null=True, blank=True,
+        related_name='events',
+        verbose_name='Категорія'
+    )
 
 
     title_ua = models.CharField(max_length= 200, verbose_name= 'Назва (UA)')
     title_en = models.CharField(max_length= 200, verbose_name= 'Title (EN)')
-    event_type = models.CharField(
-        max_length = 20,
-        choices = EVENT_TYPE_CHOICES,
-        default = 'regular',
-        verbose_name = 'Тип івенту'
-    )
 
 
     date = models.DateTimeField(verbose_name= 'Дата та час')
@@ -117,3 +115,18 @@ class GalleryItem(models.Model):
         return f'{self.event.title_ua} - фото {self.id}'
 
 
+class Category(models.Model):
+    name_ua = models.CharField(max_length=100, verbose_name='Назва (UA)')
+    name_en = models.CharField(max_length=100, verbose_name='Name (EN)')
+    slug = models.SlugField(max_length=100, unique=True, verbose_name='Slug (для URL)')
+    icon = models.CharField(max_length=10, blank=True, verbose_name='Емодзі-іконка')
+    order = models.PositiveIntegerField(default=0, verbose_name='Порядок')
+    is_active = models.BooleanField(default=True, verbose_name='Активна')
+
+    class Meta:
+        verbose_name = 'Категорія'
+        verbose_name_plural = 'Категорії'
+        ordering = ['order']
+
+    def __str__(self):
+        return self.name_ua

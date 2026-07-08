@@ -1,6 +1,6 @@
 from django.core.management.base import BaseCommand
 
-from pages.models import FAQ, Partner, PricePackage
+from pages.models import FAQ, Partner
 
 # Ready-made English translations keyed by the exact Ukrainian source text.
 # Texts with no entry here (placeholder/junk content) are copied as-is so the
@@ -15,7 +15,6 @@ TRANSLATIONS = {
 FIELD_PAIRS = [
     (FAQ, [('question_ua', 'question_en'), ('answer_ua', 'answer_en')]),
     (Partner, [('description_ua', 'description_en')]),
-    (PricePackage, [('name_ua', 'name_en'), ('guests_ua', 'guests_en'), ('features_ua', 'features_en')]),
 ]
 
 

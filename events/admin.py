@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Event, GalleryItem
+from .models import Event, GalleryItem, Category
 
 # Register your models here.
 
@@ -13,8 +13,8 @@ class GalleryItemInline(admin.TabularInline):
 
 @admin.register(Event)
 class EventAdmin(admin.ModelAdmin):
-    list_display = ['title_ua', 'event_type', 'date', 'is_published']
-    list_filter = ['event_type', 'is_published']
+    list_display = ['title_ua', 'date', 'is_published']
+    list_filter = ['is_published']
     search_fields = ['title_ua', 'title_en']
     list_editable = ['is_published']
     date_hierarchy = 'date'
@@ -37,3 +37,10 @@ class EventAdmin(admin.ModelAdmin):
 class GalleryItemAdmin(admin.ModelAdmin):
     list_display = ['event', 'created_at']
     list_filter = ['event']
+
+
+@admin.register(Category)
+class CategoryAdmin(admin.ModelAdmin):
+    list_display = ['name_ua', 'slug', 'order', 'is_active']
+    list_editable = ['order', 'is_active']
+    prepopulated_fields = {'slug': ('name_ua',)}

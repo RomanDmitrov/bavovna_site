@@ -36,6 +36,7 @@ class Partner(models.Model):
     logo = models.ImageField(upload_to='partners/', blank=True, null=True, verbose_name='Логотип')
     website = models.URLField(blank=True, verbose_name='Сайт')
     instagram = models.URLField(blank=True, verbose_name='Instagram')
+    telegram = models.URLField(blank=True, verbose_name='Telegram')
     order = models.PositiveIntegerField(default=0, verbose_name='Порядок')
     is_active = models.BooleanField(default=True, verbose_name='Активно')
 
@@ -50,25 +51,3 @@ class Partner(models.Model):
         return self.name
 
 
-class PricePackage(models.Model):
-    name_ua = models.CharField(max_length=100, verbose_name='Назва (UA)')
-    name_en = models.CharField(max_length=100, blank=True, verbose_name='Name (EN)')
-    price_from = models.DecimalField(max_digits=8, decimal_places=0, verbose_name='Ціна від (€)')
-    price_to = models.DecimalField(max_digits=8, decimal_places=0, blank=True, null=True, verbose_name='Ціна до (€)')
-    guests_ua = models.CharField(max_length=100, verbose_name='Гості (UA)')
-    guests_en = models.CharField(max_length=100, blank=True, verbose_name='Guests (EN)')
-    features_ua = models.TextField(verbose_name='Що входить (UA)', help_text='Кожен пункт з нового рядка')
-    features_en = models.TextField(blank=True, verbose_name='Features (EN)', help_text='Each item on a new line')
-    is_featured = models.BooleanField(default=False, verbose_name='Виділений (зірочка)')
-    order = models.PositiveIntegerField(default=0, verbose_name='Порядок')
-    is_active = models.BooleanField(default=True, verbose_name='Активно')
-
-
-    class Meta:
-        verbose_name = 'Пакет прайсу'
-        verbose_name_plural = 'Пакети прайсу'
-        ordering = ['order']
-
-
-    def __str__(self):
-        return self.name_ua

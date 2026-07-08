@@ -2,33 +2,34 @@ from django.shortcuts import render, redirect
 from django.conf import settings
 import resend
 from .models import BookingRequest, PartnershipRequest
-from pages.models import PricePackage
+from events.models import Category
 
 # Create your views here.
 def booking_create(request):
     if request.method == 'POST':
         # Берём данные из формы которую отправил пользователь
-        name = request.POST.get('name')
+        name = request.POST.get('name') or None
         email = request.POST.get('email') or None
-        phone = request.POST.get('phone', '')
+        phone = request.POST.get('phone', '') or None
         telegram = request.POST.get('telegram', '')
-        event_type = request.POST.get('event_type', '')
+        category_id = request.POST.get('category', '') or None
         guests = request.POST.get('guests')
         budget = request.POST.get('budget', '')
         message = request.POST.get('message', '')
 
         # Создаём запись в БД
-        BookingRequest.objects.create(
+        booking = BookingRequest.objects.create(
             name=name,
             email=email,
             phone=phone,
             telegram=telegram,
-            event_type=event_type,
+            category_id=category_id,
             guests=guests if guests else None,
             budget=budget,
             message=message,
         )
 
+        category_name = booking.category.name_ua if booking.category else '-'
 
         # Отправляем уведомление на почту
         try:
@@ -42,7 +43,7 @@ def booking_create(request):
                     f"<p><strong>Email:</strong> {email or '-'}</p>"
                     f"<p><strong>Телефон:</strong> {phone or '-'}</p>"
                     f"<p><strong>Telegram:</strong> {telegram or '-'}</p>"
-                    f"<p><strong>Тип івенту:</strong> {event_type or '-'}</p>"
+                    f"<p><strong>Тип івенту:</strong> {category_name or '-'}</p>"
                     f"<p><strong>Кількість гостей:</strong> {guests or '-'}</p>"
                     f"<p><strong>Бюджет:</strong> {budget or '-'}</p>"
                     f"<p><strong>Повідомлення:</strong> {message or '-'}</p>"
@@ -54,8 +55,8 @@ def booking_create(request):
         # Перенаправляем на страницу успеха
         return redirect('booking_success')
 
-    packages = PricePackage.objects.all().order_by('price_from')
-    return render(request, 'bookings/booking.html', {'packages': packages})
+    categories = Category.objects.filter(is_active=True)
+    return render(request, 'bookings/booking.html', {'categories': categories})
 
 
 def booking_success(request):

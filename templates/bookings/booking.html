@@ -31,22 +31,6 @@
     </div>
   </div>
 
-  <!-- ── Packages hint ── -->
-  <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
-    {% for package in packages %}
-    <div class="border rounded-2xl p-4 card-border" style="border-color: var(--border);">
-        <div class="w-7 h-7 rounded-full flex items-center justify-center mb-2 text-xs font-bold chip-{{ forloop.counter0 }}">{{ forloop.counter }}</div>
-        <p class="font-semibold text-sm">{% lang_field package 'name' %}</p>
-        <p class="font-bold">
-            €{{ package.price_from }}{% if package.price_to %}–{{ package.price_to }}{% endif %}
-        </p>
-        <p class="text-xs" style="color: var(--text-faint);">{% lang_field package 'guests' %}</p>
-    </div>
-    {% empty %}
-    <p style="color: var(--text-muted);">{% if current_language == 'en' %}Packages coming soon{% else %}Пакети скоро з'являться{% endif %}</p>
-    {% endfor %}
-    </div>
-
   <!-- ── Booking form ── -->
   <form method="post" action="" class="space-y-4">
     {% csrf_token %}

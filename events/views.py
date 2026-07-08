@@ -1,7 +1,7 @@
 # from multiprocessing.managers import public_methods
 from django.shortcuts import render, get_object_or_404, redirect
 from django.utils import timezone
-from .models import Event
+from .models import Event, Category
 from pages.models import FAQ
 from comments.models import Comment
 import boto3
@@ -17,7 +17,6 @@ def event_list(request):
     # Все опубликованые будущие ивенты
     upcoming_events = Event.objects.filter(
         is_published=True,
-        event_type='regular',
         date__gte=timezone.now()
     ).order_by('date')
 
@@ -124,3 +123,17 @@ def get_presigned_upload_url(request):
         'public_url': public_url,
 
     })
+
+
+def category_detail(request, slug):
+    category = get_object_or_404(Category, slug=slug, is_active=True)
+    events = category.events.filter(
+        is_published=True,
+        date__gte=timezone.now()
+    ).order_by('date')
+
+    context = {
+        'category': category,
+        'events': events,
+    }
+    return render(request, 'events/category_detail.html', context)
