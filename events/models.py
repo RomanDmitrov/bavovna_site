@@ -120,6 +120,8 @@ class Category(models.Model):
     name_en = models.CharField(max_length=100, verbose_name='Name (EN)')
     slug = models.SlugField(max_length=100, unique=True, verbose_name='Slug (для URL)')
     icon = models.CharField(max_length=10, blank=True, verbose_name='Емодзі-іконка')
+    description_ua = models.CharField(max_length=160, blank=True, verbose_name='Короткий опис (UA)')
+    description_en = models.CharField(max_length=160, blank=True, verbose_name='Short description (EN)')
     order = models.PositiveIntegerField(default=0, verbose_name='Порядок')
     is_active = models.BooleanField(default=True, verbose_name='Активна')
 

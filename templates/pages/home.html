@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 {% load language_filters %}
+{% load static %}
 
 {% block title %}{% if current_language == 'en' %}Home{% else %}Головна{% endif %}{% endblock %}
 
@@ -184,29 +185,66 @@
     })();
   </script>
 
-  <!-- ── Hero ── -->
-  <section class="border-b" style="border-color: var(--border);">
-    <div class="max-w-6xl mx-auto px-4 sm:px-6">
+  <!-- ── Hero video ── -->
+  <section class="relative h-screen w-full overflow-hidden">
+    <video class="absolute inset-0 w-full h-full object-cover" autoplay muted loop playsinline preload="auto" poster="{% static 'images/713405071_17973966885112729_3451524599368309258_n.jpg' %}">
+      <source src="{% static 'video/hero.mp4' %}" type="video/mp4">
+    </video>
+    <div class="absolute inset-0" style="background: linear-gradient(180deg, rgba(0,0,0,.35), rgba(0,0,0,.55));"></div>
+    <div class="relative z-10 h-full flex flex-col items-center justify-center text-center px-4">
+      <h1 class="text-white font-bold tracking-tight text-3xl sm:text-5xl md:text-6xl max-w-3xl leading-tight" style="font-family: var(--font-display); text-shadow: 0 4px 24px rgba(0,0,0,.35);">
+        {% if current_language == 'en' %}Creating unforgettable experiences in Ireland.{% else %}Створюємо незабутні враження в Ірландії.{% endif %}
+      </h1>
+    </div>
+    <!-- Scroll cue -->
+    <div class="absolute bottom-16 sm:bottom-20 inset-x-0 flex justify-center z-10">
+      <button onclick="document.getElementById('about-section').scrollIntoView({behavior: 'smooth'})"
+              class="group flex flex-col items-center gap-2 scroll-cue-strong text-white"
+              style="filter: drop-shadow(0 2px 10px rgba(0,0,0,.55));"
+              aria-label="{% if current_language == 'en' %}Scroll down{% else %}Прокрутіть вниз{% endif %}">
+        <span class="text-[11px] sm:text-xs uppercase tracking-[.3em] font-semibold">{% if current_language == 'en' %}Scroll down{% else %}Прокрутіть вниз{% endif %}</span>
+        <span class="flex items-center justify-center w-10 h-10 sm:w-11 sm:h-11 rounded-full border-2 border-white/85 transition-colors group-hover:bg-white/15">
+          <svg class="w-5 h-5 sm:w-6 sm:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2" d="M19 9l-7 7-7-7"/>
+          </svg>
+        </span>
+      </button>
+    </div>
+    <style>
+      @keyframes bavovna-scroll-cue {
+        0%, 100% { transform: translateY(0); }
+        50%      { transform: translateY(8px); }
+      }
+      .scroll-cue-strong { animation: bavovna-scroll-cue 1.8s ease-in-out infinite; }
+      @media (prefers-reduced-motion: reduce) { .scroll-cue-strong { animation: none; } }
+    </style>
+  </section>
+
+  <!-- ── About Bavovna Event ── -->
+  <section id="about-section" class="border-b reveal" style="border-color: var(--border);">
+    <div class="w-full px-4 sm:px-8 lg:px-12">
       <div class="grid lg:grid-cols-2 lg:divide-x lg:divide-[var(--border)]">
 
         <!-- Left: About -->
-        <div class="py-8 sm:py-14 lg:py-20 lg:pr-12 flex flex-col" style="border-color: var(--border);">
+        <div class="py-8 sm:py-14 lg:py-20 lg:pr-12 flex flex-col no-h2-before" style="border-color: var(--border);">
           <p class="text-xs font-semibold tracking-[.25em] uppercase mb-4" style="color: var(--accent);">{% if current_language == 'en' %}Dublin · Events of any format{% else %}Dublin · Івенти будь-якого формату{% endif %}</p>
-          <h1 class="text-2xl sm:text-4xl md:text-5xl font-bold leading-tight mb-4 tracking-tight">BAVOVNA EVENT</h1>
+          <h2 class="text-2xl sm:text-4xl md:text-5xl font-bold leading-tight mb-4 tracking-tight">BAVOVNA EVENT</h2>
           <p class="text-sm leading-relaxed mb-8 max-w-md" style="color: var(--text-muted);">
             {% if current_language == 'en' %}We organise parties, concerts, birthdays, weddings and corporate events for the Ukrainian and international audience of Dublin. From intimate gatherings to large events for hundreds of guests.{% else %}Організовуємо вечірки, концерти, дні народження, весілля та корпоративи для української та міжнародної аудиторії Дубліна. Від камерних зустрічей до великих івентів на сотні гостей.{% endif %}
           </p>
           <div class="grid grid-cols-3 divide-x divide-[var(--border)] mt-auto">
             <div class="px-2 sm:px-4 pl-0">
-              <p class="font-bold text-sm sm:text-lg">{% if current_language == 'en' %}2 years{% else %}2 роки{% endif %}</p>
+              <p class="font-bold text-xl sm:text-3xl tracking-tight" style="font-family: var(--font-display);">
+                <span class="counter" data-count-to="{{ years_on_market }}">{{ years_on_market }}</span> <span class="text-sm sm:text-base font-semibold" style="color: var(--text-muted);">{% if current_language == 'en' %}years{% else %}роки{% endif %}</span>
+              </p>
               <p class="text-[10px] sm:text-xs mt-0.5 leading-snug" style="color: var(--text-faint);">{% if current_language == 'en' %}on the Dublin market{% else %}на ринку Дубліна{% endif %}</p>
             </div>
             <div class="px-2 sm:px-4">
-              <p class="font-bold text-sm sm:text-lg">27+</p>
+              <p class="font-bold text-xl sm:text-3xl tracking-tight" style="font-family: var(--font-display);"><span class="counter" data-count-to="{{ events_count }}">{{ events_count }}</span>+</p>
               <p class="text-[10px] sm:text-xs mt-0.5 leading-snug" style="color: var(--text-faint);">{% if current_language == 'en' %}events organised{% else %}івентів проведено{% endif %}</p>
             </div>
             <div class="px-2 sm:px-4">
-              <p class="font-bold text-sm sm:text-lg">200+</p>
+              <p class="font-bold text-xl sm:text-3xl tracking-tight" style="font-family: var(--font-display);"><span class="counter" data-count-to="200">200</span>+</p>
               <p class="text-[10px] sm:text-xs mt-0.5 leading-snug" style="color: var(--text-faint);">{% if current_language == 'en' %}followers{% else %}підписників{% endif %}</p>
             </div>
           </div>
@@ -223,7 +261,7 @@
             </div>
             <div>
               <p class="text-[10px] font-semibold tracking-[.25em] uppercase mb-1" style="color: var(--accent);">{% if current_language == 'en' %}Upcoming event{% else %}Найближчий івент{% endif %}</p>
-              <h2 class="text-2xl sm:text-3xl md:text-4xl font-bold tracking-tight" style="font-family: var(--font-display);">{% lang_field upcoming_event 'title' %}</h2>
+              <h3 class="text-2xl sm:text-3xl md:text-4xl font-bold tracking-tight" style="font-family: var(--font-display);">{% lang_field upcoming_event 'title' %}</h3>
             </div>
           </div>
           <div class="space-y-1.5 text-sm">
@@ -248,21 +286,19 @@
           {% endif %}
           <div class="flex flex-wrap gap-2">
             <a href="{% url 'event_detail' upcoming_event.pk %}"
-               class="px-5 py-2.5 rounded-full text-white font-semibold text-sm transition-all flex items-center gap-2"
-               style="background: var(--accent-bg);">
+               class="btn-accent px-5 py-2.5 rounded-full text-white font-semibold text-sm flex items-center gap-2">
               {% if current_language == 'en' %}Details / Tickets{% else %}Детальніше / Квитки{% endif %}
               <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
               </svg>
             </a>
           </div>
-          <a href="{% url 'booking_create' %}" class="text-sm transition-colors text-left" style="color: var(--text-muted);">{% if current_language == 'en' %}Book your own event →{% else %}Замовити свій івент →{% endif %}</a>
+          <a href="{% url 'booking_create' %}" class="link-arrow text-sm text-left w-fit" style="color: var(--text-muted);">{% if current_language == 'en' %}Book your own event →{% else %}Замовити свій івент →{% endif %}</a>
           {% else %}
           <div class="text-center py-8">
             <p class="text-sm mb-4" style="color: var(--text-muted);">{% if current_language == 'en' %}We'll announce the next event soon{% else %}Незабаром оголосимо наступний івент{% endif %}</p>
             <a href="https://t.me/bavovnaeventireland" target="_blank" rel="noreferrer"
-               class="px-5 py-2.5 rounded-full text-white font-semibold text-sm transition-all"
-               style="background: var(--accent-bg);">
+               class="btn-accent inline-block px-5 py-2.5 rounded-full text-white font-semibold text-sm">
               {% if current_language == 'en' %}Follow on Telegram{% else %}Слідкуй в Telegram{% endif %}
             </a>
           </div>
@@ -271,137 +307,302 @@
 
       </div>
     </div>
-    <!-- Scroll cue -->
-    <div class="flex justify-center pb-6">
-      <button onclick="window.scrollBy({top: window.innerHeight * 0.7, behavior: 'smooth'})"
-              class="flex flex-col items-center gap-1 transition-colors scroll-cue"
-              style="color: var(--text-faint);">
-        <span class="text-[9px] uppercase tracking-[.25em]">{% if current_language == 'en' %}Scroll down{% else %}Прокрутіть вниз{% endif %}</span>
-        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
-        </svg>
-      </button>
-    </div>
   </section>
 
-  <!-- ── Services ── -->
-  <section class="max-w-6xl mx-auto px-4 sm:px-6 py-10 sm:py-14 border-t" style="border-color: var(--border);">
-    <h2 class="text-xl sm:text-2xl md:text-3xl font-bold mb-2">{% if current_language == 'en' %}What we organise{% else %}Що ми організовуємо{% endif %}</h2>
-    <p class="text-sm mb-6" style="color: var(--text-muted);">{% if current_language == 'en' %}From cosy gatherings to big parties — any format{% else %}Від затишних зустрічей до великих вечірок — будь-який формат{% endif %}</p>
-    <div class="grid grid-cols-2 sm:grid-cols-3 gap-3">
-      <div class="border rounded-2xl p-3 sm:p-5 flex items-center gap-2.5 card-border" style="border-color: var(--border);">
-        <div class="w-8 h-8 sm:w-10 sm:h-10 rounded-full flex items-center justify-center shrink-0 chip-0">
-          <svg class="w-4 h-4 sm:w-5 sm:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 3l14 9-14 9V3z"/>
-          </svg>
-        </div>
-        <span class="font-medium text-xs sm:text-sm leading-tight">{% if current_language == 'en' %}Parties{% else %}Вечірки{% endif %}</span>
-      </div>
-      <div class="border rounded-2xl p-3 sm:p-5 flex items-center gap-2.5 card-border" style="border-color: var(--border);">
-        <div class="w-8 h-8 sm:w-10 sm:h-10 rounded-full flex items-center justify-center shrink-0 chip-1">
-          <svg class="w-4 h-4 sm:w-5 sm:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19V6l12-3v13M9 19c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zm12-3c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zM9 10l12-3"/>
-          </svg>
-        </div>
-        <span class="font-medium text-xs sm:text-sm leading-tight">{% if current_language == 'en' %}Concerts{% else %}Концерти{% endif %}</span>
-      </div>
-      <div class="border rounded-2xl p-3 sm:p-5 flex items-center gap-2.5 card-border" style="border-color: var(--border);">
-        <div class="w-8 h-8 sm:w-10 sm:h-10 rounded-full flex items-center justify-center shrink-0 chip-2">
-          <svg class="w-4 h-4 sm:w-5 sm:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 15.546c-.523 0-1.046.151-1.5.454a2.704 2.704 0 01-3 0 2.704 2.704 0 00-3 0 2.704 2.704 0 01-3 0 2.704 2.704 0 00-3 0 2.704 2.704 0 01-1.5-.454M9 6v2m3-2v2m3-2v2M9 3h.01M12 3h.01M15 3h.01M21 21v-7a2 2 0 00-2-2H5a2 2 0 00-2 2v7h18zm-3-9v-2a2 2 0 00-2-2H8a2 2 0 00-2 2v2h12z"/>
-          </svg>
-        </div>
-        <span class="font-medium text-xs sm:text-sm leading-tight">{% if current_language == 'en' %}Birthdays{% else %}Дні народження{% endif %}</span>
-      </div>
-      <div class="border rounded-2xl p-3 sm:p-5 flex items-center gap-2.5 card-border" style="border-color: var(--border);">
-        <div class="w-8 h-8 sm:w-10 sm:h-10 rounded-full flex items-center justify-center shrink-0 chip-0">
-          <svg class="w-4 h-4 sm:w-5 sm:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/>
-          </svg>
-        </div>
-        <span class="font-medium text-xs sm:text-sm leading-tight">{% if current_language == 'en' %}Weddings{% else %}Весілля{% endif %}</span>
-      </div>
-      <div class="border rounded-2xl p-3 sm:p-5 flex items-center gap-2.5 card-border" style="border-color: var(--border);">
-        <div class="w-8 h-8 sm:w-10 sm:h-10 rounded-full flex items-center justify-center shrink-0 chip-1">
-          <svg class="w-4 h-4 sm:w-5 sm:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
-          </svg>
-        </div>
-        <span class="font-medium text-xs sm:text-sm leading-tight">{% if current_language == 'en' %}Corporate events{% else %}Корпоративи{% endif %}</span>
-      </div>
-      <div class="border rounded-2xl p-3 sm:p-5 flex items-center gap-2.5 card-border" style="border-color: var(--border);">
-        <div class="w-8 h-8 sm:w-10 sm:h-10 rounded-full flex items-center justify-center shrink-0 chip-2">
-          <svg class="w-4 h-4 sm:w-5 sm:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z"/>
-          </svg>
-        </div>
-        <span class="font-medium text-xs sm:text-sm leading-tight">{% if current_language == 'en' %}Private events{% else %}Приватні івенти{% endif %}</span>
-      </div>
+  <!-- ── What we organise ── -->
+  <section class="w-full px-4 sm:px-8 lg:px-12 py-10 sm:py-16 border-t" style="border-color: var(--border);">
+    <div class="reveal">
+      <h2 class="text-xl sm:text-2xl md:text-3xl font-bold mb-2">{% if current_language == 'en' %}What we organise{% else %}Що ми організовуємо{% endif %}</h2>
+      <p class="text-sm mb-6 sm:mb-8" style="color: var(--text-muted);">{% if current_language == 'en' %}From cosy gatherings to big parties — any format{% else %}Від затишних зустрічей до великих вечірок — будь-який формат{% endif %}</p>
     </div>
-  </section>
-
-  <!-- ── Partners ── -->
-  <section class="max-w-6xl mx-auto px-4 sm:px-6 py-10 sm:py-14 border-t" style="border-color: var(--border);">
-    <h2 class="text-xl sm:text-2xl md:text-3xl font-bold mb-2">{% if current_language == 'en' %}Our partners{% else %}Наші партнери{% endif %}</h2>
-    <p class="text-sm mb-6" style="color: var(--text-muted);">{% if current_language == 'en' %}Venues and brands we work with{% else %}Локації та бренди, з якими ми працюємо{% endif %}</p>
-    <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
-      {% for partner in partners %}
-      <div class="border rounded-xl p-3 sm:p-4 flex flex-col items-center justify-center gap-2 card-border" style="border-color: var(--border);">
-        {% if partner.logo %}
-        <img src="{{ partner.logo.url }}" alt="{{ partner.name }}" class="h-8 sm:h-10 object-contain">
-        {% endif %}
-        <span class="font-semibold text-xs sm:text-sm text-center">{{ partner.name }}</span>
-        <div class="text-[10px] sm:text-xs text-center leading-snug" style="color: var(--text-muted);">{% filter linebreaks %}{% lang_field partner 'description' %}{% endfilter %}</div>
-        <div class="flex items-center gap-2 mt-auto">
-          {% if partner.instagram %}
-          <a href="{{ partner.instagram }}" target="_blank" rel="noreferrer" class="text-xs transition-colors" style="color: var(--accent);">Instagram</a>
-          {% endif %}
-          {% if partner.website %}
-          <a href="{{ partner.website }}" target="_blank" rel="noreferrer" class="text-xs transition-colors" style="color: var(--accent);">Website</a>
-          {% endif %}
-        </div>
+    <div class="grid grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-5 reveal-stagger">
+      {% for category in categories %}
+      {% cycle 'chip-0' 'chip-1' 'chip-2' as chip silent %}
+      {% if category.slug == 'custom-event' %}
+      <div class="reveal-item col-span-2 lg:col-span-3">
+        <a href="{% url 'category_detail' category.slug %}"
+           class="category-card h-full border rounded-3xl p-5 sm:p-8 flex items-center gap-4 sm:gap-6"
+           style="border-color: var(--border);">
+          <div class="cat-icon w-12 h-12 sm:w-16 sm:h-16 rounded-2xl flex items-center justify-center shrink-0 text-2xl sm:text-3xl {{ chip }}">
+            {{ category.icon }}
+          </div>
+          <div class="min-w-0 flex-1">
+            <span class="font-semibold text-base sm:text-xl leading-tight">{% lang_field category 'name' %}</span>
+            <p class="text-xs sm:text-sm mt-1 leading-snug" style="color: var(--text-muted);">{% lang_field category 'description' %}</p>
+          </div>
+          <span class="btn-accent hidden sm:inline-flex items-center gap-1.5 px-4 py-2 rounded-full text-white text-sm font-semibold shrink-0">
+            {% if current_language == 'en' %}Let's talk{% else %}Обговорити{% endif %}
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
+            </svg>
+          </span>
+        </a>
       </div>
+      {% else %}
+      <div class="reveal-item">
+        <a href="{% url 'category_detail' category.slug %}"
+           class="category-card h-full border rounded-3xl p-5 sm:p-8 flex flex-col items-start gap-4 sm:gap-5"
+           style="border-color: var(--border);">
+          <div class="cat-icon w-12 h-12 sm:w-16 sm:h-16 rounded-2xl flex items-center justify-center shrink-0 text-2xl sm:text-3xl {{ chip }}">
+            {{ category.icon }}
+          </div>
+          <div>
+            <span class="font-semibold text-base sm:text-xl leading-tight">{% lang_field category 'name' %}</span>
+            <p class="text-xs sm:text-sm mt-1.5 leading-snug" style="color: var(--text-muted);">{% lang_field category 'description' %}</p>
+          </div>
+        </a>
+      </div>
+      {% endif %}
       {% empty %}
-      <div class="col-span-2 sm:col-span-4 text-center py-6">
-        <p class="text-sm" style="color: var(--text-faint);">{% if current_language == 'en' %}Partners coming soon{% else %}Партнери скоро з'являться{% endif %}</p>
+      <div class="col-span-2 lg:col-span-3 text-center py-6">
+        <p class="text-sm" style="color: var(--text-faint);">{% if current_language == 'en' %}Categories coming soon{% else %}Категорії скоро з'являться{% endif %}</p>
       </div>
       {% endfor %}
     </div>
-    <a href="{% url 'booking_create' %}" class="mt-4 text-sm transition-colors flex items-center gap-1 font-medium" style="color: var(--accent);">
-      {% if current_language == 'en' %}Become a partner{% else %}Стати партнером{% endif %}
-      <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
-      </svg>
-    </a>
   </section>
 
-  <!-- ── Past events recap ── -->
-  {% if past_events %}
-  <section class="max-w-6xl mx-auto px-4 sm:px-6 py-10 sm:py-14 border-t" style="border-color: var(--border);">
-    <div class="flex items-center justify-between mb-5 gap-4">
+  <!-- ── Останні події / Recent events ── -->
+  <section class="w-full py-10 sm:py-16 border-t" style="border-color: var(--border);">
+    <div class="w-full px-4 sm:px-8 lg:px-12 flex items-center justify-between mb-5 sm:mb-8 gap-4 reveal">
       <div>
-        <h2 class="text-xl sm:text-2xl md:text-3xl font-bold mb-1">{% if current_language == 'en' %}Our events{% else %}Наші івенти{% endif %}</h2>
-        <p class="text-xs sm:text-sm" style="color: var(--text-faint);">{% if current_language == 'en' %}Past events by Bavovna Event{% else %}Минулі івенти Bavovna Event{% endif %}</p>
+        <h2 class="text-xl sm:text-2xl md:text-3xl font-bold mb-1">{% if current_language == 'en' %}Recent events{% else %}Останні події{% endif %}</h2>
+        <p class="text-xs sm:text-sm" style="color: var(--text-faint);">{% if current_language == 'en' %}Upcoming and past events by Bavovna Event{% else %}Майбутні та минулі івенти Bavovna Event{% endif %}</p>
       </div>
-      <a href="{% url 'event_list' %}" class="text-sm transition-colors flex items-center gap-1 whitespace-nowrap shrink-0" style="color: var(--accent);">
+      <a href="{% url 'event_list' %}" class="link-arrow text-sm flex items-center gap-1 whitespace-nowrap shrink-0" style="color: var(--accent);">
         {% if current_language == 'en' %}All events{% else %}Всі івенти{% endif %}
         <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
         </svg>
       </a>
     </div>
-    <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
-      {% for event in past_events %}
-      <a href="{% url 'event_detail' event.pk %}" class="border rounded-2xl p-4 flex flex-col gap-2 card-border transition-colors" style="border-color: var(--border);">
-        <div class="flex items-center justify-between gap-2">
-          <h3 class="font-semibold text-sm truncate">{% lang_field event 'title' %}</h3>
-          <span class="text-xs whitespace-nowrap shrink-0" style="color: var(--text-faint);">{{ event.date|date:"M Y" }}</span>
-        </div>
-        <p class="text-xs sm:text-sm leading-relaxed line-clamp-2" style="color: var(--text-muted);">{% filter truncatewords:20 %}{% lang_field event 'description' %}{% endfilter %}</p>
-      </a>
+    <div class="flex overflow-x-auto snap-x snap-mandatory gap-4 sm:gap-6 px-4 sm:px-8 lg:px-12 pb-4 reveal-stagger">
+      {% for event in recent_public_events %}
+      <div class="reveal-item snap-start shrink-0 w-64 sm:w-80">
+        <a href="{% url 'event_detail' event.pk %}" class="h-full rounded-2xl overflow-hidden border card-border flex flex-col" style="border-color: var(--border);">
+          <div class="relative h-40 sm:h-48 w-full shrink-0" style="background: var(--surface);">
+            {% if event.cover_image %}
+            <img src="{{ event.cover_image.url }}" alt="{% lang_field event 'title' %}" class="w-full h-full object-cover">
+            {% endif %}
+            {% if event.category %}
+            <span class="absolute top-3 left-3 px-2.5 py-1 rounded-full text-[10px] font-semibold uppercase tracking-wide" style="background: rgba(0,0,0,.55); color: #fff; backdrop-filter: blur(6px);">
+              {% lang_field event.category 'name' %}
+            </span>
+            {% endif %}
+          </div>
+          <div class="p-4 flex flex-col gap-3 flex-1">
+            <h3 class="font-semibold text-sm sm:text-base leading-snug line-clamp-2">{% lang_field event 'title' %}</h3>
+            <p class="text-xs sm:text-sm" style="color: var(--text-faint);">{{ event.date|date:"d E Y, H:i" }}</p>
+            <span class="btn-accent mt-auto inline-flex items-center gap-1.5 px-4 py-2 rounded-full text-white text-xs sm:text-sm font-semibold self-start">
+              {% if current_language == 'en' %}Details{% else %}Детальніше{% endif %}
+              <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
+              </svg>
+            </span>
+          </div>
+        </a>
+      </div>
+      {% empty %}
+      <p class="text-sm px-0" style="color: var(--text-faint);">{% if current_language == 'en' %}No events yet{% else %}Поки що немає подій{% endif %}</p>
       {% endfor %}
     </div>
   </section>
-  {% endif %}
+
+  <!-- ── Partners ── -->
+  <section class="w-full py-10 sm:py-16 border-t" style="border-color: var(--border);">
+    <div class="w-full px-4 sm:px-8 lg:px-12 mb-5 sm:mb-8 reveal">
+      <h2 class="text-xl sm:text-2xl md:text-3xl font-bold mb-2">{% if current_language == 'en' %}Our partners{% else %}Наші партнери{% endif %}</h2>
+      <p class="text-sm" style="color: var(--text-muted);">{% if current_language == 'en' %}Venues and brands we work with{% else %}Локації та бренди, з якими ми працюємо{% endif %}</p>
+    </div>
+    <div class="flex overflow-x-auto snap-x snap-mandatory gap-4 sm:gap-6 px-4 sm:px-8 lg:px-12 pb-4 reveal-stagger">
+      {% for partner in partners %}
+      <div class="reveal-item snap-start shrink-0 w-[320px] sm:w-[400px]">
+        <div class="category-card h-full min-h-[280px] border rounded-3xl overflow-hidden flex flex-col" style="border-color: var(--border);">
+          <!-- Banner / logo across the top -->
+          <div class="relative h-40 sm:h-48 w-full shrink-0 overflow-hidden" style="background: var(--surface);">
+            {% if partner.logo %}
+            <img src="{{ partner.logo.url }}" alt="{{ partner.name }}" class="w-full h-full object-cover">
+            {% else %}
+            <div class="w-full h-full flex items-center justify-center"
+                 style="background: linear-gradient(135deg, color-mix(in srgb, var(--accent) 32%, transparent), color-mix(in srgb, var(--accent2) 24%, transparent));">
+              <span class="text-6xl font-bold" style="font-family: var(--font-display); color: var(--text);">{{ partner.name|first|upper }}</span>
+            </div>
+            {% endif %}
+          </div>
+          <!-- Name, description, social row -->
+          <div class="p-5 sm:p-6 flex flex-col gap-2.5 flex-1">
+            <span class="font-bold text-lg sm:text-xl leading-tight">{{ partner.name }}</span>
+            <div class="text-xs sm:text-sm leading-snug flex-1" style="color: var(--text-muted);">{% filter linebreaks %}{% lang_field partner 'description' %}{% endfilter %}</div>
+            <div class="flex items-center gap-2.5 mt-auto pt-2">
+              {% if partner.instagram %}
+              <a href="{{ partner.instagram }}" target="_blank" rel="noreferrer" aria-label="Instagram"
+                 class="flex items-center justify-center w-11 h-11 rounded-full border transition-all hover:bg-white/5 hover:border-[var(--accent)] hover:-translate-y-0.5" style="border-color: var(--border-strong);">
+                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
+                </svg>
+              </a>
+              {% endif %}
+              {% if partner.website %}
+              <a href="{{ partner.website }}" target="_blank" rel="noreferrer" aria-label="{% if current_language == 'en' %}Website{% else %}Сайт{% endif %}"
+                 class="flex items-center justify-center w-11 h-11 rounded-full border transition-all hover:bg-white/5 hover:border-[var(--accent)] hover:-translate-y-0.5" style="border-color: var(--border-strong);">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3.6 9h16.8M3.6 15h16.8M12 3a15 15 0 010 18M12 3a15 15 0 000 18"/>
+                </svg>
+              </a>
+              {% endif %}
+              {% if partner.telegram %}
+              <a href="{{ partner.telegram }}" target="_blank" rel="noreferrer" aria-label="Telegram"
+                 class="flex items-center justify-center w-11 h-11 rounded-full border transition-all hover:bg-white/5 hover:border-[var(--accent)] hover:-translate-y-0.5" style="border-color: var(--border-strong);">
+                <svg class="w-5 h-5" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/>
+                </svg>
+              </a>
+              {% endif %}
+            </div>
+          </div>
+        </div>
+      </div>
+      {% empty %}
+      <p class="text-sm" style="color: var(--text-faint);">{% if current_language == 'en' %}Partners coming soon{% else %}Партнери скоро з'являться{% endif %}</p>
+      {% endfor %}
+    </div>
+    <div class="w-full px-4 sm:px-8 lg:px-12">
+      <a href="{% url 'booking_create' %}" class="link-arrow mt-2 text-sm flex items-center gap-1 font-medium w-fit" style="color: var(--accent);">
+        {% if current_language == 'en' %}Become a partner{% else %}Стати партнером{% endif %}
+        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
+        </svg>
+      </a>
+    </div>
+  </section>
+
+  <style>
+    /* Scroll-reveal: sections fade + rise */
+    .reveal {
+      opacity: 0;
+      transform: translateY(28px);
+      transition: opacity .8s cubic-bezier(.16,.84,.44,1), transform .8s cubic-bezier(.16,.84,.44,1);
+    }
+    .reveal.is-visible { opacity: 1; transform: translateY(0); }
+
+    /* Scroll-reveal: staggered children (grid / carousels) */
+    .reveal-item {
+      opacity: 0;
+      transform: translateY(24px);
+      transition: opacity .65s cubic-bezier(.16,.84,.44,1), transform .65s cubic-bezier(.16,.84,.44,1);
+    }
+    .reveal-item.is-visible { opacity: 1; transform: translateY(0); }
+
+    /* Category cards — interactive hover (hover lives on the inner <a>,
+       reveal transform on the wrapper, so the two never fight over transform) */
+    .category-card {
+      background: var(--card-bg);
+      box-shadow: var(--card-shadow);
+      transition: transform .28s ease, box-shadow .28s ease, border-color .28s ease;
+    }
+    .category-card:hover {
+      transform: translateY(-4px) scale(1.04);
+      border-color: var(--accent) !important;
+      box-shadow: 0 20px 44px -18px rgba(0,0,0,.6),
+                  0 0 0 1px color-mix(in srgb, var(--accent) 35%, transparent);
+    }
+    /* Home-only brighter, bordered icon tints (scoped to .cat-icon so the
+       shared .chip-* class stays untouched on Gallery / Booking / Partnership) */
+    .cat-icon.chip-0 { background: color-mix(in srgb, #fb6f5d 24%, transparent); border: 1px solid color-mix(in srgb, #fb6f5d 45%, transparent); }
+    .cat-icon.chip-1 { background: color-mix(in srgb, #ffb648 24%, transparent); border: 1px solid color-mix(in srgb, #ffb648 45%, transparent); }
+    .cat-icon.chip-2 { background: color-mix(in srgb, #60a5fa 24%, transparent); border: 1px solid color-mix(in srgb, #60a5fa 45%, transparent); }
+    /* Icon: subtle radial glow behind it + bounce/rotate, both on card hover */
+    .cat-icon { position: relative; transition: transform .28s cubic-bezier(.34,1.56,.64,1); }
+    .cat-icon::after {
+      content: '';
+      position: absolute;
+      inset: -35%;
+      border-radius: inherit;
+      background: radial-gradient(circle, color-mix(in srgb, var(--accent) 50%, transparent), transparent 70%);
+      opacity: 0;
+      transform: scale(.7);
+      transition: opacity .28s ease, transform .28s ease;
+      z-index: -1;
+      pointer-events: none;
+    }
+    .category-card:hover .cat-icon { transform: scale(1.12) rotate(-6deg); }
+    .category-card:hover .cat-icon::after { opacity: 1; transform: scale(1); }
+
+    @media (prefers-reduced-motion: reduce) {
+      .reveal, .reveal-item { transition: none; }
+    }
+  </style>
+  <script>
+    (function () {
+      var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      var supportsIO = 'IntersectionObserver' in window;
+      var reveals = document.querySelectorAll('.reveal');
+      var staggers = document.querySelectorAll('.reveal-stagger');
+      var counters = document.querySelectorAll('.counter');
+
+      function showStagger(container) {
+        var items = container.querySelectorAll('.reveal-item');
+        Array.prototype.forEach.call(items, function (item, i) {
+          if (!reduce) item.style.transitionDelay = (i * 70) + 'ms';
+          item.classList.add('is-visible');
+        });
+      }
+      function hideStagger(container) {
+        var items = container.querySelectorAll('.reveal-item');
+        Array.prototype.forEach.call(items, function (item) {
+          item.style.transitionDelay = '0ms';
+          item.classList.remove('is-visible');
+        });
+      }
+
+      // Counters already render their final value in the HTML, so no-JS /
+      // reduced-motion visitors see the right number without animation.
+      if (reduce || !supportsIO) {
+        Array.prototype.forEach.call(reveals, function (el) { el.classList.add('is-visible'); });
+        Array.prototype.forEach.call(staggers, showStagger);
+        return;
+      }
+
+      // Keep observing (no unobserve): reveals replay every time a section
+      // re-enters the viewport — scroll down past it, back up, down again and
+      // the fade/rise fires each pass.
+      var io = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+          var el = entry.target;
+          if (el.classList.contains('reveal-stagger')) {
+            if (entry.isIntersecting) showStagger(el);
+            else hideStagger(el);
+          } else {
+            el.classList.toggle('is-visible', entry.isIntersecting);
+          }
+        });
+      }, { threshold: 0.12, rootMargin: '0px 0px -60px 0px' });
+      Array.prototype.forEach.call(reveals, function (el) { io.observe(el); });
+      Array.prototype.forEach.call(staggers, function (el) { io.observe(el); });
+
+      function animateCounter(el) {
+        var target = parseInt(el.getAttribute('data-count-to'), 10);
+        if (isNaN(target)) return;
+        var dur = 1400, start = null;
+        function step(ts) {
+          if (start === null) start = ts;
+          var p = Math.min((ts - start) / dur, 1);
+          var eased = 1 - Math.pow(1 - p, 3);
+          el.textContent = Math.round(target * eased);
+          if (p < 1) requestAnimationFrame(step);
+          else el.textContent = target;
+        }
+        requestAnimationFrame(step);
+      }
+      // Re-run the count-up each time the stats re-enter view, matching the
+      // replaying scroll-reveal above.
+      var cio = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+          if (entry.isIntersecting) animateCounter(entry.target);
+        });
+      }, { threshold: 0.5 });
+      Array.prototype.forEach.call(counters, function (el) { cio.observe(el); });
+    })();
+  </script>
 
 {% endblock %}
