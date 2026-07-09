@@ -136,4 +136,4 @@ def category_detail(request, slug):
         'category': category,
         'events': events,
     }
-    return render(request, 'events/category_detail.html', context)
+    return render(request, f'events/categories/{slug}.html', context)

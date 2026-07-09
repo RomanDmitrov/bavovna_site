@@ -24,10 +24,13 @@
           <stop offset="1" stop-color="#fff" stop-opacity="0"/>
         </linearGradient>
       </defs>
+      <!-- Inline styles keep the paths fully hidden (no fill, dash-offset past any
+           possible length) before the CSS/JS below has run, so the outline can
+           never flash fully drawn on first paint -->
       <g class="bavovna-intro-base" fill="#FFFFFF">
-        <path d="M44.7,19.4v3.7c0,0.3,0.2,0.6,0.4,0.8l44.6,31.2c0.3,0.2,0.4,0.5,0.4,0.8v6.3c0,0.3,0.2,0.6,0.4,0.8l3,2.1
+        <path style="fill-opacity:0;stroke-dasharray:4000;stroke-dashoffset:4000" d="M44.7,19.4v3.7c0,0.3,0.2,0.6,0.4,0.8l44.6,31.2c0.3,0.2,0.4,0.5,0.4,0.8v6.3c0,0.3,0.2,0.6,0.4,0.8l3,2.1
           c0.7,0.5,1.6,0,1.6-0.8v-11c0-0.3-0.2-0.6-0.4-0.8L46.3,18.6C45.6,18.1,44.7,18.6,44.7,19.4z"/>
-        <path d="M95.2,72.9v16.4c0,0.3-0.2,0.6-0.4,0.8l-44.5,31.1c-0.3,0.2-0.8,0.2-1.1,0l-4-2.8c-0.3-0.2-0.4-0.5-0.4-0.8
+        <path style="fill-opacity:0;stroke-dasharray:4000;stroke-dashoffset:4000" d="M95.2,72.9v16.4c0,0.3-0.2,0.6-0.4,0.8l-44.5,31.1c-0.3,0.2-0.8,0.2-1.1,0l-4-2.8c-0.3-0.2-0.4-0.5-0.4-0.8
           v-16.8c0-0.3,0.2-0.6,0.4-0.8l23.2-16.3c0.7-0.5,1.6,0,1.6,0.8v3.7c0,0.3-0.2,0.6-0.4,0.8l-19.4,13.6c-0.3,0.2-0.4,0.5-0.4,0.8
           v10.2c0,0.8,0.9,1.3,1.6,0.8l38.4-26.9c0.3-0.2,0.4-0.5,0.4-0.8V75.6c0-0.3-0.2-0.6-0.4-0.8L51.3,47.8c-0.7-0.5-1.6,0-1.6,0.8v19.3
           c0,0.8-0.9,1.3-1.6,0.8l-3-2.1c-0.3-0.2-0.4-0.5-0.4-0.8V44.6c0-0.3,0.2-0.6,0.4-0.8l4-2.8c0.3-0.2,0.8-0.2,1.1,0l44.4,31.1
@@ -52,9 +55,9 @@
       align-items: center;
       justify-content: center;
       overflow: hidden;
-      /* 4.2–5.0s cross-dissolve to the page underneath (after a 3.4–4.2s
+      /* 4.3–5.3s cross-dissolve to the page underneath (after a 3.8–4.3s
          static hold on the fully rendered mark) */
-      animation: b-intro-dissolve 0.8s ease-in-out 4.2s forwards;
+      animation: b-intro-dissolve 1s ease-in-out 4.3s forwards;
     }
     #bavovna-intro.is-active { display: flex; }
     html.bavovna-intro-lock { overflow: hidden; }
@@ -64,27 +67,34 @@
       height: auto;
       will-change: transform;
       /* gentle drift outward while the container dissolves */
-      animation: b-intro-drift 0.8s ease-in-out 4.2s forwards;
+      animation: b-intro-drift 1s ease-in-out 4.3s forwards;
     }
 
-    /* 0–2.2s line-draw: paths start as outline only; JS animates the
-       dashoffset trace and cross-dissolves stroke→fill over its tail */
+    /* 0–1s pure black, then 1–2.8s line-draw: paths start fully hidden
+       via inline dash styles in the markup (so nothing can flash before
+       CSS/JS runs); JS swaps in each path's exact length and draws all
+       segments simultaneously — each animating its own length over the same
+       window — then cross-dissolves stroke→fill over the shared tail */
+    /* Stroke stays in SVG user units (no non-scaling-stroke): browsers
+       disagree on which coordinate space dashes use with that effect, and
+       getTotalLength() is always user-space — mixing the two leaves the
+       dash pattern repeating along the path (visible chunks during the
+       black pause, a fragmented draw) instead of hiding/tracing it */
     #bavovna-intro .bavovna-intro-base path {
       fill-opacity: 0;
       stroke: #fff;
-      stroke-width: 2;
-      vector-effect: non-scaling-stroke;
+      stroke-width: 0.9;
       stroke-linecap: round;
       stroke-linejoin: round;
     }
 
-    /* 2.2–3.4s sheen sweep (SVG user units); the base mark dims so the
+    /* 2.8–3.8s sheen sweep (SVG user units); the base mark dims so the
        pure-white streak reads as a glint against it */
     #bavovna-intro .bavovna-intro-sheen {
-      animation: b-intro-sheen 1.2s cubic-bezier(0.45, 0, 0.55, 1) 2.2s forwards;
+      animation: b-intro-sheen 1s cubic-bezier(0.45, 0, 0.55, 1) 2.8s forwards;
     }
     #bavovna-intro .bavovna-intro-base {
-      animation: b-intro-dim 1.2s ease-in-out 2.2s forwards;
+      animation: b-intro-dim 1s ease-in-out 2.8s forwards;
     }
 
     @keyframes b-intro-sheen {
@@ -122,33 +132,55 @@
       try { sessionStorage.setItem(KEY, '1'); } catch (e) {}
       document.documentElement.classList.add('bavovna-intro-lock');
       intro.classList.add('is-active');
-      // Stage 1 (0–2.2s): trace each outline, then cross-fade to solid fill
+      // Stage 0 (0–1s): solid black, nothing drawn yet.
+      // Stage 1 (1–2.8s): all segments draw simultaneously, each as a
+      // percentage of its own length over the same window with the same
+      // easing, so every segment sits at the same relative completion at
+      // any instant and the mark reveals as one symmetric motion.
+      var BLACK_PAUSE = 1000;
+      var DRAW_TOTAL = 1800;
       var paths = intro.querySelectorAll('.bavovna-intro-base path');
-      Array.prototype.forEach.call(paths, function (path, i) {
-        var len = path.getTotalLength();
-        path.style.strokeDasharray = len;
-        path.style.strokeDashoffset = len;
-        if (!path.animate) {
-          // No Web Animations API: skip the trace, show the solid mark
-          path.style.fillOpacity = '1';
-          path.style.stroke = 'none';
-          return;
-        }
-        path.animate(
-          [{ strokeDashoffset: len }, { strokeDashoffset: 0 }],
-          { duration: 1600, delay: i * 200, easing: 'cubic-bezier(0.45, 0, 0.55, 1)', fill: 'forwards' }
-        );
-        // Cross-dissolve starts ~75% through this path's trace so stroke
-        // and fill overlap instead of a hard cut when the outline finishes
-        path.animate(
-          [{ fillOpacity: 0, strokeOpacity: 1 }, { fillOpacity: 1, strokeOpacity: 0 }],
-          { duration: 800, delay: i * 200 + 1200, easing: 'ease-in-out', fill: 'forwards' }
-        );
-      });
+      // Failsafe registered before any fragile work: whatever happens with
+      // measurement or the animation APIs below, the overlay always leaves
+      // the page on schedule instead of stranding a frozen frame on top
       window.setTimeout(function () {
         intro.remove();
         document.documentElement.classList.remove('bavovna-intro-lock');
-      }, 5000);
+      }, 5300);
+      function showSolidMark() {
+        Array.prototype.forEach.call(paths, function (path) {
+          path.style.strokeDasharray = 'none';
+          path.style.strokeDashoffset = '0';
+          path.style.fillOpacity = '1';
+          path.style.stroke = 'none';
+        });
+      }
+      try {
+        if (!paths.length || !paths[0].animate) { throw new Error('WAAPI unavailable'); }
+        Array.prototype.forEach.call(paths, function (path) {
+          // +2 buffer so rendering-precision differences between
+          // getTotalLength() and the rasterised dash can't leave a seam
+          // dot at the start or a hairline gap at the end of the trace
+          var len = path.getTotalLength() + 2;
+          path.style.strokeDasharray = len;
+          path.style.strokeDashoffset = len;
+          path.animate(
+            [{ strokeDashoffset: len }, { strokeDashoffset: 0 }],
+            { duration: DRAW_TOTAL, delay: BLACK_PAUSE, easing: 'cubic-bezier(0.45, 0, 0.55, 1)', fill: 'forwards' }
+          );
+          // Cross-dissolve starts ~75% through the shared draw window so
+          // stroke and fill overlap instead of a hard cut when the outlines
+          // finish; it completes with the draw stage, before the sheen starts
+          path.animate(
+            [{ fillOpacity: 0, strokeOpacity: 1 }, { fillOpacity: 1, strokeOpacity: 0 }],
+            { duration: DRAW_TOTAL * 0.25, delay: BLACK_PAUSE + DRAW_TOTAL * 0.75, easing: 'ease-in-out', fill: 'forwards' }
+          );
+        });
+      } catch (e) {
+        // No Web Animations API, or anything above threw: skip the trace
+        // and show the solid mark once the black pause has elapsed
+        window.setTimeout(showSolidMark, BLACK_PAUSE);
+      }
     })();
   </script>
 

@@ -39,8 +39,3 @@ class GalleryItemAdmin(admin.ModelAdmin):
     list_filter = ['event']
 
 
-@admin.register(Category)
-class CategoryAdmin(admin.ModelAdmin):
-    list_display = ['name_ua', 'slug', 'order', 'is_active']
-    list_editable = ['order', 'is_active']
-    prepopulated_fields = {'slug': ('name_ua',)}
