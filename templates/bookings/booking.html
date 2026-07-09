@@ -4,102 +4,141 @@
 {% block title %}{% if current_language == 'en' %}Book an Event{% else %}Замовити івент{% endif %}{% endblock %}
 
 {% block content %}
-<div class="max-w-3xl mx-auto px-4 sm:px-6 py-10 sm:py-14">
+<div class="w-full px-4 sm:px-8 lg:px-12 py-10 sm:py-14">
 
   <h1 class="text-2xl sm:text-4xl font-bold mb-2 tracking-tight">{% if current_language == 'en' %}Book an Event{% else %}Замовити івент{% endif %}</h1>
-  <p class="text-sm mb-8" style="color: var(--text-muted);">{% if current_language == 'en' %}Tell us about your idea — we'll get in touch and help organise everything.{% else %}Розкажіть нам про свою ідею — ми зв'яжемося та допоможемо все організувати.{% endif %}</p>
+  <p class="text-sm mb-10" style="color: var(--text-muted);">{% if current_language == 'en' %}Tell us about your idea — we'll get in touch and help organise everything.{% else %}Розкажіть нам про свою ідею — ми зв'яжемося та допоможемо все організувати.{% endif %}</p>
 
-  <!-- ── How it works ── -->
-  <div class="mb-8">
-    <h2 class="text-lg sm:text-xl font-bold mb-5">{% if current_language == 'en' %}How it works{% else %}Як це відбувається{% endif %}</h2>
-    <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
-      <div>
-        <span class="inline-flex items-center justify-center w-10 h-10 rounded-full text-base font-bold mb-2 chip-0">01</span>
-        <h3 class="font-semibold mt-2 mb-1 text-sm">{% if current_language == 'en' %}Request{% else %}Заявка{% endif %}</h3>
-        <p class="text-sm" style="color: var(--text-muted);">{% if current_language == 'en' %}Fill in the form with your event details{% else %}Заповнюєш форму з деталями твого івенту{% endif %}</p>
-      </div>
-      <div>
-        <span class="inline-flex items-center justify-center w-10 h-10 rounded-full text-base font-bold mb-2 chip-1">02</span>
-        <h3 class="font-semibold mt-2 mb-1 text-sm">{% if current_language == 'en' %}Discussion{% else %}Обговорення{% endif %}</h3>
-        <p class="text-sm" style="color: var(--text-muted);">{% if current_language == 'en' %}We get in touch via Telegram or email to clarify details and budget{% else %}Зв'язуємося в Telegram або email, уточнюємо деталі та бюджет{% endif %}</p>
-      </div>
-      <div>
-        <span class="inline-flex items-center justify-center w-10 h-10 rounded-full text-base font-bold mb-2 chip-2">03</span>
-        <h3 class="font-semibold mt-2 mb-1 text-sm">{% if current_language == 'en' %}Organisation{% else %}Організація{% endif %}</h3>
-        <p class="text-sm" style="color: var(--text-muted);">{% if current_language == 'en' %}We take care of everything — venue, decor, programme{% else %}Беремо все на себе — локація, декор, програма{% endif %}</p>
+  <div class="grid lg:grid-cols-2 gap-8 lg:gap-14 items-start">
+
+    <!-- ── How it works ── -->
+    <div>
+      <h2 class="text-lg sm:text-xl font-bold mb-5">{% if current_language == 'en' %}How it works{% else %}Як це відбувається{% endif %}</h2>
+      <div class="space-y-4">
+        <div class="step-card border rounded-2xl p-5 flex gap-4" style="border-color: var(--border);">
+          <span class="step-num inline-flex items-center justify-center w-10 h-10 rounded-full text-base font-bold shrink-0 chip-0">1</span>
+          <div>
+            <h3 class="font-semibold mb-1 text-sm">{% if current_language == 'en' %}Request{% else %}Заявка{% endif %}</h3>
+            <p class="text-sm" style="color: var(--text-muted);">{% if current_language == 'en' %}Fill in the form below with the details of your event — the more you share, the better.{% else %}Заповнюєш форму нижче з деталями свого івенту — що більше розкажеш, то краще.{% endif %}</p>
+          </div>
+        </div>
+        <div class="step-card border rounded-2xl p-5 flex gap-4" style="border-color: var(--border);">
+          <span class="step-num inline-flex items-center justify-center w-10 h-10 rounded-full text-base font-bold shrink-0 chip-1">2</span>
+          <div>
+            <h3 class="font-semibold mb-1 text-sm">{% if current_language == 'en' %}Discussion{% else %}Обговорення{% endif %}</h3>
+            <p class="text-sm" style="color: var(--text-muted);">{% if current_language == 'en' %}We reach out on Telegram or by email, work through the details, date and budget together, and confirm your booking.{% else %}Звʼязуємося з тобою в Telegram чи по email, разом узгоджуємо деталі, дату та бюджет — і підтверджуємо замовлення.{% endif %}</p>
+          </div>
+        </div>
+        <div class="step-card border rounded-2xl p-5 flex gap-4" style="border-color: var(--border);">
+          <span class="step-num inline-flex items-center justify-center w-10 h-10 rounded-full text-base font-bold shrink-0 chip-2">3</span>
+          <div>
+            <h3 class="font-semibold mb-1 text-sm">{% if current_language == 'en' %}Organisation{% else %}Організація{% endif %}</h3>
+            <p class="text-sm" style="color: var(--text-muted);">{% if current_language == 'en' %}From there we take care of everything — venue, decor, programme and suppliers. You just show up and enjoy the celebration.{% else %}Далі все беремо на себе: локація, декор, програма та підрядники. Тобі лишається прийти й насолоджуватися святом.{% endif %}</p>
+          </div>
+        </div>
       </div>
     </div>
+
+    <!-- ── Booking form ── -->
+    <form method="post" action="" class="border rounded-2xl p-5 sm:p-7 space-y-4 card-border" style="border-color: var(--border);">
+      {% csrf_token %}
+
+      <div class="grid sm:grid-cols-2 gap-4">
+        <div class="field">
+          <label class="block text-sm mb-1.5" style="color: var(--text-muted);">{% if current_language == 'en' %}Name *{% else %}Ім'я *{% endif %}</label>
+          <input type="text" name="name" required placeholder="{% if current_language == 'en' %}Your name{% else %}Ваше ім'я{% endif %}"
+                 class="form-input w-full px-4 py-3 rounded-xl border text-sm focus:outline-none"
+                 style="background: var(--surface); border-color: var(--border); color: var(--text);">
+        </div>
+        <div class="field">
+          <label class="block text-sm mb-1.5" style="color: var(--text-muted);">Email</label>
+          <input type="email" name="email" placeholder="email@example.com"
+                 class="form-input w-full px-4 py-3 rounded-xl border text-sm focus:outline-none"
+                 style="background: var(--surface); border-color: var(--border); color: var(--text);">
+        </div>
+      </div>
+
+      <div class="grid sm:grid-cols-2 gap-4">
+        <div class="field">
+          <label class="block text-sm mb-1.5" style="color: var(--text-muted);">{% if current_language == 'en' %}Phone{% else %}Телефон{% endif %}</label>
+          <input type="tel" name="phone" placeholder="+353..."
+                 class="form-input w-full px-4 py-3 rounded-xl border text-sm focus:outline-none"
+                 style="background: var(--surface); border-color: var(--border); color: var(--text);">
+        </div>
+        <div class="field">
+          <label class="block text-sm mb-1.5" style="color: var(--text-muted);">Telegram</label>
+          <input type="text" name="telegram" placeholder="@username"
+                 class="form-input w-full px-4 py-3 rounded-xl border text-sm focus:outline-none"
+                 style="background: var(--surface); border-color: var(--border); color: var(--text);">
+        </div>
+      </div>
+
+      <div class="field">
+        <label class="block text-sm mb-1.5" style="color: var(--text-muted);">{% if current_language == 'en' %}Event type{% else %}Тип івенту{% endif %}</label>
+        <select name="category"
+                class="form-input w-full px-4 py-3 rounded-xl border text-sm focus:outline-none"
+                style="background: var(--surface); border-color: var(--border); color: var(--text);">
+          <option value="">{% if current_language == 'en' %}Select event type{% else %}Оберіть тип івенту{% endif %}</option>
+          {% for category in categories %}
+          <option value="{{ category.id }}">{% lang_field category 'name' %}</option>
+          {% endfor %}
+        </select>
+      </div>
+
+      <div class="grid sm:grid-cols-2 gap-4">
+        <div class="field">
+          <label class="block text-sm mb-1.5" style="color: var(--text-muted);">{% if current_language == 'en' %}Number of guests{% else %}Кількість гостей{% endif %}</label>
+          <input type="number" min="1" name="guests" placeholder="{% if current_language == 'en' %}e.g. 30{% else %}наприклад, 30{% endif %}"
+                 class="form-input w-full px-4 py-3 rounded-xl border text-sm focus:outline-none"
+                 style="background: var(--surface); border-color: var(--border); color: var(--text);">
+        </div>
+        <div class="field">
+          <label class="block text-sm mb-1.5" style="color: var(--text-muted);">{% if current_language == 'en' %}Budget (optional){% else %}Бюджет (необов'язково){% endif %}</label>
+          <input type="text" name="budget" placeholder="€..."
+                 class="form-input w-full px-4 py-3 rounded-xl border text-sm focus:outline-none"
+                 style="background: var(--surface); border-color: var(--border); color: var(--text);">
+        </div>
+      </div>
+
+      <div class="field">
+        <label class="block text-sm mb-1.5" style="color: var(--text-muted);">{% if current_language == 'en' %}Message{% else %}Повідомлення{% endif %}</label>
+        <textarea name="message" rows="4" placeholder="{% if current_language == 'en' %}Date, venue, ideas, wishes...{% else %}Дата, місце, ідеї, побажання...{% endif %}"
+                  class="form-input w-full px-4 py-3 rounded-xl border text-sm resize-none focus:outline-none"
+                  style="background: var(--surface); border-color: var(--border); color: var(--text);"></textarea>
+      </div>
+
+      <button type="submit"
+              class="btn-accent w-full py-3.5 rounded-full font-semibold text-white">
+        {% if current_language == 'en' %}Send request{% else %}Надіслати заявку{% endif %}
+      </button>
+    </form>
+
   </div>
-
-  <!-- ── Booking form ── -->
-  <form method="post" action="" class="space-y-4">
-    {% csrf_token %}
-
-    <div class="grid sm:grid-cols-2 gap-4">
-      <div>
-        <label class="block text-sm mb-1.5" style="color: var(--text-muted);">{% if current_language == 'en' %}Name *{% else %}Ім'я *{% endif %}</label>
-        <input type="text" name="name" required placeholder="{% if current_language == 'en' %}Your name{% else %}Ваше ім'я{% endif %}"
-               class="w-full px-4 py-3 rounded-xl border text-sm focus:outline-none transition-colors"
-               style="background: var(--surface); border-color: var(--border); color: var(--text);">
-      </div>
-      <div>
-        <label class="block text-sm mb-1.5" style="color: var(--text-muted);">Email</label>
-        <input type="email" name="email" placeholder="email@example.com"
-               class="w-full px-4 py-3 rounded-xl border text-sm focus:outline-none transition-colors"
-               style="background: var(--surface); border-color: var(--border); color: var(--text);">
-      </div>
-    </div>
-
-    <div class="grid sm:grid-cols-2 gap-4">
-      <div>
-        <label class="block text-sm mb-1.5" style="color: var(--text-muted);">{% if current_language == 'en' %}Phone{% else %}Телефон{% endif %}</label>
-        <input type="tel" name="phone" placeholder="+353..."
-               class="w-full px-4 py-3 rounded-xl border text-sm focus:outline-none transition-colors"
-               style="background: var(--surface); border-color: var(--border); color: var(--text);">
-      </div>
-      <div>
-        <label class="block text-sm mb-1.5" style="color: var(--text-muted);">Telegram</label>
-        <input type="text" name="telegram" placeholder="@username"
-               class="w-full px-4 py-3 rounded-xl border text-sm focus:outline-none transition-colors"
-               style="background: var(--surface); border-color: var(--border); color: var(--text);">
-      </div>
-    </div>
-
-    <div>
-      <label class="block text-sm mb-1.5" style="color: var(--text-muted);">{% if current_language == 'en' %}Event type{% else %}Тип івенту{% endif %}</label>
-      <input type="text" name="event_type" placeholder="{% if current_language == 'en' %}Birthday, wedding, corporate event...{% else %}День народження, весілля, корпоратив...{% endif %}"
-             class="w-full px-4 py-3 rounded-xl border text-sm focus:outline-none transition-colors"
-             style="background: var(--surface); border-color: var(--border); color: var(--text);">
-    </div>
-
-    <div class="grid sm:grid-cols-2 gap-4">
-      <div>
-        <label class="block text-sm mb-1.5" style="color: var(--text-muted);">{% if current_language == 'en' %}Number of guests{% else %}Кількість гостей{% endif %}</label>
-        <input type="number" min="1" name="guests" placeholder="{% if current_language == 'en' %}e.g. 30{% else %}наприклад, 30{% endif %}"
-               class="w-full px-4 py-3 rounded-xl border text-sm focus:outline-none transition-colors"
-               style="background: var(--surface); border-color: var(--border); color: var(--text);">
-      </div>
-      <div>
-        <label class="block text-sm mb-1.5" style="color: var(--text-muted);">{% if current_language == 'en' %}Budget (optional){% else %}Бюджет (необов'язково){% endif %}</label>
-        <input type="text" name="budget" placeholder="€..."
-               class="w-full px-4 py-3 rounded-xl border text-sm focus:outline-none transition-colors"
-               style="background: var(--surface); border-color: var(--border); color: var(--text);">
-      </div>
-    </div>
-
-    <div>
-      <label class="block text-sm mb-1.5" style="color: var(--text-muted);">{% if current_language == 'en' %}Message{% else %}Повідомлення{% endif %}</label>
-      <textarea name="message" rows="4" placeholder="{% if current_language == 'en' %}Date, venue, ideas, wishes...{% else %}Дата, місце, ідеї, побажання...{% endif %}"
-                class="w-full px-4 py-3 rounded-xl border text-sm resize-none focus:outline-none transition-colors"
-                style="background: var(--surface); border-color: var(--border); color: var(--text);"></textarea>
-    </div>
-
-    <button type="submit"
-            class="w-full py-3.5 rounded-full font-semibold text-white transition-all"
-            style="background: var(--accent-bg);">
-      {% if current_language == 'en' %}Send request{% else %}Надіслати заявку{% endif %}
-    </button>
-  </form>
-
 </div>
+
+<style>
+  .step-card {
+    background: var(--card-bg);
+    box-shadow: var(--card-shadow);
+    transition: transform .25s ease, box-shadow .25s ease, border-color .25s ease;
+  }
+  .step-card:hover {
+    transform: translateY(-3px);
+    border-color: var(--accent) !important;
+    box-shadow: var(--card-shadow-hover);
+  }
+  .step-card .step-num { transition: transform .25s cubic-bezier(.34,1.56,.64,1); }
+  .step-card:hover .step-num { transform: scale(1.12) rotate(-6deg); }
+
+  .form-input { transition: border-color .2s ease, box-shadow .2s ease, background-color .2s ease; }
+  .form-input:focus {
+    border-color: var(--accent) !important;
+    box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 22%, transparent);
+    background: var(--surface-strong);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .step-card, .step-card .step-num, .form-input { transition: none; }
+  }
+</style>
 {% endblock %}

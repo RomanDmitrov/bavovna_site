@@ -14,19 +14,28 @@ from django.db.models import Q
 
 # Create your views here.
 def event_list(request):
+    category_slug = request.GET.get('category')
+
     # Все опубликованые будущие ивенты
     upcoming_events = Event.objects.filter(
         is_published=True,
         date__gte=timezone.now()
     ).order_by('date')
 
+    if category_slug:
+        upcoming_events = upcoming_events.filter(category__slug=category_slug)
+
     upcoming_event = upcoming_events.first()
     future_events = upcoming_events[1:] if upcoming_event else []
+
+    categories = Category.objects.filter(is_active=True)
 
 
     context = {
         'upcoming_event': upcoming_event,
         'future_events': future_events,
+        'categories': categories,
+        'selected_category': category_slug,
     }
 
     return render(request, 'events/event_list.html', context)
@@ -54,13 +63,32 @@ def event_detail(request, pk):
 
 
 def gallery(request):
+    category_slug = request.GET.get('category')
+    date_from = request.GET.get('date_from')
+    date_to = request.GET.get('date_to')
+
     events = Event.objects.filter(
         is_published=True,
         date__lt=timezone.now()
     ).order_by('-date')
 
+    if category_slug:
+        events = events.filter(category__slug=category_slug)
+
+    if date_from:
+        events = events.filter(date__gte=date_from)
+
+    if date_to:
+        events = events.filter(date__lte=date_to)
+
+    categories = Category.objects.filter(is_active=True)
+
     context = {
         'events': events,
+        'categories': categories,
+        'selected_category': category_slug,
+        'date_from': date_from,
+        'date_to': date_to,
     }
 
     return render(request, 'events/gallery.html', context)

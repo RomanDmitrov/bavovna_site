@@ -1,0 +1,140 @@
+{% extends 'base.html' %}
+
+{% block title %}{% if current_language == 'en' %}Privacy Policy{% else %}Політика конфіденційності{% endif %}{% endblock %}
+
+{% block content %}
+<div class="max-w-3xl mx-auto px-4 sm:px-6 py-12 sm:py-16">
+
+  <p class="text-xs font-semibold tracking-[.25em] uppercase mb-3" style="color: var(--accent);">{% if current_language == 'en' %}Legal{% else %}Правова інформація{% endif %}</p>
+  <h1 class="text-2xl sm:text-4xl font-bold mb-3 tracking-tight">{% if current_language == 'en' %}Privacy Policy{% else %}Політика конфіденційності{% endif %}</h1>
+  <p class="text-sm mb-10" style="color: var(--text-faint);">{% if current_language == 'en' %}Last updated: 10 July 2026{% else %}Останнє оновлення: 10 липня 2026{% endif %}</p>
+
+  <div class="legal-body space-y-8 text-sm leading-relaxed" style="color: var(--text-muted);">
+
+    {% if current_language == 'en' %}
+    <section>
+      <p>Bavovna Event ("we", "us", "our") organises parties, concerts, weddings and corporate events in Dublin, Ireland. This Privacy Policy explains what personal information we collect through this website, why we collect it, and the choices you have. We are committed to handling your data lawfully, fairly and transparently under the EU General Data Protection Regulation (GDPR) and the Irish Data Protection Act 2018.</p>
+    </section>
+
+    <section>
+      <h2 class="legal-h2">1. Who we are</h2>
+      <p>Bavovna Event is an events organiser based in Dublin. For any privacy question you can reach us at <a href="mailto:bavovna.event.ireland@gmail.com" class="legal-link">bavovna.event.ireland@gmail.com</a>. We act as the data controller for the information you submit through this site.</p>
+    </section>
+
+    <section>
+      <h2 class="legal-h2">2. What we collect</h2>
+      <p>We only collect what you choose to give us. When you complete our booking or partnership forms, that typically includes:</p>
+      <ul class="legal-ul">
+        <li>your name or company name;</li>
+        <li>contact details such as email address, phone number or Telegram handle;</li>
+        <li>event details you share with us — event type, approximate number of guests, budget range and the message you write;</li>
+        <li>basic technical information your browser sends automatically, such as approximate region and device type.</li>
+      </ul>
+      <p>We do not ask for, and please do not send us, special-category data (for example health, religious or political information) or payment card numbers through these forms.</p>
+    </section>
+
+    <section>
+      <h2 class="legal-h2">3. Why we use it and our legal basis</h2>
+      <ul class="legal-ul">
+        <li><strong>To respond to your enquiry</strong> and prepare a proposal for your event — this is necessary to take steps at your request before entering into a contract.</li>
+        <li><strong>To organise and deliver an event</strong> you book with us — performance of our contract with you.</li>
+        <li><strong>To keep records and improve our service</strong> — our legitimate interest in running and developing the business, balanced against your rights.</li>
+        <li><strong>To send occasional updates</strong> about our events, only where you have asked us to — your consent, which you may withdraw at any time.</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2 class="legal-h2">4. Sharing your information</h2>
+      <p>We never sell your data. We share it only where it is needed to answer you or run your event — for example with a specific venue, contractor or service provider working on that event, and with the service that delivers our form notifications by email. These providers may process data outside Ireland; where they do, we rely on appropriate safeguards such as the European Commission's Standard Contractual Clauses. We may also disclose information where the law requires it.</p>
+    </section>
+
+    <section>
+      <h2 class="legal-h2">5. How long we keep it</h2>
+      <p>Enquiries that do not lead to a booking are kept for up to 24 months so we can follow up, then deleted. Information relating to events we deliver is kept for as long as needed to fulfil the booking and to meet legal and accounting obligations, after which it is securely erased.</p>
+    </section>
+
+    <section>
+      <h2 class="legal-h2">6. Your rights</h2>
+      <p>Under the GDPR you have the right to access, correct, erase, restrict or object to the processing of your personal data, and the right to data portability. You can exercise these rights — or ask a question — by emailing us. See our <a href="{% url 'gdpr_policy' %}" class="legal-link">GDPR Data Request Policy</a> for how requests are handled. You also have the right to lodge a complaint with the Irish Data Protection Commission (dataprotection.ie).</p>
+    </section>
+
+    <section>
+      <h2 class="legal-h2">7. Cookies</h2>
+      <p>This site uses only the minimal storage needed to remember your language and light/dark theme choice on your own device. We do not use advertising or cross-site tracking cookies.</p>
+    </section>
+
+    <section>
+      <h2 class="legal-h2">8. Changes to this policy</h2>
+      <p>We may update this policy from time to time. The date at the top shows when it was last revised; significant changes will be reflected here.</p>
+    </section>
+    {% else %}
+    <section>
+      <p>Bavovna Event («ми», «нас», «наш») організовує вечірки, концерти, весілля та корпоративи в Дубліні, Ірландія. Ця Політика конфіденційності пояснює, яку персональну інформацію ми збираємо через цей вебсайт, навіщо ми це робимо та які у вас є права. Ми обробляємо ваші дані законно, справедливо та прозоро відповідно до Загального регламенту ЄС про захист даних (GDPR) та ірландського Закону про захист даних 2018 року.</p>
+    </section>
+
+    <section>
+      <h2 class="legal-h2">1. Хто ми</h2>
+      <p>Bavovna Event — організатор івентів у Дубліні. З будь-яких питань щодо конфіденційності пишіть на <a href="mailto:bavovna.event.ireland@gmail.com" class="legal-link">bavovna.event.ireland@gmail.com</a>. Ми виступаємо контролером даних, які ви надсилаєте через цей сайт.</p>
+    </section>
+
+    <section>
+      <h2 class="legal-h2">2. Що ми збираємо</h2>
+      <p>Ми збираємо лише те, що ви вирішуєте нам надати. Коли ви заповнюєте форму бронювання або партнерства, зазвичай це:</p>
+      <ul class="legal-ul">
+        <li>ваше імʼя або назва компанії;</li>
+        <li>контактні дані — email, номер телефону чи Telegram;</li>
+        <li>деталі івенту, якими ви ділитесь — тип події, орієнтовна кількість гостей, бюджет і текст повідомлення;</li>
+        <li>базова технічна інформація, яку автоматично надсилає ваш браузер, наприклад приблизний регіон і тип пристрою.</li>
+      </ul>
+      <p>Ми не запитуємо — і просимо не надсилати через ці форми — дані особливих категорій (наприклад про здоровʼя, релігійні чи політичні погляди) або номери платіжних карток.</p>
+    </section>
+
+    <section>
+      <h2 class="legal-h2">3. Навіщо ми це використовуємо та правова підстава</h2>
+      <ul class="legal-ul">
+        <li><strong>Щоб відповісти на ваш запит</strong> і підготувати пропозицію для вашого івенту — це необхідно для дій на ваше прохання до укладення договору.</li>
+        <li><strong>Щоб організувати та провести івент</strong>, який ви замовляєте — виконання договору з вами.</li>
+        <li><strong>Щоб вести облік і покращувати сервіс</strong> — наш законний інтерес у веденні та розвитку бізнесу з урахуванням ваших прав.</li>
+        <li><strong>Щоб зрідка надсилати новини</strong> про наші івенти — лише якщо ви цього попросили, на підставі вашої згоди, яку можна відкликати будь-коли.</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2 class="legal-h2">4. Передача інформації</h2>
+      <p>Ми ніколи не продаємо ваші дані. Ми передаємо їх лише тоді, коли це потрібно, щоб відповісти вам або провести івент — наприклад конкретній локації, підряднику чи постачальнику послуг, залученому до цієї події, а також сервісу, який доставляє нам сповіщення з форм на пошту. Ці постачальники можуть обробляти дані за межами Ірландії; у такому разі ми покладаємось на належні гарантії, як-от Стандартні договірні положення Європейської Комісії. Ми також можемо розкрити інформацію, якщо цього вимагає закон.</p>
+    </section>
+
+    <section>
+      <h2 class="legal-h2">5. Скільки ми зберігаємо</h2>
+      <p>Запити, які не призвели до бронювання, зберігаються до 24 місяців, щоб ми могли звʼязатися повторно, після чого видаляються. Інформація щодо проведених івентів зберігається стільки, скільки потрібно для виконання замовлення та дотримання юридичних і бухгалтерських обовʼязків, після чого безпечно видаляється.</p>
+    </section>
+
+    <section>
+      <h2 class="legal-h2">6. Ваші права</h2>
+      <p>Згідно з GDPR ви маєте право на доступ, виправлення, видалення, обмеження чи заперечення проти обробки ваших персональних даних, а також право на перенесення даних. Скористатися цими правами — чи поставити запитання — можна, написавши нам на пошту. Порядок опрацювання описано в <a href="{% url 'gdpr_policy' %}" class="legal-link">Політиці запитів даних (GDPR)</a>. Ви також маєте право подати скаргу до Ірландської комісії із захисту даних (dataprotection.ie).</p>
+    </section>
+
+    <section>
+      <h2 class="legal-h2">7. Файли cookie</h2>
+      <p>Сайт використовує лише мінімальне сховище, потрібне, щоб запамʼятати вибір мови та світлої/темної теми на вашому пристрої. Ми не використовуємо рекламні чи міжсайтові трекінгові cookie.</p>
+    </section>
+
+    <section>
+      <h2 class="legal-h2">8. Зміни до політики</h2>
+      <p>Ми можемо періодично оновлювати цю політику. Дата вгорі показує, коли її востаннє переглядали; суттєві зміни відображатимуться тут.</p>
+    </section>
+    {% endif %}
+
+  </div>
+</div>
+
+<style>
+  .legal-body .legal-h2 { font-family: var(--font-display); color: var(--text); font-weight: 700; font-size: 1.05rem; margin-bottom: .6rem; }
+  .legal-body p + p { margin-top: .75rem; }
+  .legal-body .legal-ul { list-style: disc; padding-left: 1.25rem; margin-top: .6rem; }
+  .legal-body .legal-ul li { margin-top: .4rem; }
+  .legal-body strong { color: var(--text); font-weight: 600; }
+  .legal-body .legal-link { color: var(--accent); }
+  .legal-body .legal-link:hover { color: var(--accent-hover); }
+</style>
+{% endblock %}

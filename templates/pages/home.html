@@ -384,14 +384,15 @@
             <img src="{{ event.cover_image.url }}" alt="{% lang_field event 'title' %}" class="w-full h-full object-cover">
             {% endif %}
             {% if event.category %}
-            <span class="absolute top-3 left-3 px-2.5 py-1 rounded-full text-[10px] font-semibold uppercase tracking-wide" style="background: rgba(0,0,0,.55); color: #fff; backdrop-filter: blur(6px);">
+            <span class="absolute top-3 left-3 px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wide text-white shadow-lg" style="background: var(--accent-bg);">
               {% lang_field event.category 'name' %}
             </span>
             {% endif %}
           </div>
-          <div class="p-4 flex flex-col gap-3 flex-1">
+          <div class="p-4 flex flex-col gap-2 flex-1">
             <h3 class="font-semibold text-sm sm:text-base leading-snug line-clamp-2">{% lang_field event 'title' %}</h3>
-            <p class="text-xs sm:text-sm" style="color: var(--text-faint);">{{ event.date|date:"d E Y, H:i" }}</p>
+            <p class="text-xs" style="color: var(--text-faint);">{{ event.date|date:"d E Y, H:i" }}</p>
+            <p class="text-xs sm:text-sm leading-relaxed line-clamp-3" style="color: var(--text-muted);">{% filter truncatewords:18 %}{% lang_field event 'description' %}{% endfilter %}</p>
             <span class="btn-accent mt-auto inline-flex items-center gap-1.5 px-4 py-2 rounded-full text-white text-xs sm:text-sm font-semibold self-start">
               {% if current_language == 'en' %}Details{% else %}Детальніше{% endif %}
               <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">

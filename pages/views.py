@@ -73,3 +73,12 @@ def set_language(request, lang_code):
     # Возвращаем пользователя туда, откуда он пришёл
     referer = request.META.get('HTTP_REFERER', '/')
     return redirect(referer)
+
+def privacy_policy(request):
+    return render(request, 'pages/privacy_policy.html')
+
+def terms_of_service(request):
+    return render(request, 'pages/terms_of_service.html')
+
+def gdpr_policy(request):
+    return render(request, 'pages/gdpr_policy.html')

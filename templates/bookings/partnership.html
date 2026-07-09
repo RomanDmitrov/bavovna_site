@@ -3,89 +3,123 @@
 {% block title %}{% if current_language == 'en' %}Partnership{% else %}Партнерство{% endif %}{% endblock %}
 
 {% block content %}
-<div class="max-w-3xl mx-auto px-4 sm:px-6 py-10 sm:py-14">
+<div class="w-full px-4 sm:px-8 lg:px-12 py-10 sm:py-14">
 
   <h1 class="text-2xl sm:text-4xl font-bold mb-2 tracking-tight">{% if current_language == 'en' %}Partnership{% else %}Партнерство{% endif %}</h1>
-  <p class="text-sm mb-8" style="color: var(--text-muted);">{% if current_language == 'en' %}We work with venues, brands, artists and everyone who wants to make events together.{% else %}Працюємо з локаціями, брендами, артистами та всіма, хто хоче робити івенти разом.{% endif %}</p>
+  <p class="text-sm mb-10 max-w-2xl leading-relaxed" style="color: var(--text-muted);">{% if current_language == 'en' %}The best events are built together. We're open to partnerships where everyone grows — creating events side by side, sharing audiences and amplifying one another.{% else %}Найкращі івенти народжуються у співпраці. Ми відкриті до партнерств, у яких зростає кожен — створюємо події пліч-о-пліч, ділимося аудиторією та підсилюємо одне одного.{% endif %}</p>
 
-  <!-- ── Partnership blocks ── -->
-  <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-8">
-    <div class="border rounded-2xl p-4 card-border" style="border-color: var(--border);">
-      <div class="w-7 h-7 rounded-full flex items-center justify-center mb-2 text-xs font-bold chip-0">1</div>
-      <p class="font-semibold text-sm">{% if current_language == 'en' %}For venues{% else %}Локаціям{% endif %}</p>
-      <p class="text-xs mt-1" style="color: var(--text-muted);">{% if current_language == 'en' %}Rental partnerships and co-hosted events.{% else %}Партнерства з оренди та спільного проведення івентів.{% endif %}</p>
+  <div class="grid lg:grid-cols-2 gap-8 lg:gap-14 items-start">
+
+    <!-- ── Partnership blocks ── -->
+    <div class="space-y-4">
+      <div class="step-card border rounded-2xl p-5 flex gap-4" style="border-color: var(--border);">
+        <span class="step-num inline-flex items-center justify-center w-9 h-9 rounded-full text-sm font-bold shrink-0 chip-0">1</span>
+        <div>
+          <p class="font-semibold text-sm mb-1">{% if current_language == 'en' %}For venues{% else %}Локаціям{% endif %}</p>
+          <p class="text-sm" style="color: var(--text-muted);">{% if current_language == 'en' %}We fill your space with vibrant nights and fresh audiences. Let's co-host events, cross-promote and turn your venue into a place people come back to.{% else %}Наповнюємо ваш простір яскравими подіями та новою аудиторією. Проводьмо івенти разом, обмінюймося промо й робімо локацію місцем, куди хочеться повертатися.{% endif %}</p>
+        </div>
+      </div>
+      <div class="step-card border rounded-2xl p-5 flex gap-4" style="border-color: var(--border);">
+        <span class="step-num inline-flex items-center justify-center w-9 h-9 rounded-full text-sm font-bold shrink-0 chip-1">2</span>
+        <div>
+          <p class="font-semibold text-sm mb-1">{% if current_language == 'en' %}For brands and sponsors{% else %}Брендам і спонсорам{% endif %}</p>
+          <p class="text-sm" style="color: var(--text-muted);">{% if current_language == 'en' %}Natural integrations that work both ways — your message lives inside the event, and we bring you real, face-to-face reach and shared promotion.{% else %}Природні інтеграції, що працюють на обидві сторони — ваш меседж органічно вплітається в подію, а ми даємо живий контакт з аудиторією та спільне промо.{% endif %}</p>
+        </div>
+      </div>
+      <div class="step-card border rounded-2xl p-5 flex gap-4" style="border-color: var(--border);">
+        <span class="step-num inline-flex items-center justify-center w-9 h-9 rounded-full text-sm font-bold shrink-0 chip-2">3</span>
+        <div>
+          <p class="font-semibold text-sm mb-1">{% if current_language == 'en' %}For artists and MCs{% else %}Артистам і MC{% endif %}</p>
+          <p class="text-sm" style="color: var(--text-muted);">{% if current_language == 'en' %}A stage, promotion and a crowd that grow together with you. We're looking for residents and guests to build line-ups where everyone wins.{% else %}Сцена, промоушн і публіка, які ростуть разом із вами. Шукаємо резидентів і гостей, щоб будувати лайнапи, де виграють усі.{% endif %}</p>
+        </div>
+      </div>
     </div>
-    <div class="border rounded-2xl p-4 card-border" style="border-color: var(--border);">
-      <div class="w-7 h-7 rounded-full flex items-center justify-center mb-2 text-xs font-bold chip-1">2</div>
-      <p class="font-semibold text-sm">{% if current_language == 'en' %}For brands and sponsors{% else %}Брендам і спонсорам{% endif %}</p>
-      <p class="text-xs mt-1" style="color: var(--text-muted);">{% if current_language == 'en' %}Promos, integrations and sponsorship packages for our events.{% else %}Промо, інтеграції та спонсорські пакети для наших івентів.{% endif %}</p>
-    </div>
-    <div class="border rounded-2xl p-4 card-border" style="border-color: var(--border);">
-      <div class="w-7 h-7 rounded-full flex items-center justify-center mb-2 text-xs font-bold chip-2">3</div>
-      <p class="font-semibold text-sm">{% if current_language == 'en' %}For artists and MCs{% else %}Артистам і MC{% endif %}</p>
-      <p class="text-xs mt-1" style="color: var(--text-muted);">{% if current_language == 'en' %}Performances, DJ sets and line-ups for future events.{% else %}Виступи, dj-сети, лайнапи для майбутніх івентів.{% endif %}</p>
-    </div>
+
+    <!-- ── Partnership form ── -->
+    <form method="post" action="{% url 'partnership' %}" class="border rounded-2xl p-5 sm:p-7 space-y-4 card-border" style="border-color: var(--border);">
+      {% csrf_token %}
+
+      <div class="field">
+        <label class="block text-sm mb-1.5" style="color: var(--text-muted);">{% if current_language == 'en' %}Name / company *{% else %}Ім'я / компанія *{% endif %}</label>
+        <input type="text" name="name" required placeholder="{% if current_language == 'en' %}How should we address you{% else %}Як до вас звертатися{% endif %}"
+               class="form-input w-full px-4 py-3 rounded-xl border text-sm focus:outline-none"
+               style="background: var(--surface); border-color: var(--border); color: var(--text);">
+      </div>
+
+      <div class="grid sm:grid-cols-2 gap-4">
+        <div class="field">
+          <label class="block text-sm mb-1.5" style="color: var(--text-muted);">Email</label>
+          <input type="email" name="email" placeholder="email@example.com"
+                 class="form-input w-full px-4 py-3 rounded-xl border text-sm focus:outline-none"
+                 style="background: var(--surface); border-color: var(--border); color: var(--text);">
+        </div>
+        <div class="field">
+          <label class="block text-sm mb-1.5" style="color: var(--text-muted);">{% if current_language == 'en' %}Phone{% else %}Телефон{% endif %}</label>
+          <input type="tel" name="phone" placeholder="+353..."
+                 class="form-input w-full px-4 py-3 rounded-xl border text-sm focus:outline-none"
+                 style="background: var(--surface); border-color: var(--border); color: var(--text);">
+        </div>
+      </div>
+
+      <div class="field">
+        <label class="block text-sm mb-1.5" style="color: var(--text-muted);">Telegram</label>
+        <input type="text" name="telegram" placeholder="@username"
+               class="form-input w-full px-4 py-3 rounded-xl border text-sm focus:outline-none"
+               style="background: var(--surface); border-color: var(--border); color: var(--text);">
+      </div>
+
+      <div class="field">
+        <label class="block text-sm mb-1.5" style="color: var(--text-muted);">{% if current_language == 'en' %}Partnership type{% else %}Тип співпраці{% endif %}</label>
+        <select name="partnership_type"
+                class="form-input w-full px-4 py-3 rounded-xl border text-sm focus:outline-none"
+                style="background: var(--surface); border-color: var(--border); color: var(--text);">
+          <option value="">{% if current_language == 'en' %}Select a type{% else %}Оберіть тип{% endif %}</option>
+          <option value="location">{% if current_language == 'en' %}Venue{% else %}Локація{% endif %}</option>
+          <option value="sponsor">{% if current_language == 'en' %}Brand / sponsor{% else %}Бренд / спонсор{% endif %}</option>
+          <option value="artist">{% if current_language == 'en' %}Artist / MC{% else %}Артист / MC{% endif %}</option>
+          <option value="other">{% if current_language == 'en' %}Other{% else %}Інше{% endif %}</option>
+        </select>
+      </div>
+
+      <div class="field">
+        <label class="block text-sm mb-1.5" style="color: var(--text-muted);">{% if current_language == 'en' %}Message{% else %}Повідомлення{% endif %}</label>
+        <textarea name="message" rows="4" placeholder="{% if current_language == 'en' %}Tell us about the collaboration you have in mind{% else %}Розкажіть, яку співпрацю ви маєте на думці{% endif %}"
+                  class="form-input w-full px-4 py-3 rounded-xl border text-sm resize-none focus:outline-none"
+                  style="background: var(--surface); border-color: var(--border); color: var(--text);"></textarea>
+      </div>
+
+      <button type="submit"
+              class="btn-accent w-full py-3.5 rounded-full font-semibold text-white">
+        {% if current_language == 'en' %}Send{% else %}Надіслати{% endif %}
+      </button>
+    </form>
+
   </div>
-
-  <!-- ── Partnership form ── -->
-  <form method="post" action="{% url 'partnership' %}" class="space-y-4">
-    {% csrf_token %}
-
-    <div>
-      <label class="block text-sm mb-1.5" style="color: var(--text-muted);">{% if current_language == 'en' %}Name / company *{% else %}Ім'я / компанія *{% endif %}</label>
-      <input type="text" name="name" required placeholder="{% if current_language == 'en' %}How should we address you{% else %}Як до вас звертатися{% endif %}"
-             class="w-full px-4 py-3 rounded-xl border text-sm focus:outline-none transition-colors"
-             style="background: var(--surface); border-color: var(--border); color: var(--text);">
-    </div>
-
-    <div class="grid sm:grid-cols-2 gap-4">
-      <div>
-        <label class="block text-sm mb-1.5" style="color: var(--text-muted);">Email</label>
-        <input type="email" name="email" placeholder="email@example.com"
-               class="w-full px-4 py-3 rounded-xl border text-sm focus:outline-none transition-colors"
-               style="background: var(--surface); border-color: var(--border); color: var(--text);">
-      </div>
-      <div>
-        <label class="block text-sm mb-1.5" style="color: var(--text-muted);">{% if current_language == 'en' %}Phone{% else %}Телефон{% endif %}</label>
-        <input type="tel" name="phone" placeholder="+353..."
-               class="w-full px-4 py-3 rounded-xl border text-sm focus:outline-none transition-colors"
-               style="background: var(--surface); border-color: var(--border); color: var(--text);">
-      </div>
-    </div>
-
-    <div>
-      <label class="block text-sm mb-1.5" style="color: var(--text-muted);">Telegram</label>
-      <input type="text" name="telegram" placeholder="@username"
-             class="w-full px-4 py-3 rounded-xl border text-sm focus:outline-none transition-colors"
-             style="background: var(--surface); border-color: var(--border); color: var(--text);">
-    </div>
-
-    <div>
-      <label class="block text-sm mb-1.5" style="color: var(--text-muted);">{% if current_language == 'en' %}Partnership type{% else %}Тип співпраці{% endif %}</label>
-      <select name="partnership_type"
-              class="w-full px-4 py-3 rounded-xl border text-sm focus:outline-none transition-colors"
-              style="background: var(--surface); border-color: var(--border); color: var(--text);">
-        <option value="">{% if current_language == 'en' %}Select a type{% else %}Оберіть тип{% endif %}</option>
-        <option value="location">{% if current_language == 'en' %}Venue{% else %}Локація{% endif %}</option>
-        <option value="sponsor">{% if current_language == 'en' %}Brand / sponsor{% else %}Бренд / спонсор{% endif %}</option>
-        <option value="artist">{% if current_language == 'en' %}Artist / MC{% else %}Артист / MC{% endif %}</option>
-        <option value="other">{% if current_language == 'en' %}Other{% else %}Інше{% endif %}</option>
-      </select>
-    </div>
-
-    <div>
-      <label class="block text-sm mb-1.5" style="color: var(--text-muted);">{% if current_language == 'en' %}Message{% else %}Повідомлення{% endif %}</label>
-      <textarea name="message" rows="4" placeholder="{% if current_language == 'en' %}Tell us more about your proposal{% else %}Розкажіть детальніше про пропозицію{% endif %}"
-                class="w-full px-4 py-3 rounded-xl border text-sm resize-none focus:outline-none transition-colors"
-                style="background: var(--surface); border-color: var(--border); color: var(--text);"></textarea>
-    </div>
-
-    <button type="submit"
-            class="w-full py-3.5 rounded-full font-semibold text-white transition-all"
-            style="background: var(--accent-bg);">
-      {% if current_language == 'en' %}Send{% else %}Надіслати{% endif %}
-    </button>
-  </form>
-
 </div>
+
+<style>
+  .step-card {
+    background: var(--card-bg);
+    box-shadow: var(--card-shadow);
+    transition: transform .25s ease, box-shadow .25s ease, border-color .25s ease;
+  }
+  .step-card:hover {
+    transform: translateY(-3px);
+    border-color: var(--accent) !important;
+    box-shadow: var(--card-shadow-hover);
+  }
+  .step-card .step-num { transition: transform .25s cubic-bezier(.34,1.56,.64,1); }
+  .step-card:hover .step-num { transform: scale(1.12) rotate(-6deg); }
+
+  .form-input { transition: border-color .2s ease, box-shadow .2s ease, background-color .2s ease; }
+  .form-input:focus {
+    border-color: var(--accent) !important;
+    box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 22%, transparent);
+    background: var(--surface-strong);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .step-card, .step-card .step-num, .form-input { transition: none; }
+  }
+</style>
 {% endblock %}

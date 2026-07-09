@@ -1,0 +1,126 @@
+{% extends 'base.html' %}
+
+{% block title %}{% if current_language == 'en' %}Terms &amp; Conditions{% else %}Умови користування{% endif %}{% endblock %}
+
+{% block content %}
+<div class="max-w-3xl mx-auto px-4 sm:px-6 py-12 sm:py-16">
+
+  <p class="text-xs font-semibold tracking-[.25em] uppercase mb-3" style="color: var(--accent);">{% if current_language == 'en' %}Legal{% else %}Правова інформація{% endif %}</p>
+  <h1 class="text-2xl sm:text-4xl font-bold mb-3 tracking-tight">{% if current_language == 'en' %}Terms &amp; Conditions{% else %}Умови користування{% endif %}</h1>
+  <p class="text-sm mb-10" style="color: var(--text-faint);">{% if current_language == 'en' %}Last updated: 10 July 2026{% else %}Останнє оновлення: 10 липня 2026{% endif %}</p>
+
+  <div class="legal-body space-y-8 text-sm leading-relaxed" style="color: var(--text-muted);">
+
+    {% if current_language == 'en' %}
+    <section>
+      <p>These Terms &amp; Conditions govern your use of the Bavovna Event website and the enquiries you send us through it. By browsing this site or submitting a booking or partnership request, you agree to these terms. Bavovna Event is an events organiser based in Dublin, Ireland.</p>
+    </section>
+
+    <section>
+      <h2 class="legal-h2">1. Using this website</h2>
+      <p>You may use this site to learn about our events and services and to contact us. Please use it lawfully and do not attempt to disrupt, misuse or gain unauthorised access to it. Content on the site — text, images, logos and layout — belongs to Bavovna Event or its partners and may not be copied or reused without permission.</p>
+    </section>
+
+    <section>
+      <h2 class="legal-h2">2. Enquiries are not a contract</h2>
+      <p>Submitting a booking or partnership form starts a conversation — it does not create a binding contract and does not reserve a date. A booking is only confirmed once we have agreed the details with you in writing and any deposit we ask for has been received.</p>
+    </section>
+
+    <section>
+      <h2 class="legal-h2">3. Quotes and pricing</h2>
+      <p>Any prices, packages or estimates we share are indicative and depend on the final scope, date, guest numbers and third-party costs such as venues and suppliers. The price that applies is the one confirmed in your written booking agreement.</p>
+    </section>
+
+    <section>
+      <h2 class="legal-h2">4. Your responsibilities</h2>
+      <p>You agree to give us accurate information and to respond within reasonable time so we can plan effectively. Where an event involves your guests or your own venue, you are responsible for ensuring the details you provide are correct and that any necessary permissions are in place.</p>
+    </section>
+
+    <section>
+      <h2 class="legal-h2">5. Changes and cancellations</h2>
+      <p>If you need to change or cancel a confirmed event, tell us as soon as possible. Specific cancellation terms, deposits and payment schedules are set out in the individual booking agreement for your event, since these vary by scale and by the third parties involved.</p>
+    </section>
+
+    <section>
+      <h2 class="legal-h2">6. Third parties</h2>
+      <p>Events often involve venues, performers and suppliers. Where we arrange these on your behalf, their own terms may also apply. We take care in choosing partners but are not responsible for circumstances genuinely beyond our reasonable control.</p>
+    </section>
+
+    <section>
+      <h2 class="legal-h2">7. Liability</h2>
+      <p>We provide this website "as is" and give no warranty that it will always be available or error-free. Nothing in these terms limits liability that cannot be limited by law. Subject to that, we are not liable for indirect or consequential loss arising from your use of the site.</p>
+    </section>
+
+    <section>
+      <h2 class="legal-h2">8. Privacy</h2>
+      <p>How we handle the information you send us is explained in our <a href="{% url 'privacy_policy' %}" class="legal-link">Privacy Policy</a> and <a href="{% url 'gdpr_policy' %}" class="legal-link">GDPR Data Request Policy</a>.</p>
+    </section>
+
+    <section>
+      <h2 class="legal-h2">9. Governing law</h2>
+      <p>These terms are governed by the laws of Ireland, and any dispute is subject to the exclusive jurisdiction of the Irish courts. Questions about these terms can be sent to <a href="mailto:bavovna.event.ireland@gmail.com" class="legal-link">bavovna.event.ireland@gmail.com</a>.</p>
+    </section>
+    {% else %}
+    <section>
+      <p>Ці Умови користування регулюють використання вебсайту Bavovna Event та запити, які ви надсилаєте через нього. Переглядаючи цей сайт або надсилаючи заявку на бронювання чи партнерство, ви погоджуєтесь із цими умовами. Bavovna Event — організатор івентів у Дубліні, Ірландія.</p>
+    </section>
+
+    <section>
+      <h2 class="legal-h2">1. Використання сайту</h2>
+      <p>Ви можете користуватися сайтом, щоб дізнатися про наші івенти та послуги й звʼязатися з нами. Будь ласка, використовуйте його законно і не намагайтеся порушити роботу сайту, зловживати ним чи отримати несанкціонований доступ. Контент сайту — тексти, зображення, логотипи та оформлення — належить Bavovna Event або нашим партнерам і не може копіюватися чи використовуватися без дозволу.</p>
+    </section>
+
+    <section>
+      <h2 class="legal-h2">2. Заявка — це ще не договір</h2>
+      <p>Надсилання форми бронювання чи партнерства починає розмову — воно не створює обовʼязкового договору і не резервує дату. Бронювання вважається підтвердженим лише після того, як ми письмово узгодимо з вами деталі та отримаємо передоплату, якщо вона потрібна.</p>
+    </section>
+
+    <section>
+      <h2 class="legal-h2">3. Кошториси та ціни</h2>
+      <p>Будь-які ціни, пакети чи оцінки, якими ми ділимось, є орієнтовними та залежать від остаточного обсягу, дати, кількості гостей і витрат третіх сторін, як-от локацій і постачальників. Застосовується ціна, підтверджена у вашому письмовому договорі бронювання.</p>
+    </section>
+
+    <section>
+      <h2 class="legal-h2">4. Ваші обовʼязки</h2>
+      <p>Ви погоджуєтесь надавати нам точну інформацію та відповідати в розумний строк, щоб ми могли ефективно планувати. Якщо івент стосується ваших гостей або вашої власної локації, ви відповідаєте за правильність наданих деталей і наявність усіх потрібних дозволів.</p>
+    </section>
+
+    <section>
+      <h2 class="legal-h2">5. Зміни та скасування</h2>
+      <p>Якщо вам потрібно змінити чи скасувати підтверджений івент, повідомте нас якомога раніше. Конкретні умови скасування, передоплати та графік платежів визначаються в індивідуальному договорі бронювання вашого івенту, оскільки вони залежать від масштабу та залучених третіх сторін.</p>
+    </section>
+
+    <section>
+      <h2 class="legal-h2">6. Треті сторони</h2>
+      <p>Івенти часто передбачають локації, артистів і постачальників. Коли ми залучаємо їх від вашого імені, можуть також діяти їхні власні умови. Ми ретельно обираємо партнерів, але не відповідаємо за обставини, що справді виходять за межі нашого розумного контролю.</p>
+    </section>
+
+    <section>
+      <h2 class="legal-h2">7. Відповідальність</h2>
+      <p>Ми надаємо цей сайт «як є» та не гарантуємо, що він завжди буде доступним чи безпомилковим. Ніщо в цих умовах не обмежує відповідальність, яку не можна обмежити за законом. З урахуванням цього ми не відповідаємо за непрямі чи побічні збитки, повʼязані з використанням сайту.</p>
+    </section>
+
+    <section>
+      <h2 class="legal-h2">8. Конфіденційність</h2>
+      <p>Як ми обробляємо надіслану вами інформацію, описано в <a href="{% url 'privacy_policy' %}" class="legal-link">Політиці конфіденційності</a> та <a href="{% url 'gdpr_policy' %}" class="legal-link">Політиці запитів даних (GDPR)</a>.</p>
+    </section>
+
+    <section>
+      <h2 class="legal-h2">9. Застосовне право</h2>
+      <p>Ці умови регулюються законодавством Ірландії, а будь-які спори підлягають виключній юрисдикції ірландських судів. Запитання щодо цих умов надсилайте на <a href="mailto:bavovna.event.ireland@gmail.com" class="legal-link">bavovna.event.ireland@gmail.com</a>.</p>
+    </section>
+    {% endif %}
+
+  </div>
+</div>
+
+<style>
+  .legal-body .legal-h2 { font-family: var(--font-display); color: var(--text); font-weight: 700; font-size: 1.05rem; margin-bottom: .6rem; }
+  .legal-body p + p { margin-top: .75rem; }
+  .legal-body .legal-ul { list-style: disc; padding-left: 1.25rem; margin-top: .6rem; }
+  .legal-body .legal-ul li { margin-top: .4rem; }
+  .legal-body strong { color: var(--text); font-weight: 600; }
+  .legal-body .legal-link { color: var(--accent); }
+  .legal-body .legal-link:hover { color: var(--accent-hover); }
+</style>
+{% endblock %}

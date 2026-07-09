@@ -1,0 +1,122 @@
+{% extends 'base.html' %}
+
+{% block title %}{% if current_language == 'en' %}GDPR Data Request Policy{% else %}Політика запитів даних (GDPR){% endif %}{% endblock %}
+
+{% block content %}
+<div class="max-w-3xl mx-auto px-4 sm:px-6 py-12 sm:py-16">
+
+  <p class="text-xs font-semibold tracking-[.25em] uppercase mb-3" style="color: var(--accent);">{% if current_language == 'en' %}Legal{% else %}Правова інформація{% endif %}</p>
+  <h1 class="text-2xl sm:text-4xl font-bold mb-3 tracking-tight">{% if current_language == 'en' %}GDPR Data Request Policy{% else %}Політика запитів даних (GDPR){% endif %}</h1>
+  <p class="text-sm mb-10" style="color: var(--text-faint);">{% if current_language == 'en' %}Last updated: 10 July 2026{% else %}Останнє оновлення: 10 липня 2026{% endif %}</p>
+
+  <div class="legal-body space-y-8 text-sm leading-relaxed" style="color: var(--text-muted);">
+
+    {% if current_language == 'en' %}
+    <section>
+      <p>This policy explains how you can exercise your rights over the personal data Bavovna Event holds about you, and how we handle those requests under the EU General Data Protection Regulation (GDPR) and the Irish Data Protection Act 2018. It works alongside our <a href="{% url 'privacy_policy' %}" class="legal-link">Privacy Policy</a>.</p>
+    </section>
+
+    <section>
+      <h2 class="legal-h2">1. Your rights</h2>
+      <p>In relation to the data you have given us — usually your contact details and the information in a booking or partnership enquiry — you can ask us to:</p>
+      <ul class="legal-ul">
+        <li><strong>Access</strong> — receive a copy of the personal data we hold about you;</li>
+        <li><strong>Rectify</strong> — correct anything that is inaccurate or incomplete;</li>
+        <li><strong>Erase</strong> — delete your data where we no longer have a lawful reason to keep it;</li>
+        <li><strong>Restrict</strong> — pause our use of your data while a concern is resolved;</li>
+        <li><strong>Object</strong> — object to processing based on our legitimate interests, and to any marketing at any time;</li>
+        <li><strong>Port</strong> — receive your data in a portable, machine-readable format.</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2 class="legal-h2">2. How to make a request</h2>
+      <p>Send your request by email to <a href="mailto:bavovna.event.ireland@gmail.com" class="legal-link">bavovna.event.ireland@gmail.com</a> with "Data Request" in the subject line. Please tell us which right you want to exercise and include enough detail for us to find your records — for example the name, email or Telegram handle you used when contacting us.</p>
+    </section>
+
+    <section>
+      <h2 class="legal-h2">3. Verifying your identity</h2>
+      <p>To protect your data we need to be reasonably sure the request comes from you. We may ask you to confirm details that match the information we already hold. We only use anything you provide for verification to process the request.</p>
+    </section>
+
+    <section>
+      <h2 class="legal-h2">4. Our response time</h2>
+      <p>We respond within one month of receiving a valid request. If a request is especially complex or you have made several, we may extend this by up to two further months and will let you know why within the first month.</p>
+    </section>
+
+    <section>
+      <h2 class="legal-h2">5. Fees</h2>
+      <p>Handling your request is free. If a request is clearly unfounded or excessive — for instance repetitive — we may charge a reasonable administrative fee or decline to act, and we will explain our reasons if we do.</p>
+    </section>
+
+    <section>
+      <h2 class="legal-h2">6. When we may not be able to fully comply</h2>
+      <p>In limited cases we may need to keep certain information — for example to meet a legal or accounting obligation, or to establish or defend a legal claim. Where this applies we will tell you what we are retaining and why.</p>
+    </section>
+
+    <section>
+      <h2 class="legal-h2">7. Complaints</h2>
+      <p>If you are unhappy with how we handle your request, please contact us first so we can put it right. You also have the right to complain to the Irish Data Protection Commission at <a href="https://www.dataprotection.ie" target="_blank" rel="noreferrer" class="legal-link">dataprotection.ie</a>.</p>
+    </section>
+    {% else %}
+    <section>
+      <p>Ця політика пояснює, як ви можете реалізувати свої права щодо персональних даних, які зберігає Bavovna Event, і як ми опрацьовуємо такі запити відповідно до Загального регламенту ЄС про захист даних (GDPR) та ірландського Закону про захист даних 2018 року. Вона доповнює нашу <a href="{% url 'privacy_policy' %}" class="legal-link">Політику конфіденційності</a>.</p>
+    </section>
+
+    <section>
+      <h2 class="legal-h2">1. Ваші права</h2>
+      <p>Щодо даних, які ви нам надали — зазвичай це контактні дані та інформація із заявки на бронювання чи партнерство — ви можете попросити нас:</p>
+      <ul class="legal-ul">
+        <li><strong>Доступ</strong> — отримати копію персональних даних, які ми про вас зберігаємо;</li>
+        <li><strong>Виправлення</strong> — виправити неточну чи неповну інформацію;</li>
+        <li><strong>Видалення</strong> — видалити ваші дані, якщо для їх зберігання більше немає законної підстави;</li>
+        <li><strong>Обмеження</strong> — призупинити використання ваших даних, поки вирішується питання;</li>
+        <li><strong>Заперечення</strong> — заперечити проти обробки на підставі наших законних інтересів, а також проти будь-якого маркетингу будь-коли;</li>
+        <li><strong>Перенесення</strong> — отримати дані в переносному машиночитаному форматі.</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2 class="legal-h2">2. Як подати запит</h2>
+      <p>Надішліть запит на пошту <a href="mailto:bavovna.event.ireland@gmail.com" class="legal-link">bavovna.event.ireland@gmail.com</a> з темою «Data Request». Будь ласка, вкажіть, яке право ви хочете реалізувати, і додайте достатньо деталей, щоб ми знайшли ваші записи — наприклад імʼя, email чи Telegram, які ви використовували під час звернення.</p>
+    </section>
+
+    <section>
+      <h2 class="legal-h2">3. Підтвердження особи</h2>
+      <p>Щоб захистити ваші дані, ми маємо бути обґрунтовано впевнені, що запит надходить саме від вас. Ми можемо попросити підтвердити дані, які збігаються з наявною в нас інформацією. Усе, що ви надаєте для підтвердження, ми використовуємо лише для опрацювання запиту.</p>
+    </section>
+
+    <section>
+      <h2 class="legal-h2">4. Строк відповіді</h2>
+      <p>Ми відповідаємо протягом одного місяця з моменту отримання дійсного запиту. Якщо запит особливо складний або ви подали кілька запитів, ми можемо подовжити цей строк ще до двох місяців і повідомимо вам причину протягом першого місяця.</p>
+    </section>
+
+    <section>
+      <h2 class="legal-h2">5. Плата</h2>
+      <p>Опрацювання запиту безкоштовне. Якщо запит явно необґрунтований або надмірний — наприклад повторюваний — ми можемо стягнути розумну адміністративну плату або відмовити, і в такому разі пояснимо причини.</p>
+    </section>
+
+    <section>
+      <h2 class="legal-h2">6. Коли ми не можемо виконати запит повністю</h2>
+      <p>В окремих випадках нам може знадобитися зберегти певну інформацію — наприклад для виконання юридичного чи бухгалтерського обовʼязку або для встановлення чи захисту правової вимоги. Якщо це стосується вас, ми повідомимо, що саме зберігаємо і чому.</p>
+    </section>
+
+    <section>
+      <h2 class="legal-h2">7. Скарги</h2>
+      <p>Якщо вас не влаштовує, як ми опрацювали запит, спершу звʼяжіться з нами, щоб ми могли все виправити. Ви також маєте право подати скаргу до Ірландської комісії із захисту даних на <a href="https://www.dataprotection.ie" target="_blank" rel="noreferrer" class="legal-link">dataprotection.ie</a>.</p>
+    </section>
+    {% endif %}
+
+  </div>
+</div>
+
+<style>
+  .legal-body .legal-h2 { font-family: var(--font-display); color: var(--text); font-weight: 700; font-size: 1.05rem; margin-bottom: .6rem; }
+  .legal-body p + p { margin-top: .75rem; }
+  .legal-body .legal-ul { list-style: disc; padding-left: 1.25rem; margin-top: .6rem; }
+  .legal-body .legal-ul li { margin-top: .4rem; }
+  .legal-body strong { color: var(--text); font-weight: 600; }
+  .legal-body .legal-link { color: var(--accent); }
+  .legal-body .legal-link:hover { color: var(--accent-hover); }
+</style>
+{% endblock %}
