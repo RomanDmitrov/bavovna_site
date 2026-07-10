@@ -89,6 +89,15 @@
       stroke-linejoin: round;
     }
 
+    /* Light-theme variant: same draw / sheen / hold / dissolve mechanics and
+       timing, colours inverted — the mark becomes near-black on the light
+       --bg (the #bavovna-intro background already tracks --bg per theme, so
+       the dissolve stays seamless into the page). CSS `fill`/`stroke` here
+       override the white presentation attribute / stroke set above. The sheen
+       stays a bright sweep so it reads as the same glint against the dark mark. */
+    html[data-theme="light"] #bavovna-intro .bavovna-intro-base { fill: #0a0708; }
+    html[data-theme="light"] #bavovna-intro .bavovna-intro-base path { stroke: #0a0708; }
+
     /* 2.8–3.8s sheen sweep (SVG user units); the base mark dims so the
        pure-white streak reads as a glint against it */
     #bavovna-intro .bavovna-intro-sheen {
@@ -319,18 +328,18 @@
       {% for category in categories %}
       {% cycle 'chip-0' 'chip-1' 'chip-2' as chip silent %}
       {% if category.slug == 'custom-event' %}
-      <div class="reveal-item col-span-2 lg:col-span-3">
+      <div class="reveal-item lg:col-span-3">
         <a href="{% url 'category_detail' category.slug %}"
-           class="category-card h-full border rounded-3xl p-5 sm:p-8 flex items-center gap-4 sm:gap-6"
+           class="category-card h-full border rounded-3xl p-5 sm:p-8 flex flex-col items-start gap-4 sm:gap-5 lg:flex-row lg:items-center lg:gap-6"
            style="border-color: var(--border);">
           <div class="cat-icon w-12 h-12 sm:w-16 sm:h-16 rounded-2xl flex items-center justify-center shrink-0 text-2xl sm:text-3xl {{ chip }}">
             {{ category.icon }}
           </div>
-          <div class="min-w-0 flex-1">
+          <div class="min-w-0 lg:flex-1">
             <span class="font-semibold text-base sm:text-xl leading-tight">{% lang_field category 'name' %}</span>
-            <p class="text-xs sm:text-sm mt-1 leading-snug" style="color: var(--text-muted);">{% lang_field category 'description' %}</p>
+            <p class="text-xs sm:text-sm mt-1.5 lg:mt-1 leading-snug" style="color: var(--text-muted);">{% lang_field category 'description' %}</p>
           </div>
-          <span class="btn-accent hidden sm:inline-flex items-center gap-1.5 px-4 py-2 rounded-full text-white text-sm font-semibold shrink-0">
+          <span class="btn-accent hidden lg:inline-flex items-center gap-1.5 px-4 py-2 rounded-full text-white text-sm font-semibold shrink-0">
             {% if current_language == 'en' %}Let's talk{% else %}Обговорити{% endif %}
             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/>

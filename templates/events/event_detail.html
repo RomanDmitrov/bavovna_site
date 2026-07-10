@@ -88,19 +88,8 @@
       <!-- Left col: description, program, map, FAQ -->
       <div class="sm:col-span-2 space-y-5">
 
-        <!-- Description -->
-        <div class="leading-relaxed text-sm sm:text-base" style="...">{% filter linebreaks %}{% lang_field event 'description' %}{% endfilter %}</div>
-
         {% if is_past %}
-        {% if photo_album_url %}
-        <a href="{{ photo_album_url }}" target="_blank"
-           class="inline-flex items-center gap-2 px-5 py-2.5 rounded-full text-white text-sm font-semibold mb-6"
-           style="background: #e2382a">
-          {% if current_language == 'en' %}📸 View all photos{% else %}📸 Переглянути всі фото{% endif %}
-        </a>
-        {% endif %}
-
-        <!-- ── Past event: photo gallery ── -->
+        <!-- ── Past event: actual photos, then CTA ── -->
         {% if event.gallery.all %}
         <div>
           <h2 class="font-semibold mb-3 text-sm sm:text-base flex items-center gap-2">
@@ -110,7 +99,7 @@
             {% if current_language == 'en' %}Photo gallery{% else %}Фотогалерея{% endif %}
           </h2>
           <div class="grid grid-cols-2 sm:grid-cols-3 gap-3">
-            {% for item in event.gallery.all %}
+            {% for item in event.gallery.all|slice:":10" %}
             {% if item.image %}
             <img src="{{ item.image.url }}" class="w-full h-48 object-cover rounded-xl">
             {% endif %}
@@ -119,8 +108,20 @@
         </div>
         {% endif %}
 
+        {% if photo_album_url %}
+        <a href="{{ photo_album_url }}" target="_blank"
+           class="inline-flex items-center gap-2 px-5 py-2.5 rounded-full text-white text-sm font-semibold"
+           style="background: #e2382a">
+          {% if current_language == 'en' %}📸 View all photos{% else %}📸 Переглянути всі фото{% endif %}
+        </a>
+        {% endif %}
+
         {% else %}
-        <!-- ── Upcoming event: map, FAQ ── -->
+        <!-- ── Upcoming event: description, map, FAQ ── -->
+
+        <!-- Description -->
+        <div class="leading-relaxed text-sm sm:text-base" style="...">{% filter linebreaks %}{% lang_field event 'description' %}{% endfilter %}</div>
+
         <!-- Map -->
         <div>
           <h2 class="font-semibold mb-3 text-sm sm:text-base">{% if current_language == 'en' %}Location{% else %}Локація{% endif %}</h2>

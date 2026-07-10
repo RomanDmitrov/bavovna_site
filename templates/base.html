@@ -147,6 +147,10 @@
 
     .drawer { transition: transform 0.3s ease-out; }
     .backdrop { transition: opacity 0.3s; }
+
+    /* Header theme/language control buttons — solid, legible fill */
+    .hdr-ctl-btn { background: var(--surface-strong); transition: background-color .2s ease; }
+    .hdr-ctl-btn:hover { background: var(--border-strong); }
   </style>
   <script>(function(){var s=localStorage.getItem('bavovna-theme');if(s==='light'||s==='dark')document.documentElement.setAttribute('data-theme',s);})();</script>
 </head>
@@ -154,7 +158,7 @@
 
   <!-- ── Navigation ── -->
   <header class="sticky top-0 z-50 backdrop-blur-md border-b" style="background: var(--header-bg); border-color: var(--border);">
-    <div class="max-w-6xl mx-auto px-3 sm:px-6 lg:pl-2 h-14 sm:h-16 flex items-center gap-2 relative">
+    <div class="w-full px-4 sm:px-8 lg:px-12 h-14 sm:h-16 flex items-center gap-2 relative">
 
       <!-- Contact/social links (mobile) -->
       <button id="burger-btn" class="lg:hidden flex items-center justify-center w-9 h-9 rounded-full hover:bg-white/5 transition-colors shrink-0" aria-label="{% if current_language == 'en' %}open contact links{% else %}відкрити контакти{% endif %}">
@@ -165,8 +169,8 @@
 
       <!-- Logo (centered on mobile, left-aligned on desktop) -->
       <a href="{% url 'home' %}" class="absolute left-1/2 -translate-x-1/2 lg:static lg:translate-x-0 flex items-center gap-2.5 min-w-0 shrink-0">
-        <img src="{% static 'images/713405071_17973966885112729_3451524599368309258_n.jpg' %}" alt="Bavovna Event" class="w-10 h-10 sm:w-12 sm:h-12 rounded-lg object-cover">
-        <span class="font-semibold tracking-wide whitespace-nowrap text-base sm:text-xl" style="font-family: var(--font-display);">BAVOVNA EVENT</span>
+        <img src="{% static 'images/713405071_17973966885112729_3451524599368309258_n.jpg' %}" alt="Bavovna Event" class="w-9 h-9 sm:w-12 sm:h-12 rounded-lg object-cover">
+        <span class="font-semibold tracking-wide whitespace-nowrap text-sm sm:text-xl" style="font-family: var(--font-display);">BAVOVNA EVENT</span>
       </a>
 
       <!-- Desktop nav -->
@@ -183,7 +187,7 @@
         <!-- Theme + language cluster -->
         <div class="flex items-center gap-0.5 p-0.5 rounded-full border" style="border-color: var(--border-strong); background: var(--surface);">
           <!-- Theme toggle -->
-          <button id="theme-toggle" class="flex items-center justify-center w-8 h-8 rounded-full transition-colors hover:bg-white/5"
+          <button id="theme-toggle" class="hdr-ctl-btn flex items-center justify-center w-8 h-8 rounded-full"
                   aria-label="{% if current_language == 'en' %}Switch theme{% else %}Змінити тему{% endif %}">
             <svg id="theme-icon-moon" class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"/>
@@ -195,11 +199,11 @@
           <!-- Language toggle -->
           {% if current_language == 'en' %}
           <a id="lang-toggle-ua" href="{% url 'set_language' 'ua' %}"
-             class="flex items-center justify-center w-8 h-8 rounded-full transition-colors hover:bg-white/5 text-xs font-semibold"
+             class="hdr-ctl-btn flex items-center justify-center w-8 h-8 rounded-full text-xs font-semibold"
              aria-label="Switch to Ukrainian">UA</a>
           {% else %}
           <a href="{% url 'set_language' 'en' %}"
-             class="flex items-center justify-center w-8 h-8 rounded-full transition-colors hover:bg-white/5 text-xs font-semibold"
+             class="hdr-ctl-btn flex items-center justify-center w-8 h-8 rounded-full text-xs font-semibold"
              aria-label="Перейти на англійську">EN</a>
           {% endif %}
         </div>
@@ -270,17 +274,6 @@
       <a href="{% url 'booking_create' %}" class="flex items-center w-full px-5 py-3.5 text-sm font-medium transition-colors hover:bg-white/5" style="color: var(--text-muted);" onclick="closeMobileMenu()">{% if current_language == 'en' %}Book an Event{% else %}Замовити івент{% endif %}</a>
       <a href="{% url 'gallery' %}" class="flex items-center w-full px-5 py-3.5 text-sm font-medium transition-colors hover:bg-white/5" style="color: var(--text-muted);" onclick="closeMobileMenu()">{% if current_language == 'en' %}Gallery{% else %}Галерея{% endif %}</a>
       <a href="{% url 'partnership' %}" class="flex items-center w-full px-5 py-3.5 text-sm font-medium transition-colors hover:bg-white/5" style="color: var(--text-muted);" onclick="closeMobileMenu()">{% if current_language == 'en' %}Partnership{% else %}Партнерство{% endif %}</a>
-      <div class="px-5 py-3.5">
-        <button onclick="toggleTheme(); closeMobileMenu();" class="flex items-center gap-2 text-sm font-medium transition-colors" style="color: var(--text-muted);">
-          <svg id="mobile-theme-icon-moon" class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"/>
-          </svg>
-          <svg id="mobile-theme-icon-sun" class="w-4 h-4 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/>
-          </svg>
-          <span id="mobile-theme-label">{% if current_language == 'en' %}Light theme{% else %}Світла тема{% endif %}</span>
-        </button>
-      </div>
     </nav>
     <div class="border-t p-4 space-y-2 shrink-0" style="border-color: var(--border);">
       <a href="https://www.instagram.com/bavovna.event.ireland" target="_blank" rel="noreferrer"
@@ -431,9 +424,6 @@
       var isDark = theme === 'dark';
       document.getElementById('theme-icon-moon').classList.toggle('hidden', !isDark);
       document.getElementById('theme-icon-sun').classList.toggle('hidden', isDark);
-      document.getElementById('mobile-theme-icon-moon').classList.toggle('hidden', !isDark);
-      document.getElementById('mobile-theme-icon-sun').classList.toggle('hidden', isDark);
-      document.getElementById('mobile-theme-label').textContent = isDark ? '{% if current_language == "en" %}Light theme{% else %}Світла тема{% endif %}' : '{% if current_language == "en" %}Dark theme{% else %}Темна тема{% endif %}';
     }
     function toggleTheme() {
       var html = document.documentElement;

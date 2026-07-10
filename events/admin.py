@@ -43,8 +43,11 @@ class GalleryItemAdmin(admin.ModelAdmin):
 class CategoryAdmin(admin.ModelAdmin):
     list_display = ['name_ua', 'name_en', 'slug', 'order', 'is_active']
     list_editable = ['order', 'is_active']
-    prepopulated_fields = {'slug': ('name_en',)}
+    prepopulated_fields = {'slug': ('name_ua',)}
     fields = ['name_ua', 'name_en', 'slug', 'icon',
               'description_ua', 'description_en', 'order', 'is_active']
+
+    def has_add_permission(self, request):
+        return False
 
 

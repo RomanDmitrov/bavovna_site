@@ -70,7 +70,7 @@ def gallery(request):
     events = Event.objects.filter(
         is_published=True,
         date__lt=timezone.now()
-    ).order_by('-date')
+    ).exclude(photo_album_url='').order_by('-date')
 
     if category_slug:
         events = events.filter(category__slug=category_slug)
