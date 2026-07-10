@@ -34,7 +34,7 @@ class Partner(models.Model):
     description_ua = models.CharField(max_length=300, blank=True, verbose_name='Опис (UA)')
     description_en = models.CharField(max_length=300, blank=True, verbose_name='Description (EN)')
     logo = models.ImageField(upload_to='partners/', blank=True, null=True, verbose_name='Логотип')
-    website = models.URLField(blank=True, verbose_name='Сайт')
+    website = models.URLField(blank=True, null=True, verbose_name='Сайт',)
     instagram = models.URLField(blank=True, verbose_name='Instagram')
     telegram = models.URLField(blank=True, verbose_name='Telegram')
     order = models.PositiveIntegerField(default=0, verbose_name='Порядок')

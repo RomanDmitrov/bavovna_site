@@ -16,12 +16,12 @@
     :root {
       --font-display: 'Unbounded', 'Manrope', sans-serif;
       --font-body: 'Manrope', sans-serif;
-      --bg: #0a0708;
-      --bg-image: radial-gradient(1200px circle at 6% -8%, rgba(248,113,113,.16), transparent 55%),
+      --bg: #0F0E14;
+      --bg-image: radial-gradient(1200px circle at 6% -8%, rgba(124,116,240,.14), transparent 55%),
                   radial-gradient(1000px circle at 100% 15%, rgba(192,38,211,.10), transparent 50%),
-                  radial-gradient(900px circle at 30% 100%, rgba(249,115,22,.07), transparent 50%);
-      --header-bg: rgba(10,7,8,.82);
-      --sticky-overlay: linear-gradient(to top, rgba(10,7,8,.98) 55%, transparent);
+                  radial-gradient(900px circle at 30% 100%, rgba(124,116,240,.07), transparent 50%);
+      --header-bg: rgba(15,14,20,.82);
+      --sticky-overlay: linear-gradient(to top, rgba(15,14,20,.98) 55%, transparent);
       --surface: rgba(255,255,255,.045);
       --surface-strong: rgba(255,255,255,.09);
       --card-bg: linear-gradient(160deg, rgba(255,255,255,.055), rgba(255,255,255,.02));
@@ -29,23 +29,23 @@
       --card-shadow-hover: 0 1px 0 0 rgba(255,255,255,.07) inset, 0 20px 40px -18px rgba(0,0,0,.8);
       --border: rgba(255,255,255,.085);
       --border-strong: rgba(255,255,255,.20);
-      --text: #fbf3f1;
-      --text-muted: #b6abaa;
-      --text-faint: #6f6664;
-      --accent: #fb6f5d;
-      --accent-hover: #ff9183;
-      --accent-bg: #e2382a;
-      --accent-bg-hover: #ff5544;
-      --accent2: #ffb648;
+      --text: #E8E7EE;
+      --text-muted: #96949E;
+      --text-faint: #5D5B66;
+      --accent: #7C74F0;
+      --accent-hover: color-mix(in srgb, #7C74F0 80%, white);
+      --accent-bg: #7C74F0;
+      --accent-bg-hover: color-mix(in srgb, #7C74F0 85%, white);
+      --accent2: #F0699A;
       --accent3: #60a5fa;
     }
     [data-theme="light"] {
-      --bg: #fdf5ee;
-      --bg-image: radial-gradient(1200px circle at 6% -8%, rgba(248,113,113,.08), transparent 55%),
+      --bg: #FFFFFF;
+      --bg-image: radial-gradient(1200px circle at 6% -8%, rgba(79,70,229,.07), transparent 55%),
                   radial-gradient(1000px circle at 100% 15%, rgba(192,38,211,.05), transparent 50%),
-                  radial-gradient(900px circle at 30% 100%, rgba(249,115,22,.04), transparent 50%);
-      --header-bg: rgba(253,245,238,.88);
-      --sticky-overlay: linear-gradient(to top, rgba(253,245,238,.98) 55%, transparent);
+                  radial-gradient(900px circle at 30% 100%, rgba(79,70,229,.04), transparent 50%);
+      --header-bg: rgba(255,255,255,.88);
+      --sticky-overlay: linear-gradient(to top, rgba(255,255,255,.98) 55%, transparent);
       --surface: rgba(0,0,0,.04);
       --surface-strong: rgba(0,0,0,.08);
       --card-bg: linear-gradient(160deg, rgba(255,255,255,.8), rgba(255,255,255,.5));
@@ -53,14 +53,14 @@
       --card-shadow-hover: 0 1px 0 0 rgba(0,0,0,.06) inset, 0 20px 40px -18px rgba(0,0,0,.18);
       --border: rgba(0,0,0,.10);
       --border-strong: rgba(0,0,0,.22);
-      --text: #2a1d15;
-      --text-muted: #5c4a3e;
-      --text-faint: #9a8a7e;
-      --accent: #ea580c;
-      --accent-hover: #c2410c;
-      --accent-bg: #ea580c;
-      --accent-bg-hover: #d2470a;
-      --accent2: #d99520;
+      --text: #16151C;
+      --text-muted: #67666F;
+      --text-faint: #9E9DA6;
+      --accent: #4F46E5;
+      --accent-hover: color-mix(in srgb, #4F46E5 85%, black);
+      --accent-bg: #4F46E5;
+      --accent-bg-hover: color-mix(in srgb, #4F46E5 88%, black);
+      --accent2: #E24B7A;
       --accent3: #3b82f6;
     }
     body {
@@ -113,6 +113,35 @@
       50% { box-shadow: 0 0 0 6px rgba(251,111,93,.4); }
     }
     .lang-hint { animation: bavovna-lang-hint 1.5s ease-in-out 3; }
+
+    /* Desktop nav pill buttons */
+    .nav-link {
+      position: relative;
+      transition: all .3s ease;
+    }
+    .nav-link:hover {
+      transform: scale(1.03);
+      color: var(--text) !important;
+    }
+    .nav-link::after {
+      content: '';
+      position: absolute;
+      left: 50%;
+      bottom: 5px;
+      width: 42%;
+      height: 2px;
+      border-radius: 2px;
+      background: var(--accent);
+      transform: translateX(-50%) scaleX(0);
+      transform-origin: center;
+      transition: transform .3s ease;
+    }
+    .nav-link:hover::after,
+    .nav-link.active::after { transform: translateX(-50%) scaleX(1); }
+    .nav-link.active {
+      background: color-mix(in srgb, var(--accent) 12%, transparent);
+      color: var(--accent) !important;
+    }
 
     .card-border {
       background: var(--card-bg);
@@ -174,12 +203,12 @@
       </a>
 
       <!-- Desktop nav -->
-      <nav class="hidden lg:flex items-center gap-0.5 flex-1 justify-center">
-        <a href="{% url 'home' %}" class="px-2.5 py-1.5 rounded-full text-sm font-medium transition-colors whitespace-nowrap hover:bg-white/5" style="color: var(--text-muted);">{% if current_language == 'en' %}Home{% else %}Головна{% endif %}</a>
-        <a href="{% url 'event_list' %}" class="px-2.5 py-1.5 rounded-full text-sm font-medium transition-colors whitespace-nowrap hover:bg-white/5" style="color: var(--text-muted);">{% if current_language == 'en' %}Events{% else %}Афіша{% endif %}</a>
-        <a href="{% url 'booking_create' %}" class="px-2.5 py-1.5 rounded-full text-sm font-medium transition-colors whitespace-nowrap hover:bg-white/5" style="color: var(--text-muted);">{% if current_language == 'en' %}Book an Event{% else %}Замовити івент{% endif %}</a>
-        <a href="{% url 'gallery' %}" class="px-2.5 py-1.5 rounded-full text-sm font-medium transition-colors whitespace-nowrap hover:bg-white/5" style="color: var(--text-muted);">{% if current_language == 'en' %}Gallery{% else %}Галерея{% endif %}</a>
-        <a href="{% url 'partnership' %}" class="px-2.5 py-1.5 rounded-full text-sm font-medium transition-colors whitespace-nowrap hover:bg-white/5" style="color: var(--text-muted);">{% if current_language == 'en' %}Partnership{% else %}Партнерство{% endif %}</a>
+      <nav class="hidden lg:flex items-center gap-2 flex-1 justify-center">
+        <a href="{% url 'home' %}" class="nav-link px-5 py-2.5 rounded-full text-sm sm:text-base font-semibold whitespace-nowrap hover:bg-white/5{% if request.resolver_match.url_name == 'home' %} active{% endif %}" style="color: var(--text-muted);">{% if current_language == 'en' %}Home{% else %}Головна{% endif %}</a>
+        <a href="{% url 'event_list' %}" class="nav-link px-5 py-2.5 rounded-full text-sm sm:text-base font-semibold whitespace-nowrap hover:bg-white/5{% if request.resolver_match.url_name == 'event_list' %} active{% endif %}" style="color: var(--text-muted);">{% if current_language == 'en' %}Events{% else %}Афіша{% endif %}</a>
+        <a href="{% url 'booking_create' %}" class="nav-link px-5 py-2.5 rounded-full text-sm sm:text-base font-semibold whitespace-nowrap hover:bg-white/5{% if request.resolver_match.url_name == 'booking_create' %} active{% endif %}" style="color: var(--text-muted);">{% if current_language == 'en' %}Book an Event{% else %}Замовити івент{% endif %}</a>
+        <a href="{% url 'gallery' %}" class="nav-link px-5 py-2.5 rounded-full text-sm sm:text-base font-semibold whitespace-nowrap hover:bg-white/5{% if request.resolver_match.url_name == 'gallery' %} active{% endif %}" style="color: var(--text-muted);">{% if current_language == 'en' %}Gallery{% else %}Галерея{% endif %}</a>
+        <a href="{% url 'partnership' %}" class="nav-link px-5 py-2.5 rounded-full text-sm sm:text-base font-semibold whitespace-nowrap hover:bg-white/5{% if request.resolver_match.url_name == 'partnership' %} active{% endif %}" style="color: var(--text-muted);">{% if current_language == 'en' %}Partnership{% else %}Партнерство{% endif %}</a>
       </nav>
 
       <!-- Right controls -->
