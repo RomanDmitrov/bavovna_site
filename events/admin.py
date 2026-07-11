@@ -23,12 +23,17 @@ class EventAdmin(admin.ModelAdmin):
     def save_formset(self, request, form, formset, change):
         if formset.model == GalleryItem:
             instances = formset.save(commit=False)
-            for i, instance in enumerate(instances):
-                prefix = formset.forms[i].prefix
-                r2_key = request.POST.get(f'{prefix}-image_r2_key')
-                if r2_key:
-                    instance._r2_key = r2_key
-                instance.save()
+
+            for obj in formset.deleted_objects:
+                obj.delete()
+
+            for gallery_form in formset.forms:
+                if gallery_form.instance in instances:
+                    r2_key = request.POST.get(f'{gallery_form.prefix}-image_r2_key')
+                    if r2_key:
+                        gallery_form.instance._r2_key = r2_key
+                    gallery_form.instance.save()
+
             formset.save_m2m()
         else:
             formset.save()
