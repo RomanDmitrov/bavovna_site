@@ -30,7 +30,7 @@ ADMIN_URL = os.getenv('ADMIN_URL', 'admin/')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.getenv('DEBUG', 'False') == 'True'
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS', '127.0.0.1,localhost').split(',')
 CSRF_TRUSTED_ORIGINS = ['https://web-production-6f1e6d.up.railway.app']
 
 
@@ -120,7 +120,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Europe/Dublin'
 
 USE_I18N = True
 
@@ -146,7 +146,7 @@ if not DEBUG:
             "BACKEND": "storages.backends.s3.S3Storage",
         },
         "staticfiles": {
-            "BACKEND": "django.contrib.staticfiles.storage.StaticFilesStorage",
+            "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",
         },
     }
 
@@ -158,6 +158,15 @@ if not DEBUG:
     AWS_DEFAULT_ACL = None
     AWS_S3_FILE_OVERWRITE = False
     AWS_QUERYSTRING_AUTH = False
+
+
+if not DEBUG:
+    SECURE_SSL_REDIRECT = True
+    SESSION_COOKIE_SECURE = True
+    CSRF_COOKIE_SECURE = True
+    SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+    SECURE_HSTS_SECONDS = 31536000
+    SECURE_HSTS_INCLUDE_SUBDOMAINS = True
 
 LOGGING = {
     'version': 1,
@@ -179,7 +188,3 @@ LOGGING = {
         },
     },
 }
-
-
-RESEND_API_KEY = os.getenv('RESEND_API_KEY')
-ADMIN_NOTIFICATION_EMAIL = os.getenv('ADMIN_NOTIFICATION_EMAIL')

@@ -3,10 +3,11 @@ import logging
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 from .models import BookingRequest, PartnershipRequest
+import os
 
 logger = logging.getLogger(__name__)
 
-NOTIFIER_URL = "https://web-production-8ae9b.up.railway.app/notify"
+NOTIFIER_URL = os.getenv('NOTIFIER_URL', "https://web-production-8ae9b.up.railway.app/notify")
 
 
 @receiver(post_save, sender=BookingRequest)

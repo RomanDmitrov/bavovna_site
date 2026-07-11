@@ -3,57 +3,47 @@ from django.conf import settings
 import resend
 from .models import BookingRequest, PartnershipRequest
 from events.models import Category
+from config.ratelimit import throttle_post
+from .forms import BookingRequestForm, PartnershipRequestForm
+import logging
+import html
+
+logger = logging.getLogger(__name__)
 
 # Create your views here.
+@throttle_post('booking', seconds=60)
 def booking_create(request):
     if request.method == 'POST':
-        # Берём данные из формы которую отправил пользователь
-        name = request.POST.get('name') or None
-        email = request.POST.get('email') or None
-        phone = request.POST.get('phone', '') or None
-        telegram = request.POST.get('telegram', '')
-        category_id = request.POST.get('category', '') or None
-        guests = request.POST.get('guests')
-        budget = request.POST.get('budget', '')
-        message = request.POST.get('message', '')
+        form = BookingRequestForm(request.POST)
 
-        # Создаём запись в БД
-        booking = BookingRequest.objects.create(
-            name=name,
-            email=email,
-            phone=phone,
-            telegram=telegram,
-            category_id=category_id,
-            guests=guests if guests else None,
-            budget=budget,
-            message=message,
-        )
+        if form.is_valid():
+            booking = form.save()
+            category_name = booking.category.name_ua if booking.category else '-'
 
-        category_name = booking.category.name_ua if booking.category else '-'
+            try:
+                # noinspection PyTypeChecker
+                resend.Emails.send({
+                    "from": "onboarding@resend.dev",
+                    "to": [settings.ADMIN_NOTIFICATION_EMAIL],
+                    "subject": f"Нова заявка на бронювання — {html.escape(booking.name)}",
+                    "html": (
+                        f"<p><strong>Ім'я:</strong> {html.escape(booking.name)}</p>"
+                        f"<p><strong>Email:</strong> {html.escape(booking.email or '-')}</p>"
+                        f"<p><strong>Телефон:</strong> {html.escape(booking.phone or '-')}</p>"
+                        f"<p><strong>Telegram:</strong> {html.escape(booking.telegram or '-')}</p>"
+                        f"<p><strong>Тип івенту:</strong> {html.escape(category_name)}</p>"
+                        f"<p><strong>Кількість гостей:</strong> {booking.guests or '-'}</p>"
+                        f"<p><strong>Бюджет:</strong> {html.escape(booking.budget or '-')}</p>"
+                        f"<p><strong>Повідомлення:</strong> {html.escape(booking.message or '-')}</p>"
+                    ),
+                })
+            except Exception as e:
+                logger.error(f"Failed to send email: {e}")
 
-        # Отправляем уведомление на почту
-        try:
-            # noinspection PyTypeChecker
-            resend.Emails.send({
-                "from": "onboarding@resend.dev",
-                "to": [settings.ADMIN_NOTIFICATION_EMAIL],
-                "subject": f"Нова заявка на бронювання — {name}",
-                "html": (
-                    f"<p><strong>Ім'я:</strong> {name}</p>"
-                    f"<p><strong>Email:</strong> {email or '-'}</p>"
-                    f"<p><strong>Телефон:</strong> {phone or '-'}</p>"
-                    f"<p><strong>Telegram:</strong> {telegram or '-'}</p>"
-                    f"<p><strong>Тип івенту:</strong> {category_name or '-'}</p>"
-                    f"<p><strong>Кількість гостей:</strong> {guests or '-'}</p>"
-                    f"<p><strong>Бюджет:</strong> {budget or '-'}</p>"
-                    f"<p><strong>Повідомлення:</strong> {message or '-'}</p>"
-                ),
-            })
-        except Exception as e:
-            print(f"[EMAIL ERROR] {e}")
+            return redirect('booking_success')
 
-        # Перенаправляем на страницу успеха
-        return redirect('booking_success')
+        categories = Category.objects.filter(is_active=True)
+        return render(request, 'bookings/booking.html', {'categories': categories, 'form': form})
 
     categories = Category.objects.filter(is_active=True)
     return render(request, 'bookings/booking.html', {'categories': categories})
@@ -62,46 +52,35 @@ def booking_create(request):
 def booking_success(request):
     return render(request, 'bookings/booking_success.html')
 
-
+@throttle_post('partnership', seconds=60)
 def partnership(request):
     if request.method == 'POST':
-        name = request.POST.get('name')
-        email = request.POST.get('email') or None
-        phone = request.POST.get('phone', '')
-        telegram = request.POST.get('telegram', '')
-        partnership_type = request.POST.get('partnership_type', '')
-        message = request.POST.get('message', '')
+        form = PartnershipRequestForm(request.POST)
 
-        PartnershipRequest.objects.create(
-            name=name,
-            email=email,
-            phone=phone,
-            telegram=telegram,
-            partnership_type=partnership_type,
-            message=message,
-        )
+        if form.is_valid():
+            partner_request = form.save()
 
+            try:
+                # noinspection PyTypeChecker
+                resend.Emails.send({
+                    "from": "onboarding@resend.dev",
+                    "to": [settings.ADMIN_NOTIFICATION_EMAIL],
+                    "subject": f"Нова заявка на партнерство — {html.escape(partner_request.name)}",
+                    "html": (
+                        f"<p><strong>Ім'я / компанія:</strong> {html.escape(partner_request.name)}</p>"
+                        f"<p><strong>Email:</strong> {html.escape(partner_request.email or '-')}</p>"
+                        f"<p><strong>Телефон:</strong> {html.escape(partner_request.phone or '-')}</p>"
+                        f"<p><strong>Telegram:</strong> {html.escape(partner_request.telegram or '-')}</p>"
+                        f"<p><strong>Тип співпраці:</strong> {html.escape(partner_request.partnership_type or '-')}</p>"
+                        f"<p><strong>Повідомлення:</strong> {html.escape(partner_request.message or '-')}</p>"
+                    ),
+                })
+            except Exception as e:
+                logger.error(f"Failed to send email: {e}")
 
-        # Отправляем уведомление на почту
-        try:
-            # noinspection PyTypeChecker
-            resend.Emails.send({
-                "from": "onboarding@resend.dev",
-                "to": [settings.ADMIN_NOTIFICATION_EMAIL],
-                "subject": f"Нова заявка на партнерство — {name}",
-                "html": (
-                    f"<p><strong>Ім'я / компанія:</strong> {name}</p>"
-                    f"<p><strong>Email:</strong> {email or '-'}</p>"
-                    f"<p><strong>Телефон:</strong> {phone or '-'}</p>"
-                    f"<p><strong>Telegram:</strong> {telegram or '-'}</p>"
-                    f"<p><strong>Тип співпраці:</strong> {partnership_type or '-'}</p>"
-                    f"<p><strong>Повідомлення:</strong> {message or '-'}</p>"
-                ),
-            })
-        except Exception as e:
-            print(f"[EMAIL ERROR] {e}")
+            return redirect('booking_success')
 
-        return redirect('booking_success')
+        return render(request, 'bookings/partnership.html', {'form': form})
 
     return render(request, 'bookings/partnership.html')
 

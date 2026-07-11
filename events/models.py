@@ -1,14 +1,7 @@
 from django.db import models
-import time
 
 # Create your models here.
 class Event(models.Model):
-
-    def save(self, *args, **kwargs):
-        start = time.time()
-        super().save(*args, **kwargs)
-        print(f"[TIMING] Event.save() took: {time.time() - start:.2f}s")
-
 
     category = models.ForeignKey(
         'Category',
@@ -23,7 +16,7 @@ class Event(models.Model):
     title_en = models.CharField(max_length= 200, verbose_name= 'Title (EN)')
 
 
-    date = models.DateTimeField(verbose_name= 'Дата та час')
+    date = models.DateTimeField(verbose_name= 'Дата та час', db_index=True)
     venue_ua = models.CharField(max_length= 300, verbose_name= 'Місце (UA)')
     venue_en = models.CharField(max_length= 300, verbose_name= 'Venue (EN)')
 
@@ -61,8 +54,9 @@ class Event(models.Model):
         blank=True
     )
     is_published = models.BooleanField(
-        default = False,
-        verbose_name = 'Опубліковано'
+        default=False,
+        verbose_name='Опубліковано',
+        db_index=True
     )
 
 
@@ -80,14 +74,6 @@ class Event(models.Model):
 
 
 class GalleryItem(models.Model):
-
-    def save(self, *args, **kwargs):
-        start = time.time()
-        if getattr(self, '_r2_key', None):
-            self.image.name = self._r2_key
-        super().save(*args, **kwargs)
-        print(f"[TIMING] GalleryItem.save() took: {time.time() - start:.2f}s")
-
 
     event = models.ForeignKey(
         Event,

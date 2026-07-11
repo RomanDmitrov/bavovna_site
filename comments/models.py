@@ -17,7 +17,7 @@ class Comment(models.Model):
 
 
     is_approved = models.BooleanField(
-        default=True,
+        default=False,
         verbose_name= 'Схвалено'
     )
 

@@ -3,7 +3,6 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.utils import timezone
 from .models import Event, Category
 from pages.models import FAQ
-from comments.models import Comment
 import boto3
 import uuid
 from django.conf import settings
@@ -11,6 +10,8 @@ from django.contrib.admin.views.decorators import staff_member_required
 from django.http import JsonResponse
 from django.views.decorators.http import require_GET
 from django.db.models import Q
+from config.ratelimit import throttle_post
+from comments.forms import CommentForm
 
 # Create your views here.
 def event_list(request):
@@ -20,7 +21,7 @@ def event_list(request):
     upcoming_events = Event.objects.filter(
         is_published=True,
         date__gte=timezone.now()
-    ).order_by('date')
+    ).select_related('category').order_by('date')
 
     if category_slug:
         upcoming_events = upcoming_events.filter(category__slug=category_slug)
@@ -70,7 +71,7 @@ def gallery(request):
     events = Event.objects.filter(
         is_published=True,
         date__lt=timezone.now()
-    ).exclude(photo_album_url='').order_by('-date')
+    ).select_related('category').exclude(photo_album_url='').order_by('-date')
 
     if category_slug:
         events = events.filter(category__slug=category_slug)
@@ -94,22 +95,30 @@ def gallery(request):
     return render(request, 'events/gallery.html', context)
 
 
+@throttle_post('comment', seconds=30)
 def comment_add(request, pk):
     event = get_object_or_404(Event, pk=pk, is_published=True)
 
     if request.method == 'POST':
-        name = request.POST.get('name', '').strip()
-        text = request.POST.get('text', '').strip()
+        form = CommentForm(request.POST)
 
-        if name and text:
-            Comment.objects.create(
-                event=event,
-                name=name,
-                text=text,
-                is_approved=True
-            )
+        if form.is_valid():
+            comment = form.save(commit=False)
+            comment.event = event
+            comment.save()
 
-    return redirect('event_detail', pk=pk)
+    return redirect('event_comments', pk=pk)
+
+
+def event_comments(request, pk):
+    event = get_object_or_404(Event, pk=pk, is_published=True)
+    comments = event.comments.filter(is_approved=True).order_by('-created_at')
+
+    context = {
+        'event': event,
+        'comments': comments,
+    }
+    return render(request, 'events/event_comments.html', context)
 
 
 @staff_member_required
@@ -119,10 +128,19 @@ def get_presigned_upload_url(request):
         Генерирует подписанный URL для прямой загрузки файла в R2.
         Только для сотрудников (staff) - используется в админке.
     """
-    original_filename = request.GET.get('filename', 'file.jpg')
+    ALLOWED_CONTENT_TYPES = {
+        'image/jpeg': 'jpg',
+        'image/png': 'png',
+        'image/webp': 'webp',
+        'image/gif': 'gif',
+    }
+
     content_type = request.GET.get('content_type', 'image/jpeg')
 
-    ext = original_filename.split('.')[-1] if '.' in original_filename else 'jpg'
+    if content_type not in ALLOWED_CONTENT_TYPES:
+        return JsonResponse({'error': 'Непідтримуваний тип файлу'}, status=400)
+
+    ext = ALLOWED_CONTENT_TYPES[content_type]
     unique_key = f'events/gallery/{uuid.uuid4()}.{ext}'
 
     client = boto3.client(
@@ -139,6 +157,7 @@ def get_presigned_upload_url(request):
             'Bucket': settings.AWS_STORAGE_BUCKET_NAME,
             'Key': unique_key,
             'ContentType': content_type,
+            'ContentLengthRange': (0, 10 * 1024 * 1024),
         },
         ExpiresIn=300,
     )
@@ -149,7 +168,6 @@ def get_presigned_upload_url(request):
         'upload_url': presigned_url,
         'key': unique_key,
         'public_url': public_url,
-
     })
 
 

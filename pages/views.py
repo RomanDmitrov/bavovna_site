@@ -11,14 +11,14 @@ def home(request):
     upcoming_event = Event.objects.filter(
         is_published=True,
         date__gte=timezone.now()
-    ).order_by('date').first()
+    ).select_related('category').order_by('date').first()
 
     # Карусель "Останні події" — до 10 публичных ивентов
     upcoming_public_events = Event.objects.filter(
         is_published=True,
         date__gte=timezone.now(),
         category__slug__in=PUBLIC_CATEGORY_SLUGS
-    ).order_by('date')[:10]
+    ).select_related('category').order_by('date')[:10]
 
     upcoming_count = upcoming_public_events.count()
 
@@ -28,7 +28,7 @@ def home(request):
             is_published=True,
             date__lt=timezone.now(),
             category__slug__in=PUBLIC_CATEGORY_SLUGS
-        ).order_by('-date')[:remaining_slots]
+        ).select_related('category').order_by('-date')[:remaining_slots]
         recent_public_events = list(upcoming_public_events) + list(past_public_events)
     else:
         recent_public_events = list(upcoming_public_events)
@@ -40,7 +40,7 @@ def home(request):
     past_events = Event.objects.filter(
         is_published=True,
         date__lt=timezone.now()  # date < текущее время
-    ).order_by('-date')[:3]
+    ).select_related('category').order_by('-date')[:3]
     partners = Partner.objects.filter(is_active=True)
 
     events_count = Event.objects.filter(
