@@ -23,9 +23,10 @@ load_dotenv(BASE_DIR / '.env')
 # See https://docs.djangoproject.com/en/6.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-
+RESEND_API_KEY = os.getenv('RESEND_API_KEY')
+ADMIN_NOTIFICATION_EMAIL = os.getenv('ADMIN_NOTIFICATION_EMAIL')
 SECRET_KEY = os.getenv('SECRET_KEY')
-
+ADMIN_URL = os.getenv('ADMIN_URL', 'admin/')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.getenv('DEBUG', 'False') == 'True'
 
