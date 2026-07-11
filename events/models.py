@@ -75,6 +75,11 @@ class Event(models.Model):
 
 class GalleryItem(models.Model):
 
+    def save(self, *args, **kwargs):
+        if hasattr(self, '_r2_key') and self._r2_key:
+            self.image.name = self._r2_key
+        super().save(*args, **kwargs)
+
     event = models.ForeignKey(
         Event,
         on_delete=models.CASCADE,

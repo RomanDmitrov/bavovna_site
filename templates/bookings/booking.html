@@ -46,65 +46,73 @@
       <div class="grid sm:grid-cols-2 gap-4">
         <div class="field">
           <label class="block text-sm mb-1.5" style="color: var(--text-muted);">{% if current_language == 'en' %}Name *{% else %}Ім'я *{% endif %}</label>
-          <input type="text" name="name" required placeholder="{% if current_language == 'en' %}Your name{% else %}Ваше ім'я{% endif %}"
-                 class="form-input w-full px-4 py-3 rounded-xl border text-sm focus:outline-none"
+          <input type="text" name="name" required value="{% if form %}{{ form.name.value|default:'' }}{% endif %}" placeholder="{% if current_language == 'en' %}Your name{% else %}Ваше ім'я{% endif %}"
+                 class="form-input w-full px-4 py-3 rounded-xl border text-sm focus:outline-none{% if form and form.name.errors %} input-error{% endif %}"
                  style="background: var(--surface); border-color: var(--border); color: var(--text);">
+          {% if form and form.name.errors %}<p class="field-error text-xs mt-1.5">{{ form.name.errors|join:', ' }}</p>{% endif %}
         </div>
         <div class="field">
           <label class="block text-sm mb-1.5" style="color: var(--text-muted);">Email</label>
-          <input type="email" name="email" placeholder="email@example.com"
-                 class="form-input w-full px-4 py-3 rounded-xl border text-sm focus:outline-none"
+          <input type="email" name="email" value="{% if form %}{{ form.email.value|default:'' }}{% endif %}" placeholder="email@example.com"
+                 class="form-input w-full px-4 py-3 rounded-xl border text-sm focus:outline-none{% if form and form.email.errors %} input-error{% endif %}"
                  style="background: var(--surface); border-color: var(--border); color: var(--text);">
+          {% if form and form.email.errors %}<p class="field-error text-xs mt-1.5">{{ form.email.errors|join:', ' }}</p>{% endif %}
         </div>
       </div>
 
       <div class="grid sm:grid-cols-2 gap-4">
         <div class="field">
           <label class="block text-sm mb-1.5" style="color: var(--text-muted);">{% if current_language == 'en' %}Phone{% else %}Телефон{% endif %}</label>
-          <input type="tel" name="phone" placeholder="+353..."
-                 class="form-input w-full px-4 py-3 rounded-xl border text-sm focus:outline-none"
+          <input type="tel" name="phone" value="{% if form %}{{ form.phone.value|default:'' }}{% endif %}" placeholder="+353..."
+                 class="form-input w-full px-4 py-3 rounded-xl border text-sm focus:outline-none{% if form and form.phone.errors %} input-error{% endif %}"
                  style="background: var(--surface); border-color: var(--border); color: var(--text);">
+          {% if form and form.phone.errors %}<p class="field-error text-xs mt-1.5">{{ form.phone.errors|join:', ' }}</p>{% endif %}
         </div>
         <div class="field">
           <label class="block text-sm mb-1.5" style="color: var(--text-muted);">Telegram</label>
-          <input type="text" name="telegram" placeholder="@username"
-                 class="form-input w-full px-4 py-3 rounded-xl border text-sm focus:outline-none"
+          <input type="text" name="telegram" value="{% if form %}{{ form.telegram.value|default:'' }}{% endif %}" placeholder="@username"
+                 class="form-input w-full px-4 py-3 rounded-xl border text-sm focus:outline-none{% if form and form.telegram.errors %} input-error{% endif %}"
                  style="background: var(--surface); border-color: var(--border); color: var(--text);">
+          {% if form and form.telegram.errors %}<p class="field-error text-xs mt-1.5">{{ form.telegram.errors|join:', ' }}</p>{% endif %}
         </div>
       </div>
 
       <div class="field">
         <label class="block text-sm mb-1.5" style="color: var(--text-muted);">{% if current_language == 'en' %}Event type{% else %}Тип івенту{% endif %}</label>
         <select name="category"
-                class="form-input w-full px-4 py-3 rounded-xl border text-sm focus:outline-none"
+                class="form-input w-full px-4 py-3 rounded-xl border text-sm focus:outline-none{% if form and form.category.errors %} input-error{% endif %}"
                 style="background: var(--surface); border-color: var(--border); color: var(--text);">
           <option value="">{% if current_language == 'en' %}Select event type{% else %}Оберіть тип івенту{% endif %}</option>
           {% for category in categories %}
-          <option value="{{ category.id }}">{% lang_field category 'name' %}</option>
+          <option value="{{ category.id }}" {% if form and form.category.value|stringformat:'s' == category.id|stringformat:'s' %}selected{% endif %}>{% lang_field category 'name' %}</option>
           {% endfor %}
         </select>
+        {% if form and form.category.errors %}<p class="field-error text-xs mt-1.5">{{ form.category.errors|join:', ' }}</p>{% endif %}
       </div>
 
       <div class="grid sm:grid-cols-2 gap-4">
         <div class="field">
           <label class="block text-sm mb-1.5" style="color: var(--text-muted);">{% if current_language == 'en' %}Number of guests{% else %}Кількість гостей{% endif %}</label>
-          <input type="number" min="1" name="guests" placeholder="{% if current_language == 'en' %}e.g. 30{% else %}наприклад, 30{% endif %}"
-                 class="form-input w-full px-4 py-3 rounded-xl border text-sm focus:outline-none"
+          <input type="number" min="1" name="guests" value="{% if form %}{{ form.guests.value|default:'' }}{% endif %}" placeholder="{% if current_language == 'en' %}e.g. 30{% else %}наприклад, 30{% endif %}"
+                 class="form-input w-full px-4 py-3 rounded-xl border text-sm focus:outline-none{% if form and form.guests.errors %} input-error{% endif %}"
                  style="background: var(--surface); border-color: var(--border); color: var(--text);">
+          {% if form and form.guests.errors %}<p class="field-error text-xs mt-1.5">{{ form.guests.errors|join:', ' }}</p>{% endif %}
         </div>
         <div class="field">
           <label class="block text-sm mb-1.5" style="color: var(--text-muted);">{% if current_language == 'en' %}Budget (optional){% else %}Бюджет (необов'язково){% endif %}</label>
-          <input type="text" name="budget" placeholder="€..."
-                 class="form-input w-full px-4 py-3 rounded-xl border text-sm focus:outline-none"
+          <input type="text" name="budget" value="{% if form %}{{ form.budget.value|default:'' }}{% endif %}" placeholder="€..."
+                 class="form-input w-full px-4 py-3 rounded-xl border text-sm focus:outline-none{% if form and form.budget.errors %} input-error{% endif %}"
                  style="background: var(--surface); border-color: var(--border); color: var(--text);">
+          {% if form and form.budget.errors %}<p class="field-error text-xs mt-1.5">{{ form.budget.errors|join:', ' }}</p>{% endif %}
         </div>
       </div>
 
       <div class="field">
         <label class="block text-sm mb-1.5" style="color: var(--text-muted);">{% if current_language == 'en' %}Message{% else %}Повідомлення{% endif %}</label>
         <textarea name="message" rows="4" placeholder="{% if current_language == 'en' %}Date, venue, ideas, wishes...{% else %}Дата, місце, ідеї, побажання...{% endif %}"
-                  class="form-input w-full px-4 py-3 rounded-xl border text-sm resize-none focus:outline-none"
-                  style="background: var(--surface); border-color: var(--border); color: var(--text);"></textarea>
+                  class="form-input w-full px-4 py-3 rounded-xl border text-sm resize-none focus:outline-none{% if form and form.message.errors %} input-error{% endif %}"
+                  style="background: var(--surface); border-color: var(--border); color: var(--text);">{% if form %}{{ form.message.value|default:'' }}{% endif %}</textarea>
+        {% if form and form.message.errors %}<p class="field-error text-xs mt-1.5">{{ form.message.errors|join:', ' }}</p>{% endif %}
       </div>
 
       <button type="submit"
@@ -136,6 +144,13 @@
     box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 22%, transparent);
     background: var(--surface-strong);
   }
+
+  .input-error { border-color: #E5484D !important; }
+  .input-error:focus {
+    border-color: #E5484D !important;
+    box-shadow: 0 0 0 3px color-mix(in srgb, #E5484D 22%, transparent);
+  }
+  .field-error { color: #E5484D; }
 
   @media (prefers-reduced-motion: reduce) {
     .step-card, .step-card .step-num, .form-input { transition: none; }

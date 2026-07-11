@@ -43,7 +43,11 @@ def event_list(request):
 
 def event_detail(request, pk):
     # Берём конкретный ивент по ID или возвращаем 404
-    event = get_object_or_404(Event, pk=pk, is_published=True)
+    event = get_object_or_404(
+        Event.objects.prefetch_related('gallery'),
+        pk=pk,
+        is_published=True
+    )
     comments = event.comments.filter(is_approved=True)
     faqs = FAQ.objects.filter(is_active=True).filter(
     Q(show_on_all_events=True) | Q(events=event)
