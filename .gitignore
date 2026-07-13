@@ -219,6 +219,7 @@ __marimo__/
 .env
 .env
 .idea/
+.claude/
 bavovna-event-site.tsx
 CHANGES_EN_LOCALIZATION.md
 

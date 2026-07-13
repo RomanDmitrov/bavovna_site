@@ -1,7 +1,12 @@
 from django.db import models
+from config.image_utils import compress_image_field
 
 # Create your models here.
 class Event(models.Model):
+
+    def save(self, *args, **kwargs):
+        compress_image_field(self.cover_image)
+        super().save(*args, **kwargs)
 
     category = models.ForeignKey(
         'Category',
