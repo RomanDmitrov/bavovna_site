@@ -19,10 +19,14 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     function setupFileInput(fileInput) {
-        const hiddenKeyInput = document.createElement('input');
-        hiddenKeyInput.type = 'hidden';
-        hiddenKeyInput.name = fileInput.name + '_r2_key';
-        fileInput.parentNode.insertBefore(hiddenKeyInput, fileInput.nextSibling);
+        let hiddenKeyInput = document.querySelector(`input[name="${fileInput.name}_r2_key"]`);
+
+        if (!hiddenKeyInput) {
+            hiddenKeyInput = document.createElement('input');
+            hiddenKeyInput.type = 'hidden';
+            hiddenKeyInput.name = fileInput.name + '_r2_key';
+            fileInput.parentNode.insertBefore(hiddenKeyInput, fileInput.nextSibling);
+        }
 
         fileInput.addEventListener('change', async function () {
             if (!fileInput.files || fileInput.files.length === 0) return;
