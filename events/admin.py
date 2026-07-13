@@ -1,10 +1,12 @@
 from django.contrib import admin
 from .models import Event, GalleryItem, Category
+from .forms import GalleryItemForm
 
 # Register your models here.
 
 class GalleryItemInline(admin.TabularInline):
     model = GalleryItem
+    form = GalleryItemForm
     extra = 5
 
     class Media:
@@ -29,7 +31,7 @@ class EventAdmin(admin.ModelAdmin):
 
             for gallery_form in formset.forms:
                 if gallery_form.instance in instances:
-                    r2_key = request.POST.get(f'{gallery_form.prefix}-image_r2_key')
+                    r2_key = gallery_form.cleaned_data.get('image_r2_key')
                     if r2_key:
                         gallery_form.instance._r2_key = r2_key
                     gallery_form.instance.save()
