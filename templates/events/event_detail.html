@@ -4,6 +4,14 @@
 {% block title %}{% lang_field event 'title' %}{% endblock %}
 {% block meta_description %}{{ event.description_ua|striptags|truncatewords:25 }}{% endblock %}
 
+{% block og_type %}event{% endblock %}
+{% block og_title %}{% lang_field event 'title' %} | Bavovna Event{% endblock %}
+{% block og_description %}{{ event.description_ua|striptags|truncatewords:25 }}{% endblock %}
+{% block og_image %}{% if event.cover_image %}{% absolute_url event.cover_image.url %}{% else %}{% absolute_url og_default_image %}{% endif %}{% endblock %}
+{% block twitter_title %}{% lang_field event 'title' %} | Bavovna Event{% endblock %}
+{% block twitter_description %}{{ event.description_ua|striptags|truncatewords:25 }}{% endblock %}
+{% block twitter_image %}{% if event.cover_image %}{% absolute_url event.cover_image.url %}{% else %}{% absolute_url og_default_image %}{% endif %}{% endblock %}
+
 {% block content %}
 <div class="no-h2-before">
 

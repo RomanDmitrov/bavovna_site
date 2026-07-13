@@ -1,4 +1,5 @@
 {% load static %}
+{% load language_filters %}
 <!DOCTYPE html>
 <html lang="{% if current_language == 'en' %}en{% else %}uk{% endif %}" data-theme="dark">
 <head>
@@ -6,6 +7,19 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>{% block title %}Bavovna Event{% endblock %} | Bavovna Event</title>
   <meta name="description" content="{% block meta_description %}Bavovna Event — організація вечірок, концертів, весіль та корпоративів у Дубліні. Незабутні події для української та міжнародної спільноти Ірландії.{% endblock %}">
+
+  {# ── Open Graph / Twitter Card (social sharing previews) ── #}
+  {% static 'images/713405071_17973966885112729_3451524599368309258_n.jpg' as og_default_image %}
+  <meta property="og:type" content="{% block og_type %}website{% endblock %}">
+  <meta property="og:site_name" content="Bavovna Event">
+  <meta property="og:title" content="{% block og_title %}Bavovna Event | Bavovna Event{% endblock %}">
+  <meta property="og:description" content="{% block og_description %}Bavovna Event — організація вечірок, концертів, весіль та корпоративів у Дубліні.{% endblock %}">
+  <meta property="og:url" content="{% block og_url %}{% absolute_url request.path %}{% endblock %}">
+  <meta property="og:image" content="{% block og_image %}{% absolute_url og_default_image %}{% endblock %}">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="{% block twitter_title %}Bavovna Event | Bavovna Event{% endblock %}">
+  <meta name="twitter:description" content="{% block twitter_description %}Bavovna Event — організація вечірок, концертів, весіль та корпоративів у Дубліні.{% endblock %}">
+  <meta name="twitter:image" content="{% block twitter_image %}{% absolute_url og_default_image %}{% endblock %}">
     <link rel="icon" type="image/jpeg" href="{% static 'images/713405071_17973966885112729_3451524599368309258_n.jpg' %}">
     <link rel="apple-touch-icon" href="{% static 'images/713405071_17973966885112729_3451524599368309258_n.jpg' %}">
   <script src="https://cdn.tailwindcss.com"></script>
