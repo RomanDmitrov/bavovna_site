@@ -161,7 +161,6 @@ def get_presigned_upload_url(request):
             'Bucket': settings.AWS_STORAGE_BUCKET_NAME,
             'Key': unique_key,
             'ContentType': content_type,
-            'ContentLengthRange': (0, 10 * 1024 * 1024),
         },
         ExpiresIn=300,
     )
