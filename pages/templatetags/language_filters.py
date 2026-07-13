@@ -19,3 +19,18 @@ def lang_field(context, obj, field_prefix):
         value = getattr(obj, f'{field_prefix}_ua', '')
 
     return value
+
+@register.simple_tag(takes_context=True)
+def absolute_url(context, path):
+    """
+    Достраивает относительный путь до полного URL с доменом.
+    Если путь уже полный (начинается с http) — возвращает как есть.
+    """
+    if not path:
+        return ''
+    if path.startswith('http'):
+        return path
+    request = context.get('request')
+    if request:
+        return request.build_absolute_uri(path)
+    return path
