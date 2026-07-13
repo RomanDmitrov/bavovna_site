@@ -2,6 +2,7 @@
 {% load language_filters %}
 
 {% block title %}{% lang_field event 'title' %}{% endblock %}
+{% block meta_description %}{{ event.description_ua|striptags|truncatewords:25 }}{% endblock %}
 
 {% block content %}
 <div class="no-h2-before">
