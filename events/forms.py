@@ -7,4 +7,4 @@ class GalleryItemForm(forms.ModelForm):
 
     class Meta:
         model = GalleryItem
-        fields = ['image', 'created_at']
+        fields = ['image']
